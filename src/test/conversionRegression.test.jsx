@@ -1,0 +1,236 @@
+import { describe, expect, it } from 'vitest'
+import packageManifest from '../../package.json'
+import indexSource from '../../index.html?raw'
+import playwrightConfigSource from '../../playwright.config.js?raw'
+import browserSuiteSource from '../../e2e/conversion-milestones.spec.js?raw'
+import appSource from '../App.jsx?raw'
+import requestPreviewSource from '../components/conversion/RequestPreview.jsx?raw'
+import {
+  homeContentModel,
+} from '../config/conversionContent.js'
+import { evidenceRegistry } from '../config/evidenceRegistry.js'
+import {
+  buildExperienceWhatsAppUrl,
+  editorialServices,
+  membershipPlans,
+  WHATSAPP_NUMBER,
+} from '../config/offerings.js'
+import homeSource from '../pages/Home.jsx?raw'
+import {
+  PUBLIC_ROUTES,
+  VISUAL_QA_MOTION_MODES,
+  VISUAL_QA_VIEWPORTS,
+} from './conversionRegression.config.js'
+
+const allProductSources = import.meta.glob(
+  [
+    '../App.jsx',
+    '../components/**/*.{js,jsx}',
+    '../pages/**/*.{js,jsx}',
+  ],
+  { query: '?raw', import: 'default', eager: true },
+)
+const productSources = Object.entries(allProductSources)
+  .filter(([path]) => !path.includes('.test.') && !path.includes('.spec.'))
+
+function collectDeclaredRoutes(source) {
+  return [...source.matchAll(/<Route\s+path=["']([^"']+)["']/g)]
+    .map(([, path]) => path)
+}
+
+function collectLiteralDestinations(source) {
+  const propDestinations = [...source.matchAll(
+    /\b(?:href|to)\s*=\s*(?:\{\s*)?["'`]([^"'`]+)["'`](?:\s*\})?/g,
+  )].map(([, destination]) => destination)
+  const tupleDestinations = [...source.matchAll(
+    /\[\s*["'][^"']+["']\s*,\s*["']((?:\/|#)[^"']*)["']\s*\]/g,
+  )].map(([, destination]) => destination)
+
+  return [...propDestinations, ...tupleDestinations]
+    .filter((destination) => !destination.includes('${'))
+}
+
+function collectLiteralIds(source) {
+  return [...source.matchAll(/\bid\s*=\s*["']([^"']+)["']/g)]
+    .map(([, id]) => id)
+}
+
+function normalisePathname(pathname) {
+  if (!pathname || pathname === '/') return '/'
+  return pathname.replace(/\/+$/, '') || '/'
+}
+
+function expectOfficialWhatsApp(urlValue, expectedContext) {
+  const url = new URL(urlValue)
+  const message = url.searchParams.get('text')
+
+  expect(url.origin).toBe('https://wa.me')
+  expect(url.pathname).toBe(`/${WHATSAPP_NUMBER}`)
+  expect(message).toEqual(expect.any(String))
+  expect(message.length).toBeGreaterThan(20)
+  expect(message).toContain(expectedContext)
+
+  return message
+}
+
+function visibleModelCopy(model) {
+  return [
+    model.h1,
+    ...model.blocks.flatMap((block) => [
+      block.heading,
+      block.body,
+      block.boundary,
+      ...(block.items ?? []).flatMap(({ title, body }) => [title, body]),
+    ]),
+    model.primaryAction.label,
+    model.primaryAction.consequence,
+  ].filter(Boolean).join(' ')
+}
+
+// Baseline acumulativo: cada Page_Milestone debe ampliar estos contratos, no sustituirlos.
+// Validates: Requirements 3.4, 3.10, 3.11, 3.12, 13.5, 13.13, 14.7–14.13,
+// 17.2, 17.3, 17.4, 17.5, 17.6, 17.7, 17.8, 17.9, 17.10, 17.11
+
+describe('Regression_Gate acumulativo de conversión', () => {
+  it('conserva el inventario exacto de rutas públicas y un único wildcard', () => {
+    const declaredRoutes = collectDeclaredRoutes(appSource)
+    const concreteRoutes = declaredRoutes.filter((path) => path !== '*')
+
+    expect(concreteRoutes).toHaveLength(PUBLIC_ROUTES.length)
+    expect(new Set(concreteRoutes)).toEqual(new Set(PUBLIC_ROUTES))
+    expect(declaredRoutes.filter((path) => path === '*')).toEqual(['*'])
+    expect(new Set(declaredRoutes).size).toBe(declaredRoutes.length)
+  })
+
+  it('resuelve destinos internos literales y anchors declarados por el producto', () => {
+    const knownRoutes = new Set(PUBLIC_ROUTES.map(normalisePathname))
+    const knownIds = new Set(productSources.flatMap(([, source]) => collectLiteralIds(source)))
+    const unresolved = []
+
+    for (const [sourcePath, source] of productSources) {
+      for (const destination of collectLiteralDestinations(source)) {
+        if (!destination.startsWith('/') && !destination.startsWith('#')) continue
+
+        const url = new URL(destination, 'https://bayona.test/')
+        const pathname = destination.startsWith('#') ? '/' : normalisePathname(url.pathname)
+        const looksLikeAsset = /\/[^/]+\.[a-z0-9]{2,8}$/i.test(pathname)
+
+        if (!looksLikeAsset && !knownRoutes.has(pathname)) {
+          unresolved.push(`${sourcePath}: ruta ${destination}`)
+          continue
+        }
+
+        if (url.hash) {
+          let targetId = url.hash.slice(1)
+          try {
+            targetId = decodeURIComponent(targetId)
+          } catch {
+            // El fragmento sin decodificar se reportará como no resuelto.
+          }
+          if (targetId && !knownIds.has(targetId)) {
+            unresolved.push(`${sourcePath}: anchor ${destination}`)
+          }
+        }
+      }
+    }
+
+    expect(unresolved).toEqual([])
+  })
+
+  it('mantiene Playwright fijado solo como dependencia de desarrollo y un script finito', () => {
+    expect(packageManifest.devDependencies['@playwright/test']).toBe('1.61.1')
+    expect(packageManifest.dependencies['@playwright/test']).toBeUndefined()
+    expect(packageManifest.scripts['test:visual']).toBe('playwright test')
+    expect(playwrightConfigSource).toContain('webServer:')
+    expect(playwrightConfigSource).toContain('reuseExistingServer: false')
+    expect(playwrightConfigSource).toContain('--strictPort')
+  })
+
+  it('fija la matriz 375/768/1440, ambos modos de movimiento y screenshots de estados Home', () => {
+    expect(VISUAL_QA_VIEWPORTS.map(({ width, height }) => [width, height])).toEqual([
+      [375, 812],
+      [768, 1024],
+      [1440, 900],
+    ])
+    expect(VISUAL_QA_MOTION_MODES.map(({ reducedMotion }) => reducedMotion)).toEqual([
+      'no-preference',
+      'reduce',
+    ])
+    expect(browserSuiteSource).toContain('page.emulateMedia')
+    expect(browserSuiteSource).toContain('page.screenshot')
+    expect(browserSuiteSource).toContain("fullPage: true")
+    expect(browserSuiteSource).toContain('home-hero')
+    expect(browserSuiteSource).toContain('home-planes')
+    expect(browserSuiteSource).toContain('home-extras')
+    expect(browserSuiteSource).toContain('home-preview')
+    expect(browserSuiteSource).toContain("page.keyboard.press('Tab')")
+  })
+
+  it('conserva Canonical_Plan y Official_WhatsApp con contexto y preview seguro', () => {
+    expect(WHATSAPP_NUMBER).toBe('34614988006')
+    expect(membershipPlans.map(({ id, name, priceCop, priceDisplay }) => ({
+      id,
+      name,
+      priceCop,
+      priceDisplay,
+    }))).toEqual([
+      { id: 'RAIZ', name: 'RAÍZ', priceCop: 149000, priceDisplay: '$149.000' },
+      { id: 'PERFORMANCE', name: 'PERFORMANCE', priceCop: 399000, priceDisplay: '$399.000' },
+      { id: 'ELITE', name: 'ELITE', priceCop: 899000, priceDisplay: '$899.000' },
+    ])
+
+    for (const plan of membershipPlans) {
+      const message = expectOfficialWhatsApp(plan.cta, `plan ${plan.name}`)
+      expect(message).toContain(plan.priceDisplay)
+    }
+
+    for (const service of editorialServices) {
+      const message = expectOfficialWhatsApp(service.cta, `servicio ${service.label}`)
+      expect(message).toContain(service.priceDisplay)
+    }
+
+    const experienceUrl = buildExperienceWhatsAppUrl({
+      planId: 'PERFORMANCE',
+      serviceQuantities: { 'presencial-espana-1to1': 1 },
+      extraIds: ['masaje-deportivo'],
+    })
+    const experienceMessage = expectOfficialWhatsApp(experienceUrl, 'Plan base: PERFORMANCE')
+
+    expect(experienceMessage).toContain('ubicación cuando aplique')
+    expect(experienceMessage).toContain(
+      'no constituye pago, pedido, inscripción, disponibilidad ni acceso confirmados',
+    )
+    expect(requestPreviewSource).toMatch(/buildExperienceWhatsAppUrl\(selection\)/)
+    expect(requestPreviewSource).toContain('Abrir WhatsApp de BAYONA en una pestaña nueva')
+    expect(requestPreviewSource).toContain('rel="noopener noreferrer"')
+  })
+
+  it('mantiene Home en español y sin plazo, prueba ficticia, urgencia ni claims médicos afirmativos', () => {
+    const modelCopy = visibleModelCopy(homeContentModel)
+    const reviewedHomeCopy = `${modelCopy} ${homeSource} ${requestPreviewSource}`
+
+    expect(indexSource).toMatch(/<html\s+lang="es">/)
+    expect(homeContentModel.h1).toBe('CONSTRUYE UN MOVIMIENTO QUE PUEDAS SOSTENER.')
+    expect(modelCopy).toContain('Así lo hacemos')
+    expect(modelCopy).toContain('no diagnostica, trata ni sustituye la atención de profesionales sanitarios')
+    expect(requestPreviewSource).toContain('Revisa tu solicitud antes de abrir WhatsApp')
+    expect(requestPreviewSource).toContain('Datos que se incluirán')
+    expect(evidenceRegistry).toEqual({})
+
+    expect(reviewedHomeCopy).not.toMatch(/90\s*d[ií]as/i)
+    expect(reviewedHomeCopy).not.toMatch(
+      /\+8\b|clientes atendidos|formaci[oó]n europea|testimonio de|resultado comprobado/i,
+    )
+    expect(reviewedHomeCopy).not.toMatch(
+      /[uú]ltimas plazas|plazas limitadas|solo hoy|ahora o nunca|cuenta atr[aá]s|date prisa/i,
+    )
+    const affirmativeClaimsCopy = reviewedHomeCopy.replace(
+      /\bsin\s+(?:un\s+)?resultado garantizado\b/gi,
+      '',
+    )
+    expect(affirmativeClaimsCopy).not.toMatch(
+      /diagnosticamos|prescribimos|curamos|tratamos el dolor|cura garantizada|resultado garantizado/i,
+    )
+    expect(homeSource).not.toMatch(/SceneMount|<canvas\b/i)
+  })
+})

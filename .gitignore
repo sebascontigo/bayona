@@ -1,0 +1,16 @@
+node_modules/
+dist/
+BACKUP_BAYONA3D/
+*.backup
+.kiro/
+.vscode/
+test-results/
+playwright-report/
+coverage/
+e2e/
+*EXPORT*
+.env
+.env.local
+.env.*
+.DS_Store
+Thumbs.db

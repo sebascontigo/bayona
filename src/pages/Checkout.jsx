@@ -1,0 +1,283 @@
+import { useMemo, useState } from 'react'
+import { ArrowRight, Check } from 'lucide-react'
+import { SectionLabel } from '../components/Layout'
+import {
+  buildExperienceWhatsAppUrl,
+  calculateExperience,
+  COMMERCIAL_SCOPE_NOTICE,
+  extraServices,
+  membershipPlans,
+  sessionServices,
+} from '../config/offerings.js'
+
+const INITIAL_CONTACT = {
+  nombre: '',
+  email: '',
+  whatsapp: '',
+}
+
+export default function Checkout() {
+  const [contact, setContact] = useState(INITIAL_CONTACT)
+  const [planId, setPlanId] = useState(membershipPlans[0].id)
+  const [serviceQuantities, setServiceQuantities] = useState({})
+  const [extraIds, setExtraIds] = useState([])
+
+  const selection = useMemo(
+    () => ({ planId, serviceQuantities, extraIds }),
+    [planId, serviceQuantities, extraIds],
+  )
+  const calculation = useMemo(() => calculateExperience(selection), [selection])
+  const selectedSessions = calculation.sessions.filter(({ quantity }) => quantity > 0)
+
+  const handleContactChange = (event) => {
+    const { name, value } = event.target
+    setContact((current) => ({ ...current, [name]: value }))
+  }
+
+  const updateQuantity = (serviceId, quantity) => {
+    setServiceQuantities((current) => ({ ...current, [serviceId]: Number(quantity) }))
+  }
+
+  const toggleExtra = (extraId, checked) => {
+    setExtraIds((current) => checked
+      ? [...new Set([...current, extraId])]
+      : current.filter((id) => id !== extraId))
+  }
+
+  const handleSubmit = (event) => {
+    event.preventDefault()
+    const whatsappUrl = buildExperienceWhatsAppUrl({
+      ...selection,
+      contact,
+    })
+    const requestWindow = window.open(whatsappUrl, '_blank', 'noopener,noreferrer')
+    if (requestWindow) requestWindow.opener = null
+  }
+
+  return (
+    <>
+      <section className="checkout-hero section-shell">
+        <SectionLabel>SOLICITUD / WHATSAPP</SectionLabel>
+        <h1>CONFIGURA TU SOLICITUD.</h1>
+        <p className="checkout-subtitle">
+          Elige un plan y los servicios que quieras consultar. Aquí no se procesa ningún pago.
+        </p>
+      </section>
+
+      <section className="checkout-page section-shell" aria-labelledby="checkout-form-title">
+        <div className="checkout-layout">
+          <form onSubmit={handleSubmit} className="checkout-form" aria-describedby="checkout-data-note">
+            <fieldset className="checkout-fieldset">
+              <legend id="checkout-form-title">1. Datos mínimos de contacto</legend>
+              <p id="checkout-data-note" className="checkout-help">
+                Usaremos estos datos únicamente para detallar la solicitud que abrirás en WhatsApp.
+              </p>
+
+              <div className="checkout-contact-grid">
+                <label htmlFor="checkout-name">
+                  Nombre
+                  <input
+                    id="checkout-name"
+                    type="text"
+                    name="nombre"
+                    value={contact.nombre}
+                    onChange={handleContactChange}
+                    required
+                    autoComplete="name"
+                    placeholder="Tu nombre"
+                  />
+                </label>
+
+                <label htmlFor="checkout-email">
+                  Email
+                  <input
+                    id="checkout-email"
+                    type="email"
+                    name="email"
+                    value={contact.email}
+                    onChange={handleContactChange}
+                    required
+                    autoComplete="email"
+                    placeholder="tu@email.com"
+                  />
+                </label>
+
+                <label htmlFor="checkout-whatsapp">
+                  WhatsApp
+                  <input
+                    id="checkout-whatsapp"
+                    type="tel"
+                    name="whatsapp"
+                    value={contact.whatsapp}
+                    onChange={handleContactChange}
+                    required
+                    autoComplete="tel"
+                    placeholder="+34 600 000 000"
+                  />
+                </label>
+              </div>
+            </fieldset>
+
+            <fieldset className="checkout-fieldset">
+              <legend>2. Selecciona tu plan base</legend>
+              <div className="checkout-plans">
+                {membershipPlans.map((plan) => (
+                  <label key={plan.id} className={planId === plan.id ? 'selected' : ''}>
+                    <input
+                      type="radio"
+                      name="checkout-plan"
+                      value={plan.id}
+                      checked={planId === plan.id}
+                      onChange={(event) => setPlanId(event.target.value)}
+                    />
+                    <span>
+                      <b>{plan.name}</b>
+                      <small className="checkout-plan-tag">{plan.tag}</small>
+                      <small>{plan.description}</small>
+                    </span>
+                    <span className="checkout-plan-price">
+                      <strong>{plan.priceDisplay}</strong>
+                      <small>
+                        <span>{plan.currency}</span>
+                        <span aria-hidden="true"> · </span>
+                        <span>{plan.eur}</span>
+                        <span aria-hidden="true"> · </span>
+                        <span>{plan.usdDisplay}</span>
+                      </small>
+                    </span>
+                  </label>
+                ))}
+              </div>
+            </fieldset>
+
+            <fieldset className="checkout-fieldset">
+              <legend>3. Añade clases por cantidad</legend>
+              <div className="checkout-service-list">
+                {sessionServices.map((service) => (
+                  <label
+                    key={service.id}
+                    htmlFor={`checkout-quantity-${service.id}`}
+                    className="checkout-service-option"
+                  >
+                    <span>
+                      <strong>{service.label}</strong>
+                      <small>
+                        {service.priceDisplay} COP por clase
+                        {service.presencial ? ' · sujeto a ubicación y disponibilidad' : ''}
+                      </small>
+                    </span>
+                    <span className="checkout-quantity-control">
+                      Cantidad
+                      <select
+                        id={`checkout-quantity-${service.id}`}
+                        value={serviceQuantities[service.id] ?? 0}
+                        onChange={(event) => updateQuantity(service.id, event.target.value)}
+                      >
+                        {service.quantities.map((quantity) => (
+                          <option key={quantity} value={quantity}>{quantity}</option>
+                        ))}
+                      </select>
+                    </span>
+                  </label>
+                ))}
+              </div>
+            </fieldset>
+
+            <fieldset className="checkout-fieldset">
+              <legend>4. Elige servicios extra</legend>
+              <div className="checkout-extra-list">
+                {extraServices.map((service) => {
+                  const isSelected = extraIds.includes(service.id)
+                  return (
+                    <label key={service.id} className={isSelected ? 'selected' : ''}>
+                      <input
+                        type="checkbox"
+                        checked={isSelected}
+                        onChange={(event) => toggleExtra(service.id, event.target.checked)}
+                      />
+                      <span>
+                        <strong>{service.label}</strong>
+                        <small>{service.description}</small>
+                        <small className="checkout-extra-scope">
+                          {service.priceDisplay} COP
+                          {service.presencial ? ' · sujeto a ubicación y disponibilidad' : ''}
+                          {service.healthScope ? ' · sin diagnóstico, cura ni promesas médicas' : ''}
+                        </small>
+                      </span>
+                    </label>
+                  )
+                })}
+              </div>
+            </fieldset>
+
+            <p className="checkout-scope-notice">{COMMERCIAL_SCOPE_NOTICE}</p>
+
+            <button type="submit" className="complete-button">
+              SOLICITAR DETALLES POR WHATSAPP
+              <ArrowRight size={16} aria-hidden="true" />
+            </button>
+
+            <p className="microcopy">
+              Esta acción prepara una solicitud. No cobra, no confirma un pago, pedido, inscripción,
+              disponibilidad ni acceso.
+            </p>
+          </form>
+
+          <aside className="order-summary" aria-labelledby="checkout-summary-title">
+            <p id="checkout-summary-title">RESUMEN DE TU SOLICITUD</p>
+
+            <div className="summary-program">
+              <span aria-hidden="true">B</span>
+              <div>
+                <b>BAYONA {calculation.plan.name}</b>
+                <small>{calculation.plan.tag} · Membresía mensual</small>
+              </div>
+            </div>
+
+            <div className="summary-line">
+              <span>Plan mensual</span>
+              <b>{calculation.plan.priceDisplay} COP</b>
+            </div>
+
+            <div className="checkout-summary-items">
+              {selectedSessions.map((service) => (
+                <div className="summary-line" key={service.id}>
+                  <span>{service.label} · {service.quantity}</span>
+                  <b>{service.quantity} × {service.priceDisplay}</b>
+                </div>
+              ))}
+              {calculation.extras.map((service) => (
+                <div className="summary-line" key={service.id}>
+                  <span>{service.label}</span>
+                  <b>{service.priceDisplay}</b>
+                </div>
+              ))}
+              {!selectedSessions.length && !calculation.extras.length && (
+                <p className="checkout-empty-selection">Sin servicios extra seleccionados.</p>
+              )}
+            </div>
+
+            <div className="summary-total">
+              <span>TOTAL ESTIMADO</span>
+              <output className="summary-total-price" aria-live="polite" aria-atomic="true">
+                <b>{calculation.totalDisplay} COP</b>
+                <small>
+                  <span>{calculation.eurApprox}</span>
+                  <span aria-hidden="true"> · </span>
+                  <span>{calculation.usdApprox}</span>
+                </small>
+              </output>
+            </div>
+            <p className="checkout-eur-note">Equivalencias EUR y USD aproximadas y no contractuales.</p>
+
+            <ul>
+              <li><Check aria-hidden="true" /> Cálculo entero en COP, sin cobro</li>
+              <li><Check aria-hidden="true" /> Detalle enviado solo al abrir WhatsApp</li>
+              <li><Check aria-hidden="true" /> Precio y disponibilidad pendientes de confirmación</li>
+            </ul>
+          </aside>
+        </div>
+      </section>
+    </>
+  )
+}
