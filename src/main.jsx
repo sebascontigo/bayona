@@ -40,6 +40,8 @@ import './styles/v2-surface.css'
  */
 import './styles/v2-typography.css'
 import './styles/v2-editorial.css'
+import './styles/v2-hero-depth.css'
+import './styles/v2-pricing.css'
 import './styles/v2-scroll-motion.css'
 
 /**
