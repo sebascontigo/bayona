@@ -53,7 +53,16 @@ function describePerson({ age, role, city, country }) {
 
 export default function ExperienceProof() {
   return (
-    <section className="experience-proof-section" aria-labelledby="home-experiences-title">
+    /*
+      Plano hueso: esta sección ya es pura tipografía (los retratos salieron de
+      las tarjetas), así que en lugar de decorarla se le da un plano propio. El
+      corte de negro a hueso marca el ritmo del recorrido mejor que cualquier
+      ilustración, y hace que las citas se lean como una página impresa.
+    */
+    <section
+      className="experience-proof-section v2-plane--bone"
+      aria-labelledby="home-experiences-title"
+    >
       <div className="section-shell experience-proof">
         <header className="experience-proof-header">
           <p className="experience-proof-eyebrow">EXPERIENCIAS PUBLICADAS</p>

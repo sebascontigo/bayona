@@ -33,6 +33,13 @@ import './styles/elite-refinements.css'
  * superficies que flotan, sin perderlo donde construye la marca.
  */
 import './styles/v2-surface.css'
+/*
+ * La escala tipográfica va después de la superficie porque hace un reset por
+ * rol semántico sobre los 258 tamaños distintos que había repartidos en 26
+ * hojas. Tiene que poder ganarles.
+ */
+import './styles/v2-typography.css'
+import './styles/v2-editorial.css'
 import './styles/v2-scroll-motion.css'
 
 /**
