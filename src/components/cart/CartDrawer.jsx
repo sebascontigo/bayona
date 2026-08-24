@@ -25,6 +25,7 @@ import {
   selectCartTotalCOP,
   useCartStore,
 } from '../../store/cartStore.js'
+import { GUARANTEE } from '../../config/commitments.js'
 import { trackWhatsAppClick } from '../../lib/analytics/analytics.js'
 import '../../styles/cart.css'
 
@@ -208,7 +209,7 @@ export default function CartDrawer({ open, onOpenChange }) {
                 lea lo mismo en todo el recorrido.
               */}
               <div className="cart-trust" aria-label="Garantía y forma de confirmación">
-                <span><ShieldCheck size={17} strokeWidth={1} aria-hidden="true" /> Garantía publicada · 30 días</span>
+                <span><ShieldCheck size={17} strokeWidth={1} aria-hidden="true" /> {GUARANTEE.summaryValue}</span>
                 <span><LockKeyhole size={17} strokeWidth={1} aria-hidden="true" /> Aquí no se procesa ningún pago</span>
               </div>
 

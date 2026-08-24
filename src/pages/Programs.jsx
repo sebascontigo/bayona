@@ -25,6 +25,7 @@ import TestimonialMarquee from '../components/TestimonialMarquee'
 import VideoSection from '../components/VideoSection.jsx'
 import PlanCalculator from '../components/PlanCalculator.jsx'
 import { useCapabilities } from '../engine/hooks/useCapabilities.js'
+import { GUARANTEE } from '../config/commitments.js'
 import { planConversionMessages } from '../config/conversionContent.js'
 import { siteMedia } from '../config/siteMedia.js'
 import { useCartStore } from '../store/cartStore.js'
@@ -106,9 +107,14 @@ function GuaranteeStamp({ className = '', reducedMotion = false }) {
     >
       <div className="badge-icon"><ShieldCheck size={42} /></div>
       <div className="badge-content">
-        <span className="guarantee-microband">GARANTÍA PUBLICADA · 30 DÍAS</span>
-        <h3>30 DÍAS PARA EVALUARLO.</h3>
-        <p>Consulta requisitos, procedimiento y exclusiones de la garantía antes de pagar.</p>
+        {/*
+          Decía "Consulta requisitos, procedimiento y exclusiones", remitiendo a
+          una letra pequeña que no existe, mientras las páginas de plan prometen
+          devolución sin condiciones. Ahora las dos leen de commitments.js.
+        */}
+        <span className="guarantee-microband">{GUARANTEE.badge}</span>
+        <h3>{GUARANTEE.days} DÍAS PARA EVALUARLO.</h3>
+        <p>{GUARANTEE.promise}</p>
       </div>
     </motion.div>
   )
@@ -203,175 +209,175 @@ function PlanJourneyCard({ plan, index, conversionMessage, pointerEffectsEnabled
         data-plan-id={plan.id}
       >
         <span className="program-plan-spotlight" aria-hidden="true" />
-      <div className="program-plan-header">
-        <div>
-          <div className="plan-tag">
-            {plan.featured ? (
-              <span className={`featured-badge ${shouldPulseBadge(plan.tag) ? 'program-pulse-badge' : ''}`.trim()}>{plan.tag}</span>
-            ) : (
-              <span className={shouldPulseBadge(plan.tag) ? 'program-pulse-badge' : undefined}>{plan.tag}</span>
+        <div className="program-plan-header">
+          <div>
+            <div className="plan-tag">
+              {plan.featured ? (
+                <span className={`featured-badge ${shouldPulseBadge(plan.tag) ? 'program-pulse-badge' : ''}`.trim()}>{plan.tag}</span>
+              ) : (
+                <span className={shouldPulseBadge(plan.tag) ? 'program-pulse-badge' : undefined}>{plan.tag}</span>
+              )}
+            </div>
+            <h3 className="program-plan-name">
+              {plan.name}{plan.journey && <span className="program-plan-journey"> — {plan.journey}</span>}
+            </h3>
+          </div>
+          <div className="program-plan-price">
+            <strong>{plan.price}</strong>
+            <small>{plan.currency}</small>
+            <span>
+              <span aria-hidden="true">· </span>
+              <span>{plan.eur}</span>
+              <span aria-hidden="true"> · </span>
+              <span>{plan.usdDisplay}</span>
+            </span>
+          </div>
+        </div>
+
+        <div className="program-plan-body">
+          <div className="program-plan-copy">
+            <div className="program-plan-section"><h4>PARA QUIÉN</h4><p>{plan.audience}</p></div>
+            <div className="program-plan-section"><h4>LO QUE CAMBIA</h4><p>{plan.problem}</p></div>
+            <div className="program-plan-section"><h4>LO QUE SIENTES</h4><p>{plan.feeling}</p></div>
+            {plan.scarcity && (
+              <p className={`program-plan-scarcity ${shouldPulseBadge(plan.scarcity) ? 'program-pulse-badge' : ''}`.trim()}>
+                {plan.scarcity}
+              </p>
             )}
           </div>
-          <h3 className="program-plan-name">
-            {plan.name}{plan.journey && <span className="program-plan-journey"> — {plan.journey}</span>}
-          </h3>
-        </div>
-        <div className="program-plan-price">
-          <strong>{plan.price}</strong>
-          <small>{plan.currency}</small>
-          <span>
-            <span aria-hidden="true">· </span>
-            <span>{plan.eur}</span>
-            <span aria-hidden="true"> · </span>
-            <span>{plan.usdDisplay}</span>
-          </span>
-        </div>
-      </div>
 
-      <div className="program-plan-body">
-        <div className="program-plan-copy">
-          <div className="program-plan-section"><h4>PARA QUIÉN</h4><p>{plan.audience}</p></div>
-          <div className="program-plan-section"><h4>LO QUE CAMBIA</h4><p>{plan.problem}</p></div>
-          <div className="program-plan-section"><h4>LO QUE SIENTES</h4><p>{plan.feeling}</p></div>
-          {plan.scarcity && (
-            <p className={`program-plan-scarcity ${shouldPulseBadge(plan.scarcity) ? 'program-pulse-badge' : ''}`.trim()}>
-              {plan.scarcity}
-            </p>
-          )}
-        </div>
+          <blockquote className="program-plan-proof-anchor">
+            “{conversionMessage.proofAnchor}”
+          </blockquote>
 
-        <blockquote className="program-plan-proof-anchor">
-          “{conversionMessage.proofAnchor}”
-        </blockquote>
-
-        <div className="program-plan-details">
-          <div className="program-plan-section">
-            <h4>INCLUYE</h4>
-            {plan.includedLead && <p className="included-lead">{plan.includedLead}</p>}
-            <ul className="program-plan-list">{plan.included.map((item) => <li key={item}>{item}</li>)}</ul>
-          </div>
-          {plan.excluded && (
-            <div className="program-plan-section program-plan-excluded">
-              <h4>NO INCLUYE</h4>
-              <ul className="program-plan-list">{plan.excluded.map((item) => <li key={item}>{item}</li>)}</ul>
+          <div className="program-plan-details">
+            <div className="program-plan-section">
+              <h4>INCLUYE</h4>
+              {plan.includedLead && <p className="included-lead">{plan.includedLead}</p>}
+              <ul className="program-plan-list">{plan.included.map((item) => <li key={item}>{item}</li>)}</ul>
             </div>
-          )}
-        </div>
-
-        <div className="program-plan-actions">
-          <Link className="plan-presentation-cta" to={`/plan/${plan.id.toLowerCase()}`}>
-            <Sparkles size={16} aria-hidden="true" /> VER PRESENTACIÓN
-          </Link>
-          <a href={plan.cta} target="_blank" rel="noreferrer" className={`plan-cta ${plan.featured ? 'featured-cta' : ''}`}>
-            ELEGIR {plan.name}<ArrowUpRight size={16} />
-          </a>
-          <button
-            type="button"
-            className="plan-addons-toggle"
-            aria-expanded={addonsOpen}
-            aria-controls={panelId}
-            onClick={() => setAddonsOpen((current) => !current)}
-          >
-            <Plus size={17} />
-            {addonsOpen ? 'CERRAR CLASES Y SERVICIOS' : 'AÑADIR CLASES Y SERVICIOS'}
-            <ChevronDown size={18} aria-hidden="true" />
-          </button>
-        </div>
-
-        {addonsOpen && (
-          <div id={panelId} className="plan-addons-panel">
-            <div className="plan-addons-heading">
-              <div>
-                <span>PERSONALIZA {plan.name}</span>
-                <h4>SUMA SOLO LO QUE TE HACE AVANZAR</h4>
+            {plan.excluded && (
+              <div className="program-plan-section program-plan-excluded">
+                <h4>NO INCLUYE</h4>
+                <ul className="program-plan-list">{plan.excluded.map((item) => <li key={item}>{item}</li>)}</ul>
               </div>
-              <p>Cada elección actualiza tu total mensual y tu mensaje de WhatsApp.</p>
-            </div>
+            )}
+          </div>
 
-            <div className="plan-addon-groups">
-              {ADDON_SERVICE_GROUPS.map((group) => {
-                const CategoryIcon = group.Icon
+          <div className="program-plan-actions">
+            <Link className="plan-presentation-cta" to={`/plan/${plan.id.toLowerCase()}`}>
+              <Sparkles size={16} aria-hidden="true" /> VER PRESENTACIÓN
+            </Link>
+            <a href={plan.cta} target="_blank" rel="noreferrer" className={`plan-cta ${plan.featured ? 'featured-cta' : ''}`}>
+              ELEGIR {plan.name}<ArrowUpRight size={16} />
+            </a>
+            <button
+              type="button"
+              className="plan-addons-toggle"
+              aria-expanded={addonsOpen}
+              aria-controls={panelId}
+              onClick={() => setAddonsOpen((current) => !current)}
+            >
+              <Plus size={17} />
+              {addonsOpen ? 'CERRAR CLASES Y SERVICIOS' : 'AÑADIR CLASES Y SERVICIOS'}
+              <ChevronDown size={18} aria-hidden="true" />
+            </button>
+          </div>
 
-                return (
-                  <section key={group.id} className="plan-addon-group">
-                    <header className="plan-addon-group-heading">
-                      <CategoryIcon size={20} aria-hidden="true" />
-                      <div>
-                        <h5>{group.title}</h5>
-                        <p>{group.promise}</p>
-                      </div>
-                    </header>
+          {addonsOpen && (
+            <div id={panelId} className="plan-addons-panel">
+              <div className="plan-addons-heading">
+                <div>
+                  <span>PERSONALIZA {plan.name}</span>
+                  <h4>SUMA SOLO LO QUE TE HACE AVANZAR</h4>
+                </div>
+                <p>Cada elección actualiza tu total mensual y tu mensaje de WhatsApp.</p>
+              </div>
+
+              <div className="plan-addon-groups">
+                {ADDON_SERVICE_GROUPS.map((group) => {
+                  const CategoryIcon = group.Icon
+
+                  return (
+                    <section key={group.id} className="plan-addon-group">
+                      <header className="plan-addon-group-heading">
+                        <CategoryIcon size={20} aria-hidden="true" />
+                        <div>
+                          <h5>{group.title}</h5>
+                          <p>{group.promise}</p>
+                        </div>
+                      </header>
+                      <ul>
+                        {group.services.map((service) => {
+                          const isQuantityService = SESSION_SERVICE_IDS.has(service.id)
+                          const quantity = serviceQuantities[service.id] ?? 0
+                          const selected = extraIds.includes(service.id)
+
+                          return (
+                            <li key={service.id} className={quantity > 0 || selected ? 'is-selected' : ''}>
+                              <div className="plan-addon-service-copy">
+                                <strong>{service.label}</strong>
+                                <p>{service.description}</p>
+                                <span>{service.priceDisplay} COP{isQuantityService ? ' / sesión' : ''}</span>
+                              </div>
+                              {isQuantityService ? (
+                                <label className="plan-addon-quantity" htmlFor={`${plan.id}-${service.id}-quantity`}>
+                                  <span>Cantidad</span>
+                                  <select
+                                    id={`${plan.id}-${service.id}-quantity`}
+                                    value={quantity}
+                                    onChange={(event) => updateQuantity(service.id, event.target.value, event.currentTarget)}
+                                  >
+                                    {service.quantities.map((value) => (
+                                      <option key={value} value={value}>{value}</option>
+                                    ))}
+                                  </select>
+                                </label>
+                              ) : (
+                                <button
+                                  type="button"
+                                  className="plan-addon-select"
+                                  aria-pressed={selected}
+                                  onClick={() => toggleExtra(service.id)}
+                                >
+                                  {selected ? 'AÑADIDO' : 'AÑADIR'}
+                                </button>
+                              )}
+                            </li>
+                          )
+                        })}
+                      </ul>
+                    </section>
+                  )
+                })}
+              </div>
+
+              <aside className="plan-addon-summary" aria-live="polite">
+                <div className="plan-addon-summary-total">
+                  <span>TU TRANSFORMACIÓN MENSUAL</span>
+                  <strong key={calculation.totalCop} className={reducedMotion ? undefined : 'program-animated-total'}>
+                    {calculation.totalDisplay} COP
+                  </strong>
+                  <small>{plan.priceDisplay} plan + {formatCop(extrasTotal)} servicios</small>
+                  <p className="plan-addon-decision-line">Tu transformación empieza cuando decides.</p>
+                </div>
+                <div className="plan-addon-summary-selection">
+                  <h5>LO QUE AÑADISTE</h5>
+                  {selectedItems.length > 0 ? (
                     <ul>
-                    {group.services.map((service) => {
-                      const isQuantityService = SESSION_SERVICE_IDS.has(service.id)
-                      const quantity = serviceQuantities[service.id] ?? 0
-                      const selected = extraIds.includes(service.id)
-
-                      return (
-                        <li key={service.id} className={quantity > 0 || selected ? 'is-selected' : ''}>
-                          <div className="plan-addon-service-copy">
-                            <strong>{service.label}</strong>
-                            <p>{service.description}</p>
-                            <span>{service.priceDisplay} COP{isQuantityService ? ' / sesión' : ''}</span>
-                          </div>
-                          {isQuantityService ? (
-                            <label className="plan-addon-quantity" htmlFor={`${plan.id}-${service.id}-quantity`}>
-                              <span>Cantidad</span>
-                              <select
-                                id={`${plan.id}-${service.id}-quantity`}
-                                value={quantity}
-                                onChange={(event) => updateQuantity(service.id, event.target.value, event.currentTarget)}
-                              >
-                                {service.quantities.map((value) => (
-                                  <option key={value} value={value}>{value}</option>
-                                ))}
-                              </select>
-                            </label>
-                          ) : (
-                            <button
-                              type="button"
-                              className="plan-addon-select"
-                              aria-pressed={selected}
-                              onClick={() => toggleExtra(service.id)}
-                            >
-                              {selected ? 'AÑADIDO' : 'AÑADIR'}
-                            </button>
-                          )}
-                        </li>
-                      )
-                    })}
+                      {selectedItems.map((item) => (
+                        <li key={item.id}><span>{item.label}</span><strong>{formatCop(item.subtotalCop)}</strong></li>
+                      ))}
                     </ul>
-                  </section>
-                )
-              })}
+                  ) : <p>Aún no has añadido servicios. Tu plan ya está listo para elegir.</p>}
+                </div>
+                <a href={whatsappUrl} target="_blank" rel="noreferrer" className="plan-addon-whatsapp">
+                  <MessageCircle size={18} /> DAR EL PRIMER PASO
+                </a>
+              </aside>
             </div>
-
-            <aside className="plan-addon-summary" aria-live="polite">
-              <div className="plan-addon-summary-total">
-                <span>TU TRANSFORMACIÓN MENSUAL</span>
-                <strong key={calculation.totalCop} className={reducedMotion ? undefined : 'program-animated-total'}>
-                  {calculation.totalDisplay} COP
-                </strong>
-                <small>{plan.priceDisplay} plan + {formatCop(extrasTotal)} servicios</small>
-                <p className="plan-addon-decision-line">Tu transformación empieza cuando decides.</p>
-              </div>
-              <div className="plan-addon-summary-selection">
-                <h5>LO QUE AÑADISTE</h5>
-                {selectedItems.length > 0 ? (
-                  <ul>
-                    {selectedItems.map((item) => (
-                      <li key={item.id}><span>{item.label}</span><strong>{formatCop(item.subtotalCop)}</strong></li>
-                    ))}
-                  </ul>
-                ) : <p>Aún no has añadido servicios. Tu plan ya está listo para elegir.</p>}
-              </div>
-              <a href={whatsappUrl} target="_blank" rel="noreferrer" className="plan-addon-whatsapp">
-                <MessageCircle size={18} /> DAR EL PRIMER PASO
-              </a>
-            </aside>
-          </div>
-        )}
-      </div>
+          )}
+        </div>
         {plan.urgency && <p className="program-plan-urgency">{plan.urgency}</p>}
         {plan.featured && <div className="featured-glow" />}
       </motion.article>

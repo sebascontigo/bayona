@@ -40,6 +40,8 @@ import { sceneBackgroundProps } from '../components/SceneBackground.jsx'
 import { buildWhatsAppUrl, formatCop, membershipPlans } from '../config/offerings.js'
 import { planPresentations } from '../config/planPresentations.js'
 import { siteMedia } from '../config/siteMedia.js'
+import { GUARANTEE } from '../config/commitments.js'
+import { TESTIMONIALS } from '../config/testimonials.js'
 import '../styles/plan-presentation.css'
 // Refinamientos que eran globales en main.jsx: solo aplican a /plan/*.
 import '../styles/plan-hero-refinements.css'
@@ -207,6 +209,9 @@ export default function PlanPresentation({ planId }) {
    * abajo y el de arriba deja que la persona se recoloque sin salirse, y de
    * paso da referencia de precio en las dos direcciones.
    */
+  /** Países distintos con experiencia publicada. Comprobable en /about. */
+  const publishedCountries = new Set(TESTIMONIALS.map(({ countryCode }) => countryCode)).size
+
   const planIndex = membershipPlans.findIndex(({ id }) => id === plan.id)
   const lowerPlan = planIndex > 0 ? membershipPlans[planIndex - 1] : null
   const higherPlan = planIndex < membershipPlans.length - 1 ? membershipPlans[planIndex + 1] : null
@@ -421,10 +426,22 @@ export default function PlanPresentation({ planId }) {
                 )
               })}
             </div>
+            {/*
+              Aquí decía "+2.000 PERSONAS ENTRENADAS". Esa cifra no es
+              comprobable y contradecía la posición de la propia marca: /about
+              afirma "No usamos una cifra total como prueba". Un número redondo
+              que el visitante no puede verificar resta credibilidad en lugar de
+              sumarla.
+
+              Se sustituye por un dato que se comprueba en esta misma web: las
+              experiencias publicadas y los países desde los que se escriben.
+              Se derivan de config/testimonials.js, así que si mañana hay doce
+              historias, aquí dirá doce.
+            */}
             <Reveal className="plan-presentation-authority">
               <Sparkles size={28} aria-hidden="true" />
-              <strong>+2.000</strong>
-              <span>PERSONAS ENTRENADAS</span>
+              <strong>{TESTIMONIALS.length}</strong>
+              <span>EXPERIENCIAS PUBLICADAS EN {publishedCountries} PAÍSES</span>
               <p>Un método construido en el terreno: observando, ajustando y acompañando cuerpos reales.</p>
             </Reveal>
           </div>
@@ -436,14 +453,19 @@ export default function PlanPresentation({ planId }) {
           <Reveal className="plan-presentation-guarantee-box">
             <div className="plan-presentation-guarantee-mark" aria-hidden="true">
               <ShieldCheck size={70} strokeWidth={1.2} />
-              <span>30</span>
+              <span>{GUARANTEE.days}</span>
               <small>DÍAS</small>
             </div>
+            {/* Texto desde config/commitments.js: una sola redacción en toda la web. */}
             <div>
-              <p className="plan-presentation-eyebrow">TODO EL RIESGO ES NUESTRO</p>
-              <h2 id="guarantee-title">30 DÍAS.<br /><span>CERO RIESGO.</span></h2>
-              <p>Si en 30 días no sientes que BAYONA es para ti, te devolvemos <strong>cada peso</strong>. Sin preguntas. Sin trabas. Sin culpa. Sin “pero tienes que...”.</p>
-              <p>Confiamos tanto en el método que asumimos todo el riesgo.</p>
+              <p className="plan-presentation-eyebrow">{GUARANTEE.eyebrow}</p>
+              <h2 id="guarantee-title">
+                {GUARANTEE.title}
+                <br />
+                <span>{GUARANTEE.titleAccent}</span>
+              </h2>
+              <p>{GUARANTEE.promise}</p>
+              <p>{GUARANTEE.howTo}</p>
             </div>
           </Reveal>
         </div>
@@ -503,7 +525,7 @@ export default function PlanPresentation({ planId }) {
                     </small>
                   </dd>
                 </div>
-                <div><dt>GARANTÍA</dt><dd>30 días sin riesgo</dd></div>
+                <div><dt>GARANTÍA</dt><dd>{GUARANTEE.summaryValue}</dd></div>
                 <div><dt>CUPOS</dt><dd>{availability}</dd></div>
               </dl>
             </Reveal>
@@ -517,7 +539,7 @@ export default function PlanPresentation({ planId }) {
               <a href={questionsUrl} target="_blank" rel="noreferrer" className="plan-presentation-question-link">
                 ¿Tienes dudas? Habla con Sebastián <MessageCircle size={16} aria-hidden="true" />
               </a>
-              <small><ShieldCheck size={14} aria-hidden="true" /> 30 días sin riesgo. Si no es para ti, devolvemos todo.</small>
+              <small><ShieldCheck size={14} aria-hidden="true" /> {GUARANTEE.short}</small>
             </Reveal>
           </div>
         </div>

@@ -8,6 +8,8 @@
  * `pricing: true` marca la única respuesta que además muestra la tabla de precios.
  */
 
+import { GUARANTEE_FAQ_ANSWER } from './commitments.js'
+
 export const questionCategories = [
   {
     title: 'PROGRAMAS',
@@ -39,8 +41,18 @@ export const questionCategories = [
     questions: [
       {
         q: '¿Cuánto cuesta?',
-        a: 'Aquí ves los precios mensuales publicados en COP y sus equivalencias aproximadas en EUR y USD. Confirma el importe final, la disponibilidad y las condiciones de la garantía antes de pagar.',
+        a: 'Aquí ves los precios mensuales publicados en COP y sus equivalencias aproximadas en EUR y USD. Confirma el importe final y la disponibilidad antes de pagar.',
         pricing: true,
+      },
+      {
+        /*
+          Esta pregunta no existía, y era la que más falta hacía: la garantía se
+          anuncia en Programs y en las cuatro páginas de plan, pero la FAQ solo
+          decía "confirma las condiciones", como si hubiera letra pequeña.
+          La respuesta se deriva de config/commitments.js.
+        */
+        q: '¿Cómo funciona la garantía de 30 días?',
+        a: GUARANTEE_FAQ_ANSWER,
       },
       {
         q: '¿Qué métodos de pago aceptáis?',

@@ -20,6 +20,12 @@ import './styles/media-scenes.css'
 import './overrides.css'
 import './styles/premium-route-chrome.css'
 import './styles/luxury-system.css'
+/*
+ * Último en la cascada a propósito: son detalles de acabado (tipografía óptica,
+ * foco, superficie, scroll bajo la barra fija) que deben poder matizar
+ * cualquier hoja anterior sin recurrir a !important.
+ */
+import './styles/elite-refinements.css'
 
 /**
  * Arranca la medición. No carga ningún proveedor hasta que haya consentimiento
