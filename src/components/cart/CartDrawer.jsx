@@ -197,14 +197,18 @@ export default function CartDrawer({ open, onOpenChange }) {
               </div>
 
               {/*
-                Estos sellos decían "Garantía 30 días" y "Pago seguro al confirmar".
-                Ninguno era sostenible: en la web no se procesa ningún pago (no hay
-                pasarela) y las condiciones de la garantía no están publicadas; la
-                propia FAQ pide confirmarlas antes de pagar. Prometer seguridad de
-                pago donde no hay pago erosiona justo la confianza que busca.
+                El segundo sello decía "Pago seguro al confirmar", y eso no se
+                sostiene: en la web no hay pasarela, no se procesa ningún pago.
+                Prometer seguridad de pago donde no hay pago erosiona justo la
+                confianza que busca.
+
+                La garantía sí se mantiene: es un compromiso comercial publicado
+                en Programs ("GARANTÍA PUBLICADA · 30 DÍAS") y en las cuatro
+                páginas de plan. Se usa la misma redacción para que el visitante
+                lea lo mismo en todo el recorrido.
               */}
-              <div className="cart-trust" aria-label="Cómo funciona la confirmación">
-                <span><ShieldCheck size={17} strokeWidth={1} aria-hidden="true" /> Condiciones por escrito antes de pagar</span>
+              <div className="cart-trust" aria-label="Garantía y forma de confirmación">
+                <span><ShieldCheck size={17} strokeWidth={1} aria-hidden="true" /> Garantía publicada · 30 días</span>
                 <span><LockKeyhole size={17} strokeWidth={1} aria-hidden="true" /> Aquí no se procesa ningún pago</span>
               </div>
 

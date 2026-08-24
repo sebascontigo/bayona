@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom'
 import { GoldButton, SectionLabel } from '../components/Layout'
 import Bridge from '../components/Bridge'
 import CommunityChatPreview from '../components/CommunityChatPreview'
+import ExperienceProof from '../components/home/ExperienceProof.jsx'
 import { sceneBackgroundProps } from '../components/SceneBackground.jsx'
 import VideoSection from '../components/VideoSection.jsx'
 import ExtrasExplorer from '../components/conversion/ExtrasExplorer.jsx'
@@ -277,6 +278,7 @@ export function HomeProofSection({
             ))}
           </motion.ol>
         )}
+
       </div>
     </section>
   )
@@ -746,6 +748,16 @@ export default function Home() {
       </section>
 
       <HomeProofSection />
+
+      {/*
+        Personas reales, justo antes de los precios.
+        Va en su propia sección y NO dentro de HomeProofSection a propósito: esa
+        sección es la puerta de evidencia y su contrato es publicar únicamente
+        evidencia verificada (o el proceso, si no hay). Estas son experiencias
+        publicadas con autorización, que es otro tipo de claim, así que no deben
+        mezclarse ahí dentro. Cierra el momento de prueba sin número propio.
+      */}
+      <ExperienceProof />
 
       <section
         className="offer-section home-memberships-section"

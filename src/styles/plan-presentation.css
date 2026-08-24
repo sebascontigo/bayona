@@ -243,16 +243,16 @@
   gap: 6px;
 }
 
-.plan-presentation-price > span,
+.plan-presentation-price>span,
 .plan-presentation-value-price span,
-.plan-presentation-value-summary > p,
+.plan-presentation-value-summary>p,
 .plan-presentation-value-summary-row small {
   color: #8f8b85;
   font: 500 9px/1.3 'DM Mono', monospace;
   letter-spacing: 0.14em;
 }
 
-.plan-presentation-price > strong {
+.plan-presentation-price>strong {
   color: #fff;
   font-family: Montserrat, Arial, sans-serif;
   font-size: clamp(33px, 3.4vw, 50px);
@@ -330,7 +330,7 @@
   border-bottom: 1px solid;
 }
 
-.plan-presentation-video-frame > svg {
+.plan-presentation-video-frame>svg {
   filter: drop-shadow(0 0 24px rgba(244, 162, 97, 0.34));
 }
 
@@ -352,7 +352,7 @@
   letter-spacing: 0.15em;
 }
 
-.plan-presentation-video > p {
+.plan-presentation-video>p {
   margin: 14px 0 0;
   color: #f3eee8;
   font-size: 11px;
@@ -379,8 +379,15 @@
 }
 
 @keyframes presentation-cue {
-  0%, 100% { transform: translateY(-2px); }
-  50% { transform: translateY(5px); }
+
+  0%,
+  100% {
+    transform: translateY(-2px);
+  }
+
+  50% {
+    transform: translateY(5px);
+  }
 }
 
 /* Transformations */
@@ -411,9 +418,17 @@
   background: rgba(5, 5, 5, 0.68);
 }
 
-.plan-presentation-transformation-list li:nth-child(1) { grid-column: 1 / 8; }
-.plan-presentation-transformation-list li:nth-child(2) { grid-column: 4 / 11; }
-.plan-presentation-transformation-list li:nth-child(3) { grid-column: 2 / 9; }
+.plan-presentation-transformation-list li:nth-child(1) {
+  grid-column: 1 / 8;
+}
+
+.plan-presentation-transformation-list li:nth-child(2) {
+  grid-column: 4 / 11;
+}
+
+.plan-presentation-transformation-list li:nth-child(3) {
+  grid-column: 2 / 9;
+}
 
 .plan-presentation-transformation-list li::after {
   content: '';
@@ -442,16 +457,16 @@
   line-height: 1.08;
 }
 
-.plan-presentation-transformation-list p > span {
+.plan-presentation-transformation-list p>span {
   color: #77736e;
   font-weight: 600;
 }
 
-.plan-presentation-transformation-list p > svg {
+.plan-presentation-transformation-list p>svg {
   color: var(--presentation-orange);
 }
 
-.plan-presentation-transformation-list p > strong {
+.plan-presentation-transformation-list p>strong {
   color: #fff;
   font-weight: 800;
 }
@@ -501,7 +516,7 @@
   font: 600 10px/1 'DM Mono', monospace;
 }
 
-.plan-presentation-timeline li > div {
+.plan-presentation-timeline li>div {
   padding-top: 28px;
 }
 
@@ -575,7 +590,7 @@
   padding-bottom: 17px;
 }
 
-.plan-presentation-value-copy > span {
+.plan-presentation-value-copy>span {
   display: block;
   margin-bottom: 8px;
   color: #5f5b56;
@@ -636,7 +651,7 @@
   box-shadow: 0 0 70px rgba(244, 162, 97, 0.09);
 }
 
-.plan-presentation-value-summary > strong {
+.plan-presentation-value-summary>strong {
   display: block;
   width: 100%;
   max-width: 100%;
@@ -652,7 +667,7 @@
   white-space: nowrap;
 }
 
-.plan-presentation-value-summary > span {
+.plan-presentation-value-summary>span {
   display: block;
   margin-bottom: 34px;
   color: #77726c;
@@ -724,11 +739,11 @@
   background: #0a0a0b;
 }
 
-.plan-presentation-method-card > svg {
+.plan-presentation-method-card>svg {
   color: var(--presentation-orange);
 }
 
-.plan-presentation-method-card > span {
+.plan-presentation-method-card>span {
   position: absolute;
   top: 31px;
   right: 31px;
@@ -777,14 +792,14 @@
   transform: rotate(28deg);
 }
 
-.plan-presentation-authority > svg {
+.plan-presentation-authority>svg {
   position: absolute;
   top: 34px;
   left: 35px;
   color: var(--presentation-orange);
 }
 
-.plan-presentation-authority > strong {
+.plan-presentation-authority>strong {
   color: var(--presentation-orange);
   font-family: Montserrat, Arial, sans-serif;
   font-size: clamp(58px, 6.4vw, 92px);
@@ -793,14 +808,14 @@
   letter-spacing: -0.08em;
 }
 
-.plan-presentation-authority > span {
+.plan-presentation-authority>span {
   margin-top: 13px;
   color: #fff;
   font: 600 9px/1 'DM Mono', monospace;
   letter-spacing: 0.14em;
 }
 
-.plan-presentation-authority > p {
+.plan-presentation-authority>p {
   max-width: 350px;
   margin: 23px 0 0;
   color: #aaa49d;
@@ -838,8 +853,15 @@
   background: var(--presentation-orange);
 }
 
-.plan-presentation-guarantee-box::before { top: -3px; left: 8%; }
-.plan-presentation-guarantee-box::after { right: 8%; bottom: -3px; }
+.plan-presentation-guarantee-box::before {
+  top: -3px;
+  left: 8%;
+}
+
+.plan-presentation-guarantee-box::after {
+  right: 8%;
+  bottom: -3px;
+}
 
 .plan-presentation-guarantee-mark {
   min-height: 250px;
@@ -879,7 +901,7 @@
   color: var(--presentation-orange);
 }
 
-.plan-presentation-guarantee-box div:last-child > p:not(.plan-presentation-eyebrow) {
+.plan-presentation-guarantee-box div:last-child>p:not(.plan-presentation-eyebrow) {
   max-width: 700px;
   margin: 0 0 16px;
   color: #c8c3bc;
@@ -888,7 +910,7 @@
   line-height: 1.7;
 }
 
-.plan-presentation-guarantee-box div:last-child > p strong {
+.plan-presentation-guarantee-box div:last-child>p strong {
   color: #fff;
   text-transform: uppercase;
 }
@@ -926,7 +948,7 @@
   border: 1px solid rgba(244, 162, 97, 0.22);
 }
 
-.plan-presentation-testimonial-photo > span {
+.plan-presentation-testimonial-photo>span {
   font-family: Montserrat, Arial, sans-serif;
   font-size: clamp(110px, 15vw, 220px);
   font-weight: 900;
@@ -935,7 +957,7 @@
   opacity: 0.46;
 }
 
-.plan-presentation-testimonial-photo > small {
+.plan-presentation-testimonial-photo>small {
   position: absolute;
   right: 27px;
   bottom: 27px;
@@ -956,7 +978,7 @@
   background: #0a0a0b;
 }
 
-.plan-presentation-testimonial-card blockquote > span {
+.plan-presentation-testimonial-card blockquote>span {
   position: absolute;
   top: 28px;
   right: 45px;
@@ -966,7 +988,7 @@
   line-height: 1;
 }
 
-.plan-presentation-testimonial-card blockquote > p {
+.plan-presentation-testimonial-card blockquote>p {
   position: relative;
   max-width: 780px;
   margin: 0;
@@ -1027,7 +1049,7 @@
   background: rgba(5, 5, 5, 0.68);
 }
 
-.plan-presentation-final-summary > p {
+.plan-presentation-final-summary>p {
   max-width: 450px;
   margin: 0 0 42px;
   color: var(--presentation-orange);
@@ -1041,7 +1063,7 @@
   margin: auto 0 0;
 }
 
-.plan-presentation-final-summary dl > div {
+.plan-presentation-final-summary dl>div {
   display: grid;
   grid-template-columns: 120px minmax(0, 1fr);
   gap: 20px;
@@ -1086,11 +1108,11 @@
   box-shadow: 0 0 90px rgba(244, 162, 97, 0.12), inset 0 0 90px rgba(244, 162, 97, 0.025);
 }
 
-.plan-presentation-final-cta > svg {
+.plan-presentation-final-cta>svg {
   color: var(--presentation-orange);
 }
 
-.plan-presentation-final-cta > p {
+.plan-presentation-final-cta>p {
   margin: 26px 0 34px;
   color: #d6d1ca;
   font-size: clamp(16px, 2vw, 23px);
@@ -1098,7 +1120,7 @@
   line-height: 1.5;
 }
 
-.plan-presentation-final-cta > p strong {
+.plan-presentation-final-cta>p strong {
   color: #fff;
   font-weight: 700;
 }
@@ -1125,7 +1147,7 @@
   color: var(--presentation-orange);
 }
 
-.plan-presentation-final-cta > small {
+.plan-presentation-final-cta>small {
   display: flex;
   align-items: center;
   gap: 8px;
@@ -1134,7 +1156,7 @@
   font: 400 8px/1.4 'DM Mono', monospace;
 }
 
-.plan-presentation-final-cta > small svg {
+.plan-presentation-final-cta>small svg {
   color: var(--presentation-orange);
 }
 
@@ -1164,7 +1186,7 @@
   border-top: 1px solid var(--presentation-line);
 }
 
-.plan-presentation-faq-list > div {
+.plan-presentation-faq-list>div {
   border-bottom: 1px solid var(--presentation-line);
 }
 
@@ -1186,28 +1208,28 @@
   display: none;
 }
 
-.plan-presentation-faq summary > span {
+.plan-presentation-faq summary>span {
   color: var(--presentation-orange);
   font: 500 9px/1 'DM Mono', monospace;
 }
 
-.plan-presentation-faq summary > strong {
+.plan-presentation-faq summary>strong {
   font-family: Montserrat, Arial, sans-serif;
   font-size: clamp(14px, 1.5vw, 19px);
   font-weight: 700;
 }
 
-.plan-presentation-faq summary > svg {
+.plan-presentation-faq summary>svg {
   justify-self: end;
   color: var(--presentation-orange);
   transition: transform 220ms ease;
 }
 
-.plan-presentation-faq details[open] summary > svg {
+.plan-presentation-faq details[open] summary>svg {
   transform: rotate(180deg);
 }
 
-.plan-presentation-faq details > p {
+.plan-presentation-faq details>p {
   max-width: 610px;
   padding: 0 47px 30px 70px;
   margin: -5px 0 0;
@@ -1228,14 +1250,14 @@
   border-top: 1px solid rgba(244, 162, 97, 0.34);
 }
 
-.plan-presentation-faq-close > p {
+.plan-presentation-faq-close>p {
   margin: 0;
   color: #9a958f;
   font-size: 13px;
   line-height: 1.6;
 }
 
-.plan-presentation-faq-close > p strong {
+.plan-presentation-faq-close>p strong {
   color: #fff;
 }
 
@@ -1252,7 +1274,7 @@
     #050505;
 }
 
-.plan-presentation-invalid > span {
+.plan-presentation-invalid>span {
   color: var(--presentation-orange);
   font: 500 10px/1 'DM Mono', monospace;
   letter-spacing: 0.16em;
@@ -1273,7 +1295,7 @@
   font-style: normal;
 }
 
-.plan-presentation-invalid > p {
+.plan-presentation-invalid>p {
   max-width: 520px;
   margin: 0 0 32px;
   color: #aaa59e;
@@ -1309,6 +1331,7 @@
 }
 
 @media (max-width: 900px) {
+
   .plan-presentation-shell,
   .plan-presentation-hero-shell {
     width: min(100% - 48px, 760px);
@@ -1397,7 +1420,7 @@
     padding: 0 0 36px;
   }
 
-  .plan-presentation-timeline li > div {
+  .plan-presentation-timeline li>div {
     padding: 8px 0 0;
   }
 
@@ -1440,6 +1463,7 @@
 }
 
 @media (max-width: 680px) {
+
   .plan-presentation-shell,
   .plan-presentation-hero-shell {
     width: calc(100% - 40px);
@@ -1492,7 +1516,7 @@
     aspect-ratio: 4 / 5;
   }
 
-  .plan-presentation-video > p {
+  .plan-presentation-video>p {
     text-align: left;
   }
 
@@ -1519,12 +1543,12 @@
     font-size: 21px;
   }
 
-  .plan-presentation-transformation-list p > span,
-  .plan-presentation-transformation-list p > strong {
+  .plan-presentation-transformation-list p>span,
+  .plan-presentation-transformation-list p>strong {
     grid-column: 1;
   }
 
-  .plan-presentation-transformation-list p > svg {
+  .plan-presentation-transformation-list p>svg {
     grid-column: 2;
     grid-row: 1 / 3;
     align-self: center;
@@ -1573,7 +1597,7 @@
     padding: 35px 25px;
   }
 
-  .plan-presentation-testimonial-card blockquote > span {
+  .plan-presentation-testimonial-card blockquote>span {
     top: 16px;
     right: 18px;
     font-size: 105px;
@@ -1588,7 +1612,7 @@
     padding: 38px 23px;
   }
 
-  .plan-presentation-final-summary dl > div {
+  .plan-presentation-final-summary dl>div {
     grid-template-columns: 92px minmax(0, 1fr);
   }
 
@@ -1602,7 +1626,7 @@
     gap: 10px;
   }
 
-  .plan-presentation-faq details > p {
+  .plan-presentation-faq details>p {
     padding: 0 25px 27px 45px;
   }
 
@@ -1617,6 +1641,7 @@
 }
 
 @media (max-width: 390px) {
+
   .plan-presentation-shell,
   .plan-presentation-hero-shell {
     width: calc(100% - 30px);
@@ -1637,6 +1662,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+
   .plan-presentation *,
   .plan-presentation *::before,
   .plan-presentation *::after {
@@ -1663,4 +1689,108 @@
 
 .plan-presentation-video.scene-bg .plan-presentation-video-frame {
   background-color: rgb(9 9 9 / 0.58);
+}
+
+/* ===========================================
+   08 / SIN PRISA — salida sin presión
+   La página acababa en el botón de compra. Quien no estaba listo no tenía
+   ningún camino salvo irse: aquí puede recolocarse en la escalera de planes
+   o entrar por lo gratuito.
+   =========================================== */
+
+.plan-presentation-bridge {
+  background: #070708;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.plan-presentation-bridge-lead {
+  max-width: 60ch;
+  margin: -14px 0 clamp(34px, 4vw, 52px);
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+.plan-presentation-bridge-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1px;
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.plan-presentation-bridge-card {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-width: 0;
+  min-height: 210px;
+  padding: clamp(22px, 2.4vw, 30px);
+  background: #0c0c0d;
+  transition: background 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.plan-presentation-bridge-card:hover,
+.plan-presentation-bridge-card:focus-visible {
+  background: #16100c;
+}
+
+.plan-presentation-bridge-card:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: -2px;
+}
+
+.plan-presentation-bridge-card>span {
+  color: var(--gray-dim);
+  font: 500 8px/1.4 'DM Mono', ui-monospace, monospace;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.plan-presentation-bridge-card>strong {
+  font-size: clamp(20px, 2vw, 26px);
+  font-weight: 900;
+  letter-spacing: -0.03em;
+}
+
+.plan-presentation-bridge-card>small {
+  color: var(--muted);
+  font-size: 11px;
+  line-height: 1.6;
+}
+
+.plan-presentation-bridge-card>em {
+  margin-top: auto;
+  padding-top: 14px;
+  border-top: 1px solid rgba(255, 255, 255, 0.11);
+  color: var(--gold);
+  font: 500 10px/1.4 'DM Mono', ui-monospace, monospace;
+  font-style: normal;
+  letter-spacing: 0.1em;
+}
+
+/* Las dos entradas gratuitas se distinguen sin gritar: acento a la izquierda. */
+.plan-presentation-bridge-card.is-free {
+  border-left: 2px solid rgba(244, 162, 97, 0.5);
+}
+
+@media (max-width: 1100px) {
+  .plan-presentation-bridge-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 600px) {
+  .plan-presentation-bridge-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .plan-presentation-bridge-card {
+    min-height: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .plan-presentation-bridge-card {
+    transition: none;
+  }
 }

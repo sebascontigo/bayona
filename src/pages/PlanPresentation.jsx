@@ -198,6 +198,19 @@ export default function PlanPresentation({ planId }) {
   const savingsPercentage = Math.round((savingsCop / presentation.totalValueCop) * 100)
   const usdPrice = plan.usdDisplay
   const availability = plan.id === 'ELITE' ? 'Máximo 10' : 'Disponibles'
+
+  /**
+   * Planes vecinos en la escalera, para no dejar la página sin salida.
+   *
+   * Antes esta página terminaba con un único botón de compra: quien no estaba
+   * listo solo podía usar el botón atrás del navegador. Ofrecer el nivel de
+   * abajo y el de arriba deja que la persona se recoloque sin salirse, y de
+   * paso da referencia de precio en las dos direcciones.
+   */
+  const planIndex = membershipPlans.findIndex(({ id }) => id === plan.id)
+  const lowerPlan = planIndex > 0 ? membershipPlans[planIndex - 1] : null
+  const higherPlan = planIndex < membershipPlans.length - 1 ? membershipPlans[planIndex + 1] : null
+  const planSlug = (id) => String(id).toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '')
   const testimonialLabel = `${presentation.testimonial.name}, ${presentation.testimonial.age}, ${presentation.testimonial.countryCode}`
 
   return (
@@ -532,6 +545,62 @@ export default function PlanPresentation({ planId }) {
             <MagneticAnchor href={plan.cta} target="_blank" rel="noreferrer">
               EMPEZAR CON {plan.name} <ArrowUpRight size={18} aria-hidden="true" />
             </MagneticAnchor>
+          </div>
+        </div>
+      </section>
+
+      {/*
+        Salida sin presión. La página terminaba en el botón de compra y nada
+        más: si la persona no estaba lista, la única opción era irse. Aquí se le
+        ofrece recolocarse en la escalera o empezar por lo gratuito.
+      */}
+      <section
+        className="plan-presentation-section plan-presentation-bridge"
+        aria-labelledby="plan-bridge-title"
+      >
+        <div className="plan-presentation-shell">
+          <SectionHeading
+            eyebrow="08 / SIN PRISA"
+            title="¿TODAVÍA NO?"
+            id="plan-bridge-title"
+          />
+          <p className="plan-presentation-bridge-lead">
+            No hace falta decidir hoy. Puedes mirar otro nivel de acompañamiento o empezar por lo
+            que no cuesta nada.
+          </p>
+
+          <div className="plan-presentation-bridge-grid">
+            {lowerPlan && (
+              <Link className="plan-presentation-bridge-card" to={`/plan/${planSlug(lowerPlan.id)}`}>
+                <span>UN PASO ANTES</span>
+                <strong>{lowerPlan.name}</strong>
+                <small>{lowerPlan.shortDescription}</small>
+                <em>{lowerPlan.priceDisplay} COP/mes</em>
+              </Link>
+            )}
+
+            {higherPlan && (
+              <Link className="plan-presentation-bridge-card" to={`/plan/${planSlug(higherPlan.id)}`}>
+                <span>UN PASO MÁS</span>
+                <strong>{higherPlan.name}</strong>
+                <small>{higherPlan.shortDescription}</small>
+                <em>{higherPlan.priceDisplay} COP/mes</em>
+              </Link>
+            )}
+
+            <Link className="plan-presentation-bridge-card is-free" to="/resources">
+              <span>GRATIS · SIN PLAN</span>
+              <strong>RECURSOS</strong>
+              <small>Guías y material para empezar a moverte hoy mismo, sin contratar nada.</small>
+              <em>Empezar por aquí</em>
+            </Link>
+
+            <Link className="plan-presentation-bridge-card is-free" to="/community">
+              <span>GRATIS · ACCESO ABIERTO</span>
+              <strong>COMUNIDAD</strong>
+              <small>Entra al grupo y ve cómo entrena la gente antes de decidir nada.</small>
+              <em>Solicitar acceso</em>
+            </Link>
           </div>
         </div>
       </section>

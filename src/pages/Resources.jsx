@@ -25,6 +25,7 @@ import {
   UploadCloud,
   X,
 } from 'lucide-react'
+import { Link } from 'react-router-dom'
 import { buildWhatsAppUrl } from '../config/offerings.js'
 import { socialLinks } from '../config/social.config.js'
 import { resolveProfiles } from '../lib/social/platforms.js'
@@ -291,6 +292,9 @@ function useResourcesReveal() {
   }, [])
 }
 
+/** Misma convención que Layout.jsx: un Link del router animable por Motion. */
+const MotionLink = motion.create(Link)
+
 function MagneticLink({ children, className = '', enabled = false, style, ...props }) {
   const x = useMotionValue(0)
   const y = useMotionValue(0)
@@ -309,8 +313,19 @@ function MagneticLink({ children, className = '', enabled = false, style, ...pro
     y.set(Math.max(-6, Math.min(6, offsetY)))
   }
 
+  /**
+   * Con `to` navega por el router; con `href` sale fuera o a un ancla.
+   *
+   * Los dos botones de decisión de esta página apuntaban a /programs y a
+   * /community con `href`, es decir con un <a> plano: cada clic recargaba la
+   * web entera (fondo en blanco, assets otra vez, scroll perdido). Y ocurría en
+   * el peor sitio posible, el final de la página de recursos gratuitos, que es
+   * justo donde alguien decide dar el siguiente paso.
+   */
+  const Component = props.to ? MotionLink : motion.a
+
   return (
-    <motion.a
+    <Component
       className={className}
       data-magnetic="true"
       onPointerMove={handlePointerMove}
@@ -319,7 +334,7 @@ function MagneticLink({ children, className = '', enabled = false, style, ...pro
       {...props}
     >
       {children}
-    </motion.a>
+    </Component>
   )
 }
 
@@ -1303,14 +1318,14 @@ export default function Resources() {
               <MagneticLink
                 className="resources-action resources-action--primary"
                 enabled={interactiveEffects}
-                href="/programs"
+                to="/programs"
               >
                 VER PROGRAMAS <ArrowUpRight aria-hidden="true" size={17} strokeWidth={1.2} />
               </MagneticLink>
               <MagneticLink
                 className="resources-action resources-action--ghost"
                 enabled={interactiveEffects}
-                href="/community"
+                to="/community"
               >
                 UNIRME A LA COMUNIDAD <ArrowUpRight aria-hidden="true" size={17} strokeWidth={1.2} />
               </MagneticLink>

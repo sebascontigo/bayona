@@ -1,0 +1,214 @@
+/*
+  BAYONA · EXPERIENCIAS EN LA HOME
+  Editorial, no carrusel de testimonios. Usa los tokens de styles.css:
+  --orange / --gold #F4A261, --muted, DM Mono para etiquetas, esquinas a 0.
+*/
+
+.experience-proof {
+  margin-top: clamp(48px, 6vw, 78px);
+}
+
+.experience-proof-list {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  /* El gap de 1px sobre este fondo dibuja la retícula sin bordes dobles. */
+  background: rgba(255, 255, 255, 0.14);
+}
+
+.experience-proof-card {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  min-width: 0;
+  padding: clamp(22px, 2.4vw, 30px);
+  background: #0b0b0c;
+  transition: background 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.experience-proof-card:hover {
+  background: #131314;
+}
+
+.experience-proof-figure {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin: 0;
+}
+
+.experience-proof-portrait {
+  flex: none;
+  width: 56px;
+  height: 56px;
+  object-fit: cover;
+  /* Retrato en escala de grises: la cita manda, no la foto. */
+  filter: grayscale(1) contrast(1.06);
+  transition: filter 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.experience-proof-card:hover .experience-proof-portrait {
+  filter: grayscale(0) contrast(1.02);
+}
+
+.experience-proof-figure figcaption {
+  display: grid;
+  gap: 4px;
+  min-width: 0;
+}
+
+.experience-proof-figure strong {
+  color: #fff;
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.01em;
+}
+
+.experience-proof-figure span {
+  color: var(--gray-dim);
+  font: 9px/1.5 'DM Mono', ui-monospace, monospace;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.experience-proof-quote {
+  margin: 0;
+  padding: 0 0 0 14px;
+  border-left: 2px solid rgba(244, 162, 97, 0.55);
+  color: #e8e3dc;
+  font-size: 13px;
+  line-height: 1.62;
+}
+
+.experience-proof-theme {
+  margin: auto 0 0;
+  padding-top: 16px;
+  border-top: 1px solid rgba(255, 255, 255, 0.11);
+  color: var(--orange);
+  font: 500 9px/1.4 'DM Mono', ui-monospace, monospace;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.experience-proof-footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+  margin-top: 28px;
+}
+
+.experience-proof-scope {
+  max-width: 62ch;
+  margin: 0;
+  color: var(--gray-dim);
+  font-size: 11px;
+  line-height: 1.65;
+}
+
+.experience-proof-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  flex: none;
+  padding: 12px 16px;
+  border: 1px solid rgba(244, 162, 97, 0.5);
+  color: var(--orange);
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  transition: background 0.3s, color 0.3s, border-color 0.3s;
+}
+
+.experience-proof-link:hover {
+  border-color: var(--orange);
+  background: var(--orange);
+  color: #050505;
+}
+
+.experience-proof-link:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 3px;
+}
+
+@media (max-width: 1100px) {
+  .experience-proof-list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 600px) {
+  .experience-proof-list {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .experience-proof-footer {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .experience-proof-link {
+    justify-content: center;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+  .experience-proof-card,
+  .experience-proof-portrait,
+  .experience-proof-link {
+    transition: none;
+  }
+
+  /* Sin movimiento, el color no debe depender del hover para leerse bien. */
+  .experience-proof-portrait {
+    filter: grayscale(0.35) contrast(1.02);
+  }
+}
+
+/*
+  Sección propia, no un bloque dentro de la puerta de evidencia.
+  Cierra el momento de prueba (04) antes de los precios (05), así que hereda el
+  fondo de la sección anterior para leerse como su continuación y no como un
+  bloque nuevo que corta el recorrido.
+*/
+.experience-proof-section {
+  position: relative;
+  padding: 0 0 clamp(88px, 10vw, 148px);
+  background: linear-gradient(180deg, #080809 0%, #050505 100%);
+}
+
+.experience-proof-header {
+  max-width: 900px;
+  margin-bottom: clamp(34px, 4vw, 54px);
+}
+
+.experience-proof-eyebrow {
+  margin: 0 0 16px;
+  color: var(--gold);
+  font: 500 10px/1 'DM Mono', ui-monospace, monospace;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.experience-proof-header h2 {
+  margin: 0;
+  font-size: clamp(2.4rem, 5vw, 4.6rem);
+  line-height: 0.94;
+  font-weight: 900;
+  letter-spacing: -0.055em;
+}
+
+.experience-proof-header h2 span {
+  color: var(--gold);
+}
+
+/* La retícula ya no necesita el margen superior: lo aporta la cabecera. */
+.experience-proof-section .experience-proof {
+  margin-top: 0;
+}
