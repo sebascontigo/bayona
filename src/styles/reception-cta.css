@@ -1,0 +1,102 @@
+/*
+  BAYONA · ACCESO A RECEPCIÓN
+  Tercera puerta del héroe. Debe leerse como una alternativa amable, no como un
+  tercer botón compitiendo con el dorado: sin relleno sólido y con una línea de
+  contexto encima del texto principal.
+*/
+
+.reception-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 13px;
+  padding: 12px 16px;
+  border: 1px solid rgba(255, 255, 255, 0.24);
+  /* Un velo mínimo para separarse de la fotografía del héroe. */
+  background: rgba(6, 6, 7, 0.42);
+  backdrop-filter: blur(6px);
+  transition: border-color 0.32s cubic-bezier(0.16, 1, 0.3, 1), background 0.32s;
+}
+
+.reception-cta:hover {
+  border-color: var(--gold);
+  background: rgba(6, 6, 7, 0.7);
+}
+
+.reception-cta > svg:first-child {
+  flex: none;
+  color: var(--gold);
+}
+
+.reception-cta > span {
+  display: grid;
+  gap: 3px;
+  min-width: 0;
+}
+
+.reception-cta em {
+  color: var(--gray-dim);
+  font: 500 8px/1.2 'DM Mono', ui-monospace, monospace;
+  font-style: normal;
+  letter-spacing: 0.17em;
+}
+
+.reception-cta strong {
+  color: #fff;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.reception-cta > svg:last-child {
+  flex: none;
+  color: var(--gold);
+  opacity: 0;
+  transform: translateX(-4px);
+  transition: opacity 0.32s, transform 0.32s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.reception-cta:hover > svg:last-child {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* Quien ya tiene ruta ve el acento de marca: es continuidad, no una pregunta. */
+.reception-cta.is-resuming {
+  border-color: rgba(244, 162, 97, 0.5);
+}
+
+.reception-cta.is-resuming em {
+  color: var(--gold);
+}
+
+.reception-cta:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 3px;
+}
+
+@media (max-width: 600px) {
+  .reception-cta {
+    width: 100%;
+    justify-content: flex-start;
+  }
+
+  /* En móvil no hay hover: la flecha se muestra siempre. */
+  .reception-cta > svg:last-child {
+    margin-left: auto;
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reception-cta,
+  .reception-cta > svg:last-child {
+    transition: none;
+  }
+
+  .reception-cta > svg:last-child {
+    opacity: 1;
+    transform: none;
+  }
+}

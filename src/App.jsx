@@ -8,6 +8,7 @@ import CustomCursor from './components/CustomCursor'
 import RouteSeo from './components/seo/RouteSeo.jsx'
 import RouteEffects from './components/RouteEffects.jsx'
 import ConsentBanner from './components/consent/ConsentBanner.jsx'
+import JourneyRibbon from './components/onboarding/JourneyRibbon.jsx'
 import Home from './pages/Home'
 
 /**
@@ -86,6 +87,8 @@ function Site() {
       </PageTransition>
       <WhatsAppButton />
       <Footer />
+      {/* Acompaña la visita cuando la persona ya pasó por recepción. */}
+      <JourneyRibbon />
       <ConsentBanner />
     </>
   )

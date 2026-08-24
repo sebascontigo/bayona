@@ -6,6 +6,7 @@ import { GoldButton, SectionLabel } from '../components/Layout'
 import Bridge from '../components/Bridge'
 import CommunityChatPreview from '../components/CommunityChatPreview'
 import ExperienceProof from '../components/home/ExperienceProof.jsx'
+import ReceptionCta from '../components/onboarding/ReceptionCta.jsx'
 import { sceneBackgroundProps } from '../components/SceneBackground.jsx'
 import VideoSection from '../components/VideoSection.jsx'
 import ExtrasExplorer from '../components/conversion/ExtrasExplorer.jsx'
@@ -500,6 +501,12 @@ export default function Home() {
               <a className="hero-transform-cta" href="#home-offer-heading">
                 IR DIRECTO A LA DECISIÓN <ArrowDown size={16} aria-hidden="true" />
               </a>
+
+              {/*
+                Tercera puerta: la de quien no sabe qué necesita. Las otras dos
+                llevan a comprar; esta lleva a que le ayuden a elegir.
+              */}
+              <ReceptionCta />
             </motion.nav>
           </div>
         </div>

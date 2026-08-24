@@ -21,6 +21,7 @@ import {
   hasCompleteAnswers,
   mapAnswersToRoute,
 } from '../lib/onboarding/routeMap.js'
+import { useVisitorJourney } from '../lib/onboarding/VisitorJourneyProvider.jsx'
 import '../styles/onboarding.css'
 
 const INITIAL_ANSWERS = Object.freeze({
@@ -185,6 +186,20 @@ export default function Onboarding() {
   const route = useMemo(() => mapAnswersToRoute(answers), [answers])
   const completeAnswers = hasCompleteAnswers(answers)
   const errorMessages = Object.values(errors)
+  const { completeJourney } = useVisitorJourney()
+
+  /**
+   * En el paso 4 la persona ya tiene su ruta delante. Desde aquí el resto de la
+   * web la recuerda durante la visita: Programas marca su plan, Recursos pone
+   * su recurso primero y el configurador arranca en su nivel.
+   *
+   * Solo en memoria. El onboarding promete que no se guarda nada, y esa promesa
+   * se respeta: al recargar o cerrar, desaparece.
+   */
+  useEffect(() => {
+    if (step < 4 || !route) return
+    completeJourney({ answers, route, visitType: 'personalized' })
+  }, [step, route, answers, completeJourney])
 
   useLayoutEffect(() => {
     document.body.classList.add('onboarding-route')
@@ -210,17 +225,17 @@ export default function Onboarding() {
 
   const sceneMotion = reducedMotion
     ? {
-        initial: { opacity: 0 },
-        animate: { opacity: 1 },
-        exit: { opacity: 0 },
-        transition: { duration: 0.16 },
-      }
+      initial: { opacity: 0 },
+      animate: { opacity: 1 },
+      exit: { opacity: 0 },
+      transition: { duration: 0.16 },
+    }
     : {
-        initial: { opacity: 0, x: direction * 42 },
-        animate: { opacity: 1, x: 0 },
-        exit: { opacity: 0, x: direction * -32 },
-        transition: { duration: 0.56, ease: FUNNEL_EASE },
-      }
+      initial: { opacity: 0, x: direction * 42 },
+      animate: { opacity: 1, x: 0 },
+      exit: { opacity: 0, x: direction * -32 },
+      transition: { duration: 0.56, ease: FUNNEL_EASE },
+    }
 
   function goToStep(nextStep) {
     setDirection(nextStep >= step ? 1 : -1)

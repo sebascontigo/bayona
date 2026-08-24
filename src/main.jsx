@@ -5,6 +5,7 @@ import { HelmetProvider } from 'react-helmet-async'
 import App from './App'
 import AppErrorBoundary from './components/AppErrorBoundary.jsx'
 import { ExperienceProvider } from './engine'
+import { VisitorJourneyProvider } from './lib/onboarding/VisitorJourneyProvider.jsx'
 import { initAnalytics } from './lib/analytics/analytics.js'
 
 /**
@@ -39,7 +40,14 @@ createRoot(document.getElementById('root')).render(
       <HelmetProvider>
         <BrowserRouter>
           <ExperienceProvider>
-            <App />
+            {/*
+              Memoria del recorrido. Va por encima de App para que sobreviva a
+              los cambios de ruta, y solo en memoria: el onboarding promete que
+              no se guarda nada. Ver VisitorJourneyProvider.jsx.
+            */}
+            <VisitorJourneyProvider>
+              <App />
+            </VisitorJourneyProvider>
           </ExperienceProvider>
         </BrowserRouter>
       </HelmetProvider>

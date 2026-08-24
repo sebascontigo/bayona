@@ -25,6 +25,7 @@ import TestimonialMarquee from '../components/TestimonialMarquee'
 import VideoSection from '../components/VideoSection.jsx'
 import PlanCalculator from '../components/PlanCalculator.jsx'
 import { useCapabilities } from '../engine/hooks/useCapabilities.js'
+import RecommendedMark from '../components/onboarding/RecommendedMark.jsx'
 import { GUARANTEE } from '../config/commitments.js'
 import { planConversionMessages } from '../config/conversionContent.js'
 import { siteMedia } from '../config/siteMedia.js'
@@ -211,6 +212,8 @@ function PlanJourneyCard({ plan, index, conversionMessage, pointerEffectsEnabled
         <span className="program-plan-spotlight" aria-hidden="true" />
         <div className="program-plan-header">
           <div>
+            {/* Solo se pinta si la recepción sugirió este plan a quien mira. */}
+            <RecommendedMark planId={plan.id} />
             <div className="plan-tag">
               {plan.featured ? (
                 <span className={`featured-badge ${shouldPulseBadge(plan.tag) ? 'program-pulse-badge' : ''}`.trim()}>{plan.tag}</span>
