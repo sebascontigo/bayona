@@ -1,6 +1,10 @@
 import { create } from 'zustand'
+import { persist } from 'zustand/middleware'
 
 const CART_ITEM_TYPES = new Set(['producto', 'servicio'])
+
+/** Clave del carrito persistido. Subir el `version` de abajo invalida lo guardado. */
+export const CART_STORAGE_KEY = 'bayona:cart:v1'
 
 export function createCartKey(type, name) {
   const normalizedType = String(type ?? '').trim()
@@ -43,7 +47,25 @@ export const totalCOP = ({ items }) => items.reduce(
 )
 export const selectCartTotalCOP = totalCOP
 
-export const useCartStore = create((set) => ({
+/**
+ * Vuelve a validar lo que venga de localStorage.
+ * `normalizeCartItem` lanza si el artículo no es válido, así que un carrito
+ * corrupto o de una versión anterior tumbaría la app al rehidratar. Aquí se
+ * descarta lo que no pase la validación en lugar de propagar la excepción.
+ */
+function sanitizePersistedItems(items) {
+  if (!Array.isArray(items)) return []
+
+  return items.flatMap((item) => {
+    try {
+      return [normalizeCartItem(item)]
+    } catch {
+      return []
+    }
+  })
+}
+
+const createCartState = (set) => ({
   items: [],
   isOpen: false,
   lastAddedKey: null,
@@ -91,4 +113,25 @@ export const useCartStore = create((set) => ({
     }
   }),
   clear: () => set({ items: [], lastAddedKey: null }),
-}))
+})
+
+/**
+ * El carrito ahora sobrevive a la recarga. Antes vivía solo en memoria: si
+ * alguien añadía cuatro servicios y recargaba, o volvía desde WhatsApp, la
+ * selección desaparecía y había que empezar de cero. Es la fuga de conversión
+ * más silenciosa que tenía la tienda.
+ *
+ * Solo se persisten los artículos. `isOpen` y `lastAddedKey` son estado de UI:
+ * si se guardaran, el panel se abriría solo al cargar cualquier página.
+ */
+export const useCartStore = create(
+  persist(createCartState, {
+    name: CART_STORAGE_KEY,
+    version: 1,
+    partialize: (state) => ({ items: state.items }),
+    merge: (persistedState, currentState) => ({
+      ...currentState,
+      items: sanitizePersistedItems(persistedState?.items),
+    }),
+  }),
+)

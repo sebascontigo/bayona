@@ -8,7 +8,11 @@
     "build": "vite build",
     "preview": "vite preview",
     "test": "vitest --run",
-    "test:visual": "playwright test"
+    "test:visual": "playwright test",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
   },
   "dependencies": {
     "@react-three/drei": "^9.122.0",
@@ -35,12 +39,19 @@
     "zustand": "5.0.14"
   },
   "devDependencies": {
+    "@eslint/js": "9.39.5",
     "@playwright/test": "1.61.1",
     "@testing-library/jest-dom": "^6.9.1",
     "@testing-library/react": "^16.3.2",
     "@vitejs/plugin-react": "^4.3.4",
+    "eslint": "9.39.5",
+    "eslint-plugin-jsx-a11y": "6.10.2",
+    "eslint-plugin-react": "7.37.5",
+    "eslint-plugin-react-hooks": "7.1.1",
     "fast-check": "^4.9.0",
+    "globals": "17.11.0",
     "jsdom": "^29.1.1",
+    "prettier": "3.9.6",
     "vite": "^6.0.7",
     "vitest": "^3.2.7"
   }

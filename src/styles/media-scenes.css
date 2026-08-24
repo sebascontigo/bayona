@@ -1,5 +1,11 @@
 .scene-bg {
-  --scene-image: none;
+  /*
+    `--scene-image` es lo que consumen todas las hojas (home.css, about.css,
+    plan-presentation.css…). Aquí se resuelve una sola vez: por defecto la URL
+    plana, y en el @supports de más abajo la versión con image-set().
+    Así se sirve la resolución adecuada sin duplicar ni un selector.
+  */
+  --scene-image: var(--scene-image-url, none);
   --scene-position: center;
   --scene-opacity: 0.62;
   --scene-overlay: 32%;
@@ -7,6 +13,22 @@
   position: relative;
   isolation: isolate;
   background-color: #050505;
+}
+
+/*
+  Los fondos de escena son el LCP de casi todas las páginas y se pedían siempre
+  al ancho máximo (1600 px), también en un móvil de 390 px. Con image-set() el
+  navegador elige 960 px o 1600 px según la densidad de pantalla.
+
+  Va detrás de @supports a propósito: Safari 14–16 solo entiende
+  -webkit-image-set, y si el valor de una custom property no es válido el
+  navegador la deja sin definir, lo que borraría el fondo entero. Con la
+  comprobación previa, esos navegadores se quedan con --scene-image-url.
+*/
+@supports (background-image: image-set(url('data:image/gif;base64,R0lGODlhAQABAAAAACw=') 1x)) {
+  .scene-bg {
+    --scene-image: var(--scene-image-set, var(--scene-image-url, none));
+  }
 }
 
 .scene-bg--hero {
@@ -29,13 +51,11 @@
   content: '';
   pointer-events: none;
   background-image:
-    linear-gradient(
-      180deg,
+    linear-gradient(180deg,
       rgb(5 5 5 / var(--scene-overlay)) 0%,
       rgba(5, 5, 5, 0.12) 36%,
       rgba(5, 5, 5, 0.34) 68%,
-      #050505 100%
-    ),
+      #050505 100%),
     linear-gradient(90deg, rgba(5, 5, 5, 0.58) 0%, rgba(5, 5, 5, 0.08) 52%, rgba(5, 5, 5, 0.3) 100%),
     var(--scene-image);
   background-position: center, center, var(--scene-position);
@@ -57,6 +77,7 @@
 }
 
 @media (prefers-reduced-motion: no-preference) {
+
   .scene-bg--motion:not(.scene-bg--after)::before,
   .scene-bg--motion.scene-bg--after::after {
     animation: scene-bg-drift 22s cubic-bezier(0.45, 0, 0.55, 1) infinite alternate;
@@ -64,11 +85,17 @@
 }
 
 @keyframes scene-bg-drift {
-  from { transform: scale(1.012) translate3d(0, 0, 0); }
-  to { transform: scale(1.052) translate3d(0, -0.8%, 0); }
+  from {
+    transform: scale(1.012) translate3d(0, 0, 0);
+  }
+
+  to {
+    transform: scale(1.052) translate3d(0, -0.8%, 0);
+  }
 }
 
 @media (max-width: 760px) {
+
   .scene-bg:not(.scene-bg--after)::before,
   .scene-bg.scene-bg--after::after {
     background-position: center, center, var(--scene-position);
@@ -77,6 +104,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+
   .scene-bg:not(.scene-bg--after)::before,
   .scene-bg.scene-bg--after::after {
     animation: none !important;

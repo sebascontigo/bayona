@@ -1,0 +1,64 @@
+# BAYONA · Integración continua
+#
+# Antes no había CI: Vercel despliega en cada push a main y los tests no
+# bloqueaban nada, así que una regresión llegaba a producción sin avisar.
+#
+# Este workflow corre lint, tests y build en cada push y cada pull request.
+# `continue-on-error` en lint es deliberado: el linter se acaba de introducir en
+# un código de ~180 archivos y todavía reporta avisos heredados. Sirve para ver
+# la deuda sin bloquear el trabajo. Quitar esa línea cuando esté limpio.
+
+name: CI
+
+on:
+  push:
+    branches: ['**']
+  pull_request:
+    branches: ['**']
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    name: Lint, test y build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Descargar el repositorio
+        uses: actions/checkout@v4
+
+      - name: Preparar Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Instalar dependencias
+        run: npm ci
+
+      - name: Lint
+        run: npm run lint
+        continue-on-error: true
+
+      - name: Tests
+        run: npm test
+
+      - name: Build de producción
+        run: npm run build
+
+      - name: Comprobar que el build genera sitemap, robots y HTML por ruta
+        run: |
+          set -e
+          for f in dist/sitemap.xml dist/robots.txt dist/index.html \
+                   dist/programs/index.html dist/faq/index.html dist/plan/elite/index.html; do
+            if [ ! -f "$f" ]; then
+              echo "Falta el artefacto esperado: $f"
+              exit 1
+            fi
+          done
+          echo "Artefactos de SEO presentes."

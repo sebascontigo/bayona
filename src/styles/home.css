@@ -2211,22 +2211,15 @@
   .proof-process-item h3 {
     font-size: clamp(16px, 2vw, 21px);
   }
-}
 
-/* Medium Desktop Optimization */
-@media (min-width: 1024px) and (max-width: 1440px) {
-  .mechanism-step,
-  .proof-process-item {
-    grid-template-columns: 82px minmax(0, 1fr);
-    gap: clamp(36px, 3.2vw, 42px);
-  }
-
-  .pain-content h3,
-  .mechanism-step h3,
-  .proof-process-item h3 {
-    font-size: clamp(18px, 1.8vw, 22px);
-  }
-}
+  /*
+    Estas reglas estaban fuera de este @media: el bloque "Medium Desktop" se
+    había pegado en medio y cerraba el bloque de tablet antes de tiempo, así que
+    los siguientes selectores se aplicaban en TODOS los anchos. Efecto real en
+    escritorio: .pain-column y .evidence-list a una sola columna,
+    .plan-comparison-list y .extras-plan-options forzadas a dos, el
+    configurador de extras a columna única y .persistent-summary sin sticky.
+  */
   .pain-column,
   .evidence-list,
   .recommendation-explanation-grid,
@@ -2253,6 +2246,21 @@
 
   .persistent-summary {
     position: static;
+  }
+}
+
+/* Medium Desktop Optimization */
+@media (min-width: 1024px) and (max-width: 1440px) {
+  .mechanism-step,
+  .proof-process-item {
+    grid-template-columns: 82px minmax(0, 1fr);
+    gap: clamp(36px, 3.2vw, 42px);
+  }
+
+  .pain-content h3,
+  .mechanism-step h3,
+  .proof-process-item h3 {
+    font-size: clamp(18px, 1.8vw, 22px);
   }
 }
 

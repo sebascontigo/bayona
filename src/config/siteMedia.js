@@ -93,6 +93,58 @@ function burstProduct(slug, description) {
   return burst(slug, description, { width: 1000, height: 1250 })
 }
 
+/** Escalera de anchos por defecto. Cubre móvil, tablet, escritorio y retina. */
+export const MEDIA_WIDTH_LADDER = Object.freeze([320, 480, 640, 960, 1280, 1600])
+
+/**
+ * Anchos de los fondos de escena a 1x y 2x.
+ *
+ * Los comparten `image-set()` en SceneBackground y el `<link rel="preload">`
+ * que genera vite/emitRouteHtml.js. Deben ser los mismos dos valores en los
+ * dos sitios: si difieren, el navegador precarga un ancho y luego pinta otro,
+ * descargando la imagen del héroe dos veces.
+ */
+export const SCENE_WIDTH_1X = 960
+export const SCENE_WIDTH_2X = 1600
+
+/**
+ * Construye el `srcset` de una imagen del registro.
+ *
+ * El CDN de Burst redimensiona con `?width=`, pero hasta ahora todas las
+ * imágenes se pedían a su ancho máximo (1600 px, o 1000 px en producto) y se
+ * mostraban en tarjetas de 300–400 px. `StockImage` incluso declaraba `sizes`
+ * sin `srcset`, así que ese `sizes` no servía para nada: el navegador no tenía
+ * alternativas entre las que elegir.
+ *
+ * Con esto, cada hueco recibe el ancho que le toca: menos bytes en móvil y
+ * más nitidez en pantallas retina, donde antes se escalaba hacia arriba.
+ *
+ * Devuelve `null` si la fuente no admite redimensionado (FoodiesFeed sirve
+ * archivos fijos), para no anunciar anchos que el CDN no va a respetar.
+ */
+export function mediaSrcSet(media, widths = MEDIA_WIDTH_LADDER) {
+  if (!media?.src || typeof media.src !== 'string') return null
+  if (!media.src.includes('width=')) return null
+
+  const maxWidth = Number(media.width) || Math.max(...widths)
+  const usable = widths.filter((width) => width <= maxWidth)
+  if (usable.length === 0) return null
+
+  /** Se incluye siempre el ancho nativo para no perder el tope de calidad. */
+  const ladder = [...new Set([...usable, maxWidth])].sort((a, b) => a - b)
+
+  return ladder
+    .map((width) => `${media.src.replace(/width=\d+/, `width=${width}`)} ${width}w`)
+    .join(', ')
+}
+
+/** Variante de una imagen a un ancho concreto (para preload del LCP). */
+export function mediaAtWidth(media, width) {
+  if (!media?.src || typeof media.src !== 'string') return media?.src ?? ''
+  if (!media.src.includes('width=')) return media.src
+  return media.src.replace(/width=\d+/, `width=${Math.round(width)}`)
+}
+
 function foodies(slug, src, description) {
   return Object.freeze({
     key: `foodiesfeed:${slug}`,

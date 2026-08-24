@@ -134,8 +134,16 @@ export const membershipPlans = [
     audience: 'Quieres lo máximo. Acompañamiento privado y resultados extraordinarios.',
     problem: 'Dejas de improvisar. Tienes a Sebastián para ti. Cada detalle personalizado.',
     feeling: 'Transformación completa. Cuerpo, mente y método.',
+    /**
+     * `scarcity` es el tope publicado del plan: un dato real y estable.
+     *
+     * Aquí había además `urgency: 'Quedan 3 cupos de 10'`, un contador
+     * hardcodeado que nadie actualiza. Afirmar una disponibilidad concreta que
+     * no se comprueba es una promesa que la web no puede sostener y, en España,
+     * entra en el terreno de la publicidad engañosa. Si algún día hay un
+     * recuento real, debe venir de una fuente viva, no de una constante.
+     */
     scarcity: 'SOLO 10 CUPOS DISPONIBLES',
-    urgency: 'Quedan 3 cupos de 10',
     includedLead: 'Todo RENDIMIENTO más:',
     included: [
       '8 sesiones privadas al mes (virtuales o presenciales en España)',

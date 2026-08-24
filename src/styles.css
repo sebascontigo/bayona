@@ -1,4 +1,10 @@
-@import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Inter:wght@300;400;500;600;700;800&family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,700;1,800;1,900&display=swap');
+/*
+  Las tipografías (DM Mono, Inter, Montserrat) se cargan desde index.html con
+  <link rel="stylesheet"> y preconnect. Antes había aquí un `@import url(...)`:
+  el navegador tenía que descargar y parsear este CSS para descubrir que
+  existían las fuentes, encadenando dos peticiones en serie y retrasando el
+  primer texto pintado.
+*/
 
 :root {
   /* SURFACES — always dark, always */

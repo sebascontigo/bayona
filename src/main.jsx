@@ -1,29 +1,42 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { BrowserRouter } from 'react-router-dom'
+import { HelmetProvider } from 'react-helmet-async'
 import App from './App'
+import AppErrorBoundary from './components/AppErrorBoundary.jsx'
 import { ExperienceProvider } from './engine'
+import { initAnalytics } from './lib/analytics/analytics.js'
+
+/**
+ * Hojas globales. Las de página (about, shop, community, resources…) se
+ * importan desde su propia página, así que ahora viajan en el chunk de esa
+ * ruta en lugar de en el CSS de entrada.
+ */
 import './styles.css'
 import './styles/social.css'
 import './styles/home.css'
 import './styles/home-scroll-animations.css'
-import './styles/app.css'
-import './styles/faq.css'
 import './styles/media-scenes.css'
-import './styles/plan-hero-refinements.css'
-import './styles/plan-value-refinements.css'
-import './styles/plan-summary-refinements.css'
-import './styles/plan-final-refinements.css'
 import './overrides.css'
 import './styles/premium-route-chrome.css'
 import './styles/luxury-system.css'
 
+/**
+ * Arranca la medición. No carga ningún proveedor hasta que haya consentimiento
+ * explícito (RGPD) y es no-op si no hay IDs configurados en el entorno.
+ */
+initAnalytics()
+
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <BrowserRouter>
-      <ExperienceProvider>
-        <App />
-      </ExperienceProvider>
-    </BrowserRouter>
+    <AppErrorBoundary>
+      <HelmetProvider>
+        <BrowserRouter>
+          <ExperienceProvider>
+            <App />
+          </ExperienceProvider>
+        </BrowserRouter>
+      </HelmetProvider>
+    </AppErrorBoundary>
   </StrictMode>,
 )

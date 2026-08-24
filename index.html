@@ -2,38 +2,74 @@
 <html lang="es">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <!-- Primary Meta Tags -->
-    <title>BAYONA — Where Science Meets Movement</title>
-    <meta name="title" content="BAYONA — Where Science Meets Movement" />
-    <meta name="description" content="BAYONA: movimiento, entrenamiento y acompañamiento con una mirada científica, humana y honesta." />
-    <meta name="keywords" content="fitness, entrenamiento, parkour, movimiento, ciencia del movimiento, BAYONA, rendimiento, transformación" />
-    <meta name="author" content="Sebastián Bayona" />
-    <meta name="robots" content="index, follow" />
+    <!-- Iconos y app instalable -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
+    <link rel="manifest" href="/manifest.webmanifest" />
 
-    <!-- Open Graph / Facebook -->
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://sebasbayona.co/" />
-    <meta property="og:title" content="BAYONA — Where Science Meets Movement" />
-    <meta property="og:description" content="No es fitness. Es transformación. Método científico de movimiento para todas las edades." />
-    <meta property="og:image" content="https://images.unsplash.com/photo-1517836357463-d25dfeac3438?auto=format&fit=crop&w=1200&q=85" />
-    <meta property="og:locale" content="es_ES" />
-
-    <!-- Twitter -->
-    <meta property="twitter:card" content="summary_large_image" />
-    <meta property="twitter:url" content="https://sebasbayona.co/" />
-    <meta property="twitter:title" content="BAYONA — Where Science Meets Movement" />
-    <meta property="twitter:description" content="No es fitness. Es transformación. Método científico de movimiento para todas las edades." />
-    <meta property="twitter:image" content="https://images.unsplash.com/photo-1517836357463-d25dfeac3438?auto=format&fit=crop&w=1200&q=85" />
-
-    <!-- Theme Color -->
     <meta name="theme-color" content="#050505" />
     <meta name="msapplication-TileColor" content="#050505" />
+    <meta name="apple-mobile-web-app-title" content="BAYONA" />
 
+    <!--
+      Tipografías: antes se cargaban con `@import url(...)` desde styles.css, lo
+      que obliga al navegador a descargar y parsear el CSS antes de descubrir
+      siquiera que existen las fuentes (dos viajes en serie). Declaradas aquí se
+      descubren en el primer parseo del HTML.
+    -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Inter:wght@300;400;500;600;700;800&family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,700;1,800;1,900&display=swap"
+    />
+
+    <!--
+      BLOQUE SEO — NO EDITAR A MANO ENTRE LOS MARCADORES "seo".
+      En `vite build`, el plugin vite/emitRouteHtml.js sustituye todo lo que hay
+      entre los dos marcadores de abajo para generar un HTML por ruta con sus
+      propios metadatos. Es lo que hace que compartir un enlace en WhatsApp
+      muestre la previsualización correcta de esa página: los bots de WhatsApp,
+      Facebook, Twitter y LinkedIn no ejecutan JavaScript, así que nunca verían
+      los metadatos que react-helmet-async aplica en cliente.
+      Lo que hay aquí abajo son los metadatos de la home.
+    -->
+    <!--seo-->
+    <title>BAYONA — Entrenamiento con método y acompañamiento real</title>
+    <meta
+      name="description"
+      content="Método de movimiento con dirección: plan mensual personalizado, seguimiento humano y cuatro niveles de acompañamiento. Sin humo ni promesas de resultado."
+    />
+    <link rel="canonical" href="https://sebasbayona.co/" />
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+    <meta name="author" content="Sebastián Bayona" />
+
+    <meta property="og:site_name" content="BAYONA" />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="es_ES" />
+    <meta property="og:url" content="https://sebasbayona.co/" />
+    <meta property="og:title" content="BAYONA — Entrenamiento con método y acompañamiento real" />
+    <meta
+      property="og:description"
+      content="Método de movimiento con dirección: plan mensual personalizado, seguimiento humano y cuatro niveles de acompañamiento. Sin humo ni promesas de resultado."
+    />
+    <meta property="og:image" content="https://sebasbayona.co/og/bayona-og.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:alt" content="BAYONA — Movimiento, ciencia y propósito humano." />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="BAYONA — Entrenamiento con método y acompañamiento real" />
+    <meta
+      name="twitter:description"
+      content="Método de movimiento con dirección: plan mensual personalizado, seguimiento humano y cuatro niveles de acompañamiento. Sin humo ni promesas de resultado."
+    />
+    <meta name="twitter:image" content="https://sebasbayona.co/og/bayona-og.png" />
+    <meta name="twitter:image:alt" content="BAYONA — Movimiento, ciencia y propósito humano." />
+    <!--/seo-->
   </head>
   <body>
     <div id="root"></div>

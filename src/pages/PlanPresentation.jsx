@@ -15,7 +15,9 @@ import {
   Dumbbell,
   FlaskConical,
   HeartPulse,
-  Infinity,
+  // Se renombra: el icono se llama Infinity y tapaba el global Infinity en
+  // todo el módulo. Aquí no se usaba el número, pero es una trampa a futuro.
+  Infinity as InfinityIcon,
   MessageCircle,
   MonitorPlay,
   Salad,
@@ -39,6 +41,11 @@ import { buildWhatsAppUrl, formatCop, membershipPlans } from '../config/offering
 import { planPresentations } from '../config/planPresentations.js'
 import { siteMedia } from '../config/siteMedia.js'
 import '../styles/plan-presentation.css'
+// Refinamientos que eran globales en main.jsx: solo aplican a /plan/*.
+import '../styles/plan-hero-refinements.css'
+import '../styles/plan-value-refinements.css'
+import '../styles/plan-summary-refinements.css'
+import '../styles/plan-final-refinements.css'
 
 const valueIcons = Object.freeze({
   app: Smartphone,
@@ -46,7 +53,7 @@ const valueIcons = Object.freeze({
   calendar: CalendarDays,
   coach: UserRound,
   community: Users,
-  lifetime: Infinity,
+  lifetime: InfinityIcon,
   nutrition: Salad,
   progress: TrendingUp,
   science: FlaskConical,

@@ -25,6 +25,7 @@ import {
   selectCartTotalCOP,
   useCartStore,
 } from '../../store/cartStore.js'
+import { trackWhatsAppClick } from '../../lib/analytics/analytics.js'
 import '../../styles/cart.css'
 
 const COP_PER_EUR_REFERENCE = 4300
@@ -195,16 +196,32 @@ export default function CartDrawer({ open, onOpenChange }) {
                 <small>{formatEurApprox(totalCOP)} · {formatUsdApprox(totalCOP)}</small>
               </div>
 
-              <div className="cart-trust" aria-label="Confianza de compra">
-                <span><ShieldCheck size={17} strokeWidth={1} aria-hidden="true" /> Garantía 30 días</span>
-                <span><LockKeyhole size={17} strokeWidth={1} aria-hidden="true" /> Pago seguro al confirmar</span>
+              {/*
+                Estos sellos decían "Garantía 30 días" y "Pago seguro al confirmar".
+                Ninguno era sostenible: en la web no se procesa ningún pago (no hay
+                pasarela) y las condiciones de la garantía no están publicadas; la
+                propia FAQ pide confirmarlas antes de pagar. Prometer seguridad de
+                pago donde no hay pago erosiona justo la confianza que busca.
+              */}
+              <div className="cart-trust" aria-label="Cómo funciona la confirmación">
+                <span><ShieldCheck size={17} strokeWidth={1} aria-hidden="true" /> Condiciones por escrito antes de pagar</span>
+                <span><LockKeyhole size={17} strokeWidth={1} aria-hidden="true" /> Aquí no se procesa ningún pago</span>
               </div>
 
               <div className="cart-drawer-actions">
                 <button className="cart-continue" type="button" onClick={() => onOpenChange(false)}>
                   SEGUIR COMPRANDO
                 </button>
-                <a className="cart-checkout" href={checkoutUrl} target="_blank" rel="noreferrer">
+                <a
+                  className="cart-checkout"
+                  href={checkoutUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                  onClick={() => trackWhatsAppClick({
+                    source: 'cart_drawer',
+                    value: totalCOP,
+                  })}
+                >
                   FINALIZAR POR WHATSAPP <ArrowUpRight size={17} strokeWidth={1} aria-hidden="true" />
                 </a>
               </div>

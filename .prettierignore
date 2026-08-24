@@ -1,0 +1,11 @@
+dist
+node_modules
+coverage
+playwright-report
+test-results
+package-lock.json
+public/docs
+# styles.css y overrides.css usan un estilo compacto deliberado (una regla por
+# línea). Reformatearlos generaría un diff de miles de líneas sin ganancia.
+src/styles.css
+src/overrides.css

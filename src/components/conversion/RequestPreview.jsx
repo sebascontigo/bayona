@@ -125,7 +125,8 @@ export default function RequestPreview({ selection }) {
           </section>
 
           <div className="request-preview-facts">
-            <section role="region" aria-label="Datos que se incluirán">
+            {/* `role="region"` es implícito en <section> con nombre accesible. */}
+            <section aria-label="Datos que se incluirán">
               <h4>Datos que se incluirán</h4>
               <dl className="request-preview-included-fields">
                 {contactFields.map(([label, value]) => (
@@ -166,7 +167,7 @@ export default function RequestPreview({ selection }) {
               </dl>
             </section>
 
-            <section role="region" aria-label="Condiciones geográficas">
+            <section aria-label="Condiciones geográficas">
               <h4>Condiciones geográficas</h4>
               <ul>
                 {geographicConditions.map((condition, index) => (
@@ -175,7 +176,7 @@ export default function RequestPreview({ selection }) {
               </ul>
             </section>
 
-            <section role="region" aria-label="Aviso no contractual">
+            <section aria-label="Aviso no contractual">
               <h4>Aviso no contractual</h4>
               {nonContractualNotices.map((notice, index) => (
                 <p key={`${index}-${notice}`}>{notice}</p>

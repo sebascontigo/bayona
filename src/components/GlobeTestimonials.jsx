@@ -5,6 +5,24 @@ import { useCapabilities } from '../engine/hooks/useCapabilities.js'
 
 const EARTH_TEXTURE_URL = 'https://unpkg.com/three-globe/example/img/earth-dark.jpg'
 
+/** Anchos disponibles en public/images/testimonials para cada retrato. */
+const TESTIMONIAL_VARIANT_WIDTHS = Object.freeze([256, 960])
+
+/**
+ * Devuelve la variante redimensionada de una foto de testimonio.
+ *
+ * Los originales son 1920x1080 (entre 190 y 600 kB cada uno) y se mostraban
+ * tal cual, tanto en el retrato de 88px como en la tarjeta. Ahora se sirve el
+ * ancho que toca. Si el ancho pedido no existe, se devuelve el original para
+ * no romper nunca la imagen.
+ */
+export function testimonialVariant(imagePath, width) {
+  if (typeof imagePath !== 'string' || imagePath === '') return imagePath
+  if (!TESTIMONIAL_VARIANT_WIDTHS.includes(width)) return imagePath
+
+  return imagePath.replace(/\.jpg$/i, `-${width}.jpg`)
+}
+
 export const GLOBE_TESTIMONIALS = Object.freeze([
   Object.freeze({
     id: 0,
@@ -196,10 +214,15 @@ function TestimonialAvatar({ testimonial }) {
 
   return (
     <img
-      src={testimonial.image}
+      src={testimonialVariant(testimonial.image, 256)}
       alt={testimonial.name}
       className="globe-testimonials-portrait"
+      /* Se declara el tamaño de render para que el navegador reserve el hueco
+         antes de descargar la imagen y no haya salto de layout (CLS). */
+      width="88"
+      height="88"
       loading="lazy"
+      decoding="async"
       onError={() => setImageError(true)}
     />
   )
@@ -1129,11 +1152,19 @@ export default function GlobeTestimonials() {
                         aria-label={`Marcador editorial de ${activeTestimonial.name}`}
                       >
                         {activeTestimonial.image && (
-                          <img 
-                            src={activeTestimonial.image}
+                          <img
+                            src={testimonialVariant(activeTestimonial.image, 960)}
+                            srcSet={[
+                              `${testimonialVariant(activeTestimonial.image, 256)} 256w`,
+                              `${testimonialVariant(activeTestimonial.image, 960)} 960w`,
+                            ].join(', ')}
+                            sizes="(max-width: 700px) 100vw, 700px"
                             alt={`${activeTestimonial.name}, ${activeTestimonial.role}`}
                             className="globe-testimonials-media-visual"
+                            width="960"
+                            height="540"
                             loading="lazy"
+                            decoding="async"
                           />
                         )}
                         <span className="globe-testimonials-media-scrim" aria-hidden="true" />

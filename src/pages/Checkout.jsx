@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react'
-import { ArrowRight, Check } from 'lucide-react'
+import { AlertTriangle, ArrowRight, Check, Copy, MessageCircle } from 'lucide-react'
 import { SectionLabel } from '../components/Layout'
 import {
   buildExperienceWhatsAppUrl,
@@ -9,6 +9,9 @@ import {
   membershipPlans,
   sessionServices,
 } from '../config/offerings.js'
+import { trackEvent, trackLead } from '../lib/analytics/analytics.js'
+import { clearPendingLead, openWhatsApp, rememberPendingLead } from '../lib/conversion/whatsappBridge.js'
+import '../styles/checkout-handoff.css'
 
 const INITIAL_CONTACT = {
   nombre: '',
@@ -21,6 +24,13 @@ export default function Checkout() {
   const [planId, setPlanId] = useState(membershipPlans[0].id)
   const [serviceQuantities, setServiceQuantities] = useState({})
   const [extraIds, setExtraIds] = useState([])
+  /**
+   * Resultado del último intento de entrega a WhatsApp.
+   * null = todavía no se ha enviado. `opened: false` = la pestaña se bloqueó
+   * y hay que ofrecer el enlace manual para no perder el lead.
+   */
+  const [handoff, setHandoff] = useState(null)
+  const [copied, setCopied] = useState(false)
 
   const selection = useMemo(
     () => ({ planId, serviceQuantities, extraIds }),
@@ -46,12 +56,40 @@ export default function Checkout() {
 
   const handleSubmit = (event) => {
     event.preventDefault()
-    const whatsappUrl = buildExperienceWhatsAppUrl({
-      ...selection,
-      contact,
+
+    const whatsappUrl = buildExperienceWhatsAppUrl({ ...selection, contact })
+
+    const result = openWhatsApp(whatsappUrl, {
+      source: 'checkout',
+      plan: calculation.plan.name,
+      value: calculation.totalCop,
     })
-    const requestWindow = window.open(whatsappUrl, '_blank', 'noopener,noreferrer')
-    if (requestWindow) requestWindow.opener = null
+
+    trackLead({ source: 'checkout', plan: calculation.plan.name, value: calculation.totalCop })
+
+    if (result.opened) {
+      // Entregado: si había un respaldo de un intento anterior, ya no hace falta.
+      clearPendingLead()
+    } else {
+      // La pestaña se bloqueó. Guardamos la solicitud para que se pueda reintentar.
+      rememberPendingLead({ url: whatsappUrl, source: 'checkout' })
+      trackEvent('whatsapp_blocked', { source: 'checkout', plan: calculation.plan.name })
+    }
+
+    setCopied(false)
+    setHandoff(result)
+  }
+
+  const handleCopyLink = async () => {
+    if (!handoff?.url) return
+    try {
+      await navigator.clipboard.writeText(handoff.url)
+      setCopied(true)
+      trackEvent('whatsapp_link_copied', { source: 'checkout' })
+    } catch {
+      // Sin permiso de portapapeles: el enlace sigue visible y pulsable.
+      setCopied(false)
+    }
   }
 
   return (
@@ -128,7 +166,14 @@ export default function Checkout() {
                       name="checkout-plan"
                       value={plan.id}
                       checked={planId === plan.id}
-                      onChange={(event) => setPlanId(event.target.value)}
+                      onChange={(event) => {
+                        setPlanId(event.target.value)
+                        trackEvent('plan_selected', {
+                          source: 'checkout',
+                          plan: plan.name,
+                          value: plan.priceCop,
+                        })
+                      }}
                     />
                     <span>
                       <b>{plan.name}</b>
@@ -221,6 +266,60 @@ export default function Checkout() {
               Esta acción prepara una solicitud. No cobra, no confirma un pago, pedido, inscripción,
               disponibilidad ni acceso.
             </p>
+
+            {/*
+              Estado de entrega. Antes, si el navegador bloqueaba la pestaña de
+              WhatsApp no ocurría nada visible y la solicitud se perdía.
+            */}
+            <div className="checkout-handoff" role="status" aria-live="polite">
+              {handoff?.opened && (
+                <div className="checkout-handoff-panel is-ok">
+                  <Check size={18} aria-hidden="true" />
+                  <div>
+                    <strong>Solicitud abierta en WhatsApp</strong>
+                    <p>
+                      Revisa la pestaña de WhatsApp y envía el mensaje para que llegue. Si no la
+                      ves, usa este enlace:{' '}
+                      <a href={handoff.url} target="_blank" rel="noopener noreferrer">
+                        abrir la conversación
+                      </a>
+                      .
+                    </p>
+                  </div>
+                </div>
+              )}
+
+              {handoff && !handoff.opened && (
+                <div className="checkout-handoff-panel is-blocked">
+                  <AlertTriangle size={18} aria-hidden="true" />
+                  <div>
+                    <strong>Tu navegador bloqueó la ventana de WhatsApp</strong>
+                    <p>
+                      Tu solicitud no se ha perdido: la hemos guardado en este dispositivo. Ábrela
+                      manualmente con el botón de abajo o copia el enlace y pégalo en tu navegador.
+                    </p>
+                    <div className="checkout-handoff-actions">
+                      <a
+                        className="checkout-handoff-open"
+                        href={handoff.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        onClick={() => {
+                          clearPendingLead()
+                          trackEvent('whatsapp_manual_open', { source: 'checkout' })
+                        }}
+                      >
+                        <MessageCircle size={15} aria-hidden="true" /> ABRIR WHATSAPP MANUALMENTE
+                      </a>
+                      <button type="button" className="checkout-handoff-copy" onClick={handleCopyLink}>
+                        <Copy size={15} aria-hidden="true" />
+                        {copied ? 'ENLACE COPIADO' : 'COPIAR ENLACE'}
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
           </form>
 
           <aside className="order-summary" aria-labelledby="checkout-summary-title">
