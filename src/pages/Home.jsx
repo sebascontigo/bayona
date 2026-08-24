@@ -6,6 +6,7 @@ import { GoldButton, SectionLabel } from '../components/Layout'
 import Bridge from '../components/Bridge'
 import CommunityChatPreview from '../components/CommunityChatPreview'
 import ExperienceProof from '../components/home/ExperienceProof.jsx'
+import FreeValue from '../components/home/FreeValue.jsx'
 import ReceptionCta from '../components/onboarding/ReceptionCta.jsx'
 import { sceneBackgroundProps } from '../components/SceneBackground.jsx'
 import VideoSection from '../components/VideoSection.jsx'
@@ -765,6 +766,14 @@ export default function Home() {
         mezclarse ahí dentro. Cierra el momento de prueba sin número propio.
       */}
       <ExperienceProof />
+
+      {/*
+        Antes de los precios, a propósito. La persona recorría toda la
+        argumentación y lo primero que se le ofrecía era pagar, mientras el
+        valor gratuito real vivía en la parada 6 y 7 del itinerario.
+        Primero se da, después se pregunta.
+      */}
+      <FreeValue />
 
       <section
         className="offer-section home-memberships-section"

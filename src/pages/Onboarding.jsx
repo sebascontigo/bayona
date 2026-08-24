@@ -30,39 +30,46 @@ const INITIAL_ANSWERS = Object.freeze({
   availability: '',
 })
 
+/**
+ * Las tres preguntas de recepción.
+ *
+ * Se redujo el texto a propósito. Antes cada pantalla pedía leer: antetítulo,
+ * titular, un párrafo de tranquilización y cuatro opciones con una frase
+ * completa cada una. El párrafo repetía lo que las propias opciones ya dicen, y
+ * sumaba carga en lugar de quitarla.
+ *
+ * Los `detail` pasan de frase a fragmento: se leen de un vistazo, no se leen.
+ */
 const QUESTIONS = Object.freeze([
   Object.freeze({
     key: 'goal',
     eyebrow: 'OBJETIVO',
     title: '¿QUÉ QUIERES CONSTRUIR?',
-    copy: 'Elige lo que más se parece a tu momento. No necesitas explicarlo ni tenerlo todo resuelto.',
     options: Object.freeze([
-      Object.freeze({ value: 'constancia', label: 'Constancia', detail: 'Crear un ritmo que puedas sostener.' }),
-      Object.freeze({ value: 'fuerza-general', label: 'Fuerza general', detail: 'Sentirte más capaz en tu vida diaria.' }),
-      Object.freeze({ value: 'movilidad-general', label: 'Movilidad general', detail: 'Moverte con más libertad y confianza.' }),
-      Object.freeze({ value: 'comparar-planes', label: 'Comparar planes', detail: 'Entender las opciones antes de decidir.' }),
+      Object.freeze({ value: 'constancia', label: 'Constancia', detail: 'Un ritmo sostenible' }),
+      Object.freeze({ value: 'fuerza-general', label: 'Fuerza general', detail: 'Más capaz cada día' }),
+      Object.freeze({ value: 'movilidad-general', label: 'Movilidad', detail: 'Moverme sin límites' }),
+      Object.freeze({ value: 'comparar-planes', label: 'Comparar planes', detail: 'Solo estoy mirando' }),
     ]),
   }),
   Object.freeze({
     key: 'experience',
-    eyebrow: 'EXPERIENCIA',
+    eyebrow: 'PUNTO DE PARTIDA',
     title: '¿DÓNDE ESTÁS HOY?',
-    copy: 'No hay una respuesta mejor que otra. Partimos exactamente desde donde estás.',
     options: Object.freeze([
-      Object.freeze({ value: 'inicio', label: 'Empezando', detail: 'Quiero una entrada clara y progresiva.' }),
-      Object.freeze({ value: 'retomo', label: 'Retomando', detail: 'Quiero recuperar ritmo sin improvisar.' }),
-      Object.freeze({ value: 'constante', label: 'Práctica constante', detail: 'Ya entreno y quiero elevar mi estructura.' }),
+      Object.freeze({ value: 'inicio', label: 'Empezando', detail: 'Desde cero' }),
+      Object.freeze({ value: 'retomo', label: 'Retomando', detail: 'Vuelvo después de un tiempo' }),
+      Object.freeze({ value: 'constante', label: 'Ya entreno', detail: 'Quiero más estructura' }),
     ]),
   }),
   Object.freeze({
     key: 'availability',
-    eyebrow: 'RITMO',
-    title: '¿CUÁNTO TIEMPO TIENES EN LA SEMANA?',
-    copy: 'Elige un ritmo realista. Lo que sí cabe en tu semana vale más que un plan perfecto.',
+    eyebrow: 'TU SEMANA',
+    title: '¿CUÁNTO TIEMPO TIENES?',
     options: Object.freeze([
-      Object.freeze({ value: 'uno-dos', label: '1–2 momentos', detail: 'Poco tiempo, bien utilizado.' }),
-      Object.freeze({ value: 'tres', label: '3 momentos', detail: 'Un ritmo sólido y sostenible.' }),
-      Object.freeze({ value: 'cuatro-mas', label: '4+ momentos', detail: 'Espacio para una práctica más exigente.' }),
+      Object.freeze({ value: 'uno-dos', label: '1–2 días', detail: 'Poco, bien usado' }),
+      Object.freeze({ value: 'tres', label: '3 días', detail: 'Ritmo sólido' }),
+      Object.freeze({ value: 'cuatro-mas', label: '4 o más', detail: 'Voy en serio' }),
     ]),
   }),
 ])
@@ -120,11 +127,18 @@ function QuestionScreen({
 
         <div className="funnel-question__layout">
           <div className="funnel-question__content">
-            <p className="funnel-eyebrow">{question.eyebrow} · DECISIÓN {index + 1}</p>
+            {/*
+              Cifra grande de fondo: da peso visual y orienta sin gastar texto.
+              Sustituye al "· DECISIÓN N" del antetítulo, que hacía sentir que
+              cada toque comprometía a algo.
+            */}
+            <span className="funnel-question__index" aria-hidden="true">
+              {String(index + 1).padStart(2, '0')}
+            </span>
+            <p className="funnel-eyebrow">{question.eyebrow}</p>
             <h1 id="funnel-question-title" ref={headingRef} tabIndex="-1">
               {question.title}
             </h1>
-            <p className="funnel-question__copy">{question.copy}</p>
 
             <div
               className="funnel-options"
@@ -363,8 +377,13 @@ export default function Onboarding() {
                   </motion.span>
                 ))}
               </h1>
+              {/*
+                Se quitó "Sin cuenta, sin datos guardados" de aquí: ya lo dice
+                el sello de abajo. Decirlo dos veces en la misma pantalla añadía
+                lectura sin añadir confianza.
+              */}
               <p className="funnel-threshold__lead">
-                En 60 segundos encuentro tu punto de partida y te muestro por dónde empezar. Sin cuenta, sin datos guardados.
+                Tres preguntas y te digo por dónde empezar.
               </p>
               <p className="funnel-threshold__sebastian">
                 “Hola, soy Sebastián. Vamos a encontrar tu camino.”

@@ -1,0 +1,205 @@
+/*
+  BAYONA · LO QUE TE LLEVAS SIN PAGAR
+  Va justo antes de los precios. Visualmente debe sentirse como un regalo, no
+  como una oferta: luz más alta que el resto de la página y cero lenguaje de
+  urgencia. El acento verde-dorado se evita: se mantiene el naranja de marca.
+*/
+
+.free-value {
+  position: relative;
+  padding: clamp(88px, 10vw, 148px) 0;
+  /* Un plano ligeramente más claro: esta sección "ilumina" el recorrido. */
+  background:
+    radial-gradient(70% 60% at 50% 0%, rgba(244, 162, 97, 0.11), transparent 68%),
+    linear-gradient(180deg, #0a0a0b 0%, #050505 100%);
+}
+
+.free-value-header {
+  max-width: 900px;
+  margin-bottom: clamp(40px, 5vw, 64px);
+}
+
+.free-value-eyebrow {
+  margin: 0 0 16px;
+  color: var(--gold);
+  font: 500 10px/1 'DM Mono', ui-monospace, monospace;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+.free-value-header h2 {
+  margin: 0 0 22px;
+  font-size: clamp(2.5rem, 5.4vw, 5rem);
+  line-height: 0.94;
+  font-weight: 900;
+  letter-spacing: -0.055em;
+}
+
+.free-value-header h2 span {
+  color: var(--gold);
+}
+
+.free-value-lead {
+  max-width: 58ch;
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+.free-value-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.free-value-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  height: 100%;
+  min-height: 264px;
+  padding: clamp(24px, 2.6vw, 32px);
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: var(--v2-radius, 16px);
+  background: rgba(255, 255, 255, 0.04);
+  transition:
+    border-color 0.42s cubic-bezier(0.16, 1, 0.3, 1),
+    background 0.42s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.42s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@supports (backdrop-filter: blur(1px)) {
+  @media (min-width: 900px) {
+    .free-value-card {
+      backdrop-filter: blur(18px) saturate(1.12);
+    }
+  }
+}
+
+/* Resplandor de acogida que se enciende al acercarse. */
+.free-value-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(80% 60% at 50% 100%, rgba(244, 162, 97, 0.16), transparent 70%);
+  opacity: 0;
+  transition: opacity 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.free-value-card:hover {
+  border-color: rgba(244, 162, 97, 0.5);
+  background: rgba(255, 255, 255, 0.062);
+  transform: translateY(-5px);
+}
+
+.free-value-card:hover::after {
+  opacity: 1;
+}
+
+.free-value-card:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 3px;
+}
+
+.free-value-card > svg {
+  position: relative;
+  color: var(--gold);
+}
+
+.free-value-tag {
+  position: relative;
+  color: var(--gray-dim);
+  font: 500 8px/1 'DM Mono', ui-monospace, monospace;
+  letter-spacing: 0.2em;
+}
+
+.free-value-card strong {
+  position: relative;
+  font-size: clamp(1.3rem, 1.9vw, 1.7rem);
+  line-height: 1.02;
+  font-weight: 900;
+  letter-spacing: -0.035em;
+}
+
+.free-value-card p {
+  position: relative;
+  margin: 0;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.66;
+}
+
+.free-value-card em {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  margin-top: auto;
+  padding-top: 16px;
+  border-top: 1px solid rgba(255, 255, 255, 0.11);
+  color: var(--gold);
+  font: 500 10px/1 'DM Mono', ui-monospace, monospace;
+  font-style: normal;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.free-value-card em svg {
+  transform: translateX(-3px);
+  opacity: 0;
+  transition: transform 0.42s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.42s;
+}
+
+.free-value-card:hover em svg {
+  transform: translateX(0);
+  opacity: 1;
+}
+
+@media (max-width: 1000px) {
+  .free-value-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 640px) {
+  .free-value-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .free-value-card {
+    min-height: 0;
+  }
+
+  /* Sin hover en táctil: la flecha se muestra siempre. */
+  .free-value-card em svg {
+    transform: none;
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .free-value-card,
+  .free-value-card::after,
+  .free-value-card em svg {
+    transition: none;
+  }
+
+  .free-value-card:hover {
+    transform: none;
+  }
+
+  .free-value-card::after {
+    opacity: 0.45;
+  }
+
+  .free-value-card em svg {
+    transform: none;
+    opacity: 1;
+  }
+}

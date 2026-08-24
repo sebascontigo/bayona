@@ -236,7 +236,9 @@ body.onboarding-route .whatsapp-button {
   transform-origin: left center;
 }
 
-.funnel-door--left::after { right: 0; }
+.funnel-door--left::after {
+  right: 0;
+}
 
 .funnel-door--right {
   right: 0;
@@ -372,15 +374,15 @@ body.onboarding-route .whatsapp-button {
   align-items: center;
 }
 
-.funnel-progress > span,
+.funnel-progress>span,
 .funnel-question__time,
-.funnel-route__topbar > span {
+.funnel-route__topbar>span {
   color: var(--funnel-muted);
   font: 500 9px/1 'DM Mono', monospace;
   letter-spacing: 0.12em;
 }
 
-.funnel-progress > div {
+.funnel-progress>div {
   height: 2px;
   overflow: hidden;
   background: rgba(245, 245, 245, 0.12);
@@ -394,7 +396,7 @@ body.onboarding-route .whatsapp-button {
 }
 
 .funnel-question__time,
-.funnel-route__topbar > span {
+.funnel-route__topbar>span {
   justify-self: end;
 }
 
@@ -488,7 +490,7 @@ body.onboarding-route .whatsapp-button {
   line-height: 1.5;
 }
 
-.funnel-options button > svg {
+.funnel-options button>svg {
   color: var(--funnel-orange);
 }
 
@@ -587,7 +589,7 @@ body.onboarding-route .whatsapp-button {
   margin: 0;
 }
 
-.bayona-pass__fields > div {
+.bayona-pass__fields>div {
   min-height: 82px;
   display: grid;
   align-content: center;
@@ -596,7 +598,7 @@ body.onboarding-route .whatsapp-button {
   border-bottom: 1px solid var(--funnel-line);
 }
 
-.bayona-pass__fields > div:nth-child(odd) {
+.bayona-pass__fields>div:nth-child(odd) {
   border-right: 1px solid var(--funnel-line);
 }
 
@@ -688,14 +690,14 @@ body.onboarding-route .whatsapp-button {
     #0d0d0e;
 }
 
-.funnel-recommendation__hero > span,
+.funnel-recommendation__hero>span,
 .funnel-recommendation dt {
   color: var(--funnel-orange);
   font: 500 8px/1.4 'DM Mono', monospace;
   letter-spacing: 0.12em;
 }
 
-.funnel-recommendation__hero > strong {
+.funnel-recommendation__hero>strong {
   display: block;
   margin-top: 14px;
   color: var(--funnel-white);
@@ -704,7 +706,7 @@ body.onboarding-route .whatsapp-button {
   line-height: 0.9;
 }
 
-.funnel-recommendation__hero > p {
+.funnel-recommendation__hero>p {
   max-width: 560px;
   margin: 18px 0 0;
   color: var(--funnel-muted);
@@ -718,7 +720,7 @@ body.onboarding-route .whatsapp-button {
   margin: 0;
 }
 
-.funnel-recommendation dl > div {
+.funnel-recommendation dl>div {
   min-height: 130px;
   display: grid;
   align-content: start;
@@ -726,7 +728,7 @@ body.onboarding-route .whatsapp-button {
   padding: 20px 24px;
 }
 
-.funnel-recommendation dl > div + div {
+.funnel-recommendation dl>div+div {
   border-left: 1px solid var(--funnel-line);
 }
 
@@ -893,7 +895,7 @@ body.onboarding-route .whatsapp-button {
   border-bottom: 1px solid var(--funnel-line);
 }
 
-.funnel-whatsapp__review > div {
+.funnel-whatsapp__review>div {
   min-height: 90px;
   display: grid;
   align-content: center;
@@ -901,7 +903,7 @@ body.onboarding-route .whatsapp-button {
   padding: 16px 20px;
 }
 
-.funnel-whatsapp__review > div + div {
+.funnel-whatsapp__review>div+div {
   border-left: 1px solid var(--funnel-line);
 }
 
@@ -942,7 +944,7 @@ body.onboarding-route .whatsapp-button {
   accent-color: var(--funnel-orange);
 }
 
-.funnel-consent + small {
+.funnel-consent+small {
   display: block;
   margin: 8px 0 0 35px;
   color: #817c76;
@@ -1012,7 +1014,7 @@ body.onboarding-route .whatsapp-button {
   border-top: 1px solid var(--funnel-line);
 }
 
-.funnel-prepared > svg {
+.funnel-prepared>svg {
   color: var(--funnel-orange);
 }
 
@@ -1165,7 +1167,7 @@ body.onboarding-route .whatsapp-button {
     grid-template-columns: 1fr;
   }
 
-  .bayona-pass__fields > div:nth-child(odd) {
+  .bayona-pass__fields>div:nth-child(odd) {
     border-right: 0;
   }
 
@@ -1177,12 +1179,12 @@ body.onboarding-route .whatsapp-button {
     grid-template-columns: 1fr;
   }
 
-  .funnel-recommendation dl > div + div {
+  .funnel-recommendation dl>div+div {
     border-top: 1px solid var(--funnel-line);
     border-left: 0;
   }
 
-  .funnel-route__content > .funnel-button {
+  .funnel-route__content>.funnel-button {
     width: 100%;
   }
 
@@ -1215,21 +1217,22 @@ body.onboarding-route .whatsapp-button {
     grid-template-columns: 1fr;
   }
 
-  .funnel-whatsapp__review > div {
+  .funnel-whatsapp__review>div {
     min-height: 74px;
   }
 
-  .funnel-whatsapp__review > div + div {
+  .funnel-whatsapp__review>div+div {
     border-top: 1px solid var(--funnel-line);
     border-left: 0;
   }
 
-  .funnel-consent + small {
+  .funnel-consent+small {
     margin-left: 0;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
+
   .onboarding-page *,
   .onboarding-page *::before,
   .onboarding-page *::after {
@@ -1264,3 +1267,87 @@ body.onboarding-route .whatsapp-button {
   }
 }
 
+
+/* ===========================================
+   v2 · MENOS TEXTO, MÁS DECISIÓN
+   Las pantallas de pregunta pedían leer un párrafo de tranquilización antes de
+   poder tocar nada. Ahora el peso lo llevan la cifra y las opciones.
+   =========================================== */
+
+.funnel-question__content {
+  position: relative;
+}
+
+/* Cifra de fondo: orienta sin gastar una palabra. */
+.funnel-question__index {
+  position: absolute;
+  z-index: 0;
+  top: -0.34em;
+  left: -0.06em;
+  color: rgba(244, 162, 97, 0.09);
+  font: 900 clamp(9rem, 22vw, 17rem)/0.8 Montserrat, sans-serif;
+  letter-spacing: -0.07em;
+  pointer-events: none;
+  user-select: none;
+}
+
+.funnel-question__content>.funnel-eyebrow,
+.funnel-question__content>h1,
+.funnel-question__content>.funnel-options {
+  position: relative;
+  z-index: 1;
+}
+
+/* El titular respira más ahora que no hay párrafo debajo. */
+.funnel-question__content>h1 {
+  margin-bottom: clamp(28px, 4vw, 44px);
+  text-wrap: balance;
+}
+
+/* Opciones más grandes: son la interacción, deben pesar más que el texto. */
+.funnel-options button {
+  min-height: 74px;
+  border-radius: var(--v2-radius, 16px) !important;
+  transition:
+    border-color 0.34s cubic-bezier(0.16, 1, 0.3, 1),
+    background 0.34s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.34s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.funnel-options button:hover {
+  transform: translateX(5px);
+}
+
+.funnel-options button.is-selected {
+  transform: translateX(5px);
+}
+
+/* El fragmento de apoyo se lee de un vistazo: pequeño y en monoespaciada. */
+.funnel-option__copy small {
+  color: var(--gray-dim);
+  font: 500 9px/1.4 'DM Mono', ui-monospace, monospace;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+}
+
+@media (max-width: 600px) {
+  .funnel-question__index {
+    top: -0.28em;
+    font-size: clamp(7rem, 34vw, 11rem);
+  }
+
+  .funnel-options button {
+    min-height: 66px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .funnel-options button {
+    transition: none;
+  }
+
+  .funnel-options button:hover,
+  .funnel-options button.is-selected {
+    transform: none;
+  }
+}
