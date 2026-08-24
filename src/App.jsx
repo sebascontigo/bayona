@@ -10,6 +10,8 @@ import RouteEffects from './components/RouteEffects.jsx'
 import ConsentBanner from './components/consent/ConsentBanner.jsx'
 import JourneyRibbon from './components/onboarding/JourneyRibbon.jsx'
 import NextChapter from './components/NextChapter.jsx'
+import TranslateOffer from './components/TranslateOffer.jsx'
+import ShareInvite from './components/ShareInvite.jsx'
 import Home from './pages/Home'
 
 /**
@@ -88,12 +90,21 @@ function Site() {
             sola vez, así las 9 páginas del itinerario lo reciben sin tocar su
             JSX. Las rutas fuera del itinerario no lo pintan.
           */}
+          {/*
+            Compartir cierra el recorrido, antes de anunciar la siguiente
+            parada: primero se ofrece pasar lo que ya es gratis, y después se
+            invita a seguir. Solo en las rutas del itinerario, igual que
+            NextChapter, para no aparecer en el embudo ni en el 404.
+          */}
+          <ShareInvite />
           <NextChapter />
           <PremiumRouteChrome />
         </main>
       </PageTransition>
       <WhatsAppButton />
       <Footer />
+      {/* Solo se muestra si el navegador del visitante no entiende español. */}
+      <TranslateOffer />
       {/* Acompaña la visita cuando la persona ya pasó por recepción. */}
       <JourneyRibbon />
       <ConsentBanner />

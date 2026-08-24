@@ -1,0 +1,135 @@
+/*
+  BAYONA · COMPARTIR E INVITAR
+  Cierre de recorrido. Tono generoso, no transaccional: aquí no se pide nada
+  para la marca, se ofrece pasar algo que ya es gratis.
+*/
+
+.share-invite {
+  padding: clamp(64px, 7vw, 104px) 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.09);
+  background: linear-gradient(180deg, #07070a 0%, #050505 100%);
+}
+
+.share-invite-inner {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: end;
+  gap: clamp(28px, 4vw, 64px);
+}
+
+.share-invite-eyebrow {
+  margin: 0 0 14px;
+  color: var(--gold);
+  font: 500 var(--fs-label, 10px) 'DM Mono', ui-monospace, monospace;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+.share-invite-copy h2 {
+  margin: 0 0 18px;
+}
+
+.share-invite-copy h2 span {
+  color: var(--gold);
+}
+
+.share-invite-copy p {
+  max-width: 54ch;
+  margin: 0;
+}
+
+.share-invite-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+}
+
+.share-invite-primary,
+.share-invite-whatsapp {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 18px;
+  border-radius: var(--v2-radius-sm, 10px);
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  transition: background 0.3s, color 0.3s, border-color 0.3s, transform 0.3s;
+}
+
+.share-invite-primary {
+  border: 1px solid var(--gold);
+  background: var(--gold);
+  color: #050505;
+  cursor: pointer;
+}
+
+.share-invite-primary:hover {
+  background: var(--orange-fire);
+  border-color: var(--orange-fire);
+  transform: translateY(-2px);
+}
+
+.share-invite-whatsapp {
+  border: 1px solid rgba(255, 255, 255, 0.24);
+  background: transparent;
+  color: #d5d0c8;
+}
+
+.share-invite-whatsapp:hover {
+  border-color: var(--gold);
+  color: var(--gold);
+  transform: translateY(-2px);
+}
+
+.share-invite-primary:focus-visible,
+.share-invite-whatsapp:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 3px;
+}
+
+/* La confirmación se anuncia, no se pinta: el botón ya cambia de estado. */
+.share-invite-status {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  margin: -1px !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+  clip-path: inset(50%) !important;
+  white-space: nowrap !important;
+}
+
+@media (max-width: 900px) {
+  .share-invite-inner {
+    grid-template-columns: minmax(0, 1fr);
+    align-items: start;
+  }
+}
+
+@media (max-width: 560px) {
+  .share-invite-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .share-invite-primary,
+  .share-invite-whatsapp {
+    justify-content: center;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .share-invite-primary,
+  .share-invite-whatsapp {
+    transition: none;
+  }
+
+  .share-invite-primary:hover,
+  .share-invite-whatsapp:hover {
+    transform: none;
+  }
+}
