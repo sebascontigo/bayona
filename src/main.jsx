@@ -27,6 +27,13 @@ import './styles/luxury-system.css'
  * cualquier hoja anterior sin recurrir a !important.
  */
 import './styles/elite-refinements.css'
+/*
+ * Sistema visual v2. Va después de todo lo anterior porque tiene que poder
+ * matizar el `border-radius: 0 !important` global de styles.css en las
+ * superficies que flotan, sin perderlo donde construye la marca.
+ */
+import './styles/v2-surface.css'
+import './styles/v2-scroll-motion.css'
 
 /**
  * Arranca la medición. No carga ningún proveedor hasta que haya consentimiento

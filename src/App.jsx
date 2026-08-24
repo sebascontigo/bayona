@@ -9,6 +9,7 @@ import RouteSeo from './components/seo/RouteSeo.jsx'
 import RouteEffects from './components/RouteEffects.jsx'
 import ConsentBanner from './components/consent/ConsentBanner.jsx'
 import JourneyRibbon from './components/onboarding/JourneyRibbon.jsx'
+import NextChapter from './components/NextChapter.jsx'
 import Home from './pages/Home'
 
 /**
@@ -82,6 +83,12 @@ function Site() {
               <Route path="*" element={<NotFound />} />
             </Routes>
           </Suspense>
+          {/*
+            Cierre del recorrido: anuncia la siguiente parada. Montado aquí una
+            sola vez, así las 9 páginas del itinerario lo reciben sin tocar su
+            JSX. Las rutas fuera del itinerario no lo pintan.
+          */}
+          <NextChapter />
           <PremiumRouteChrome />
         </main>
       </PageTransition>
