@@ -59,8 +59,8 @@ describe('reglas de recomendación explicable', () => {
       'sesiones-privadas',
     ])
     expect(AVAILABILITIES).toEqual(['uno-dos', 'tres', 'cuatro-mas'])
-    expect(CONSERVATIVE_PLAN_ORDER).toEqual(['RAIZ', 'PERFORMANCE', 'ELITE'])
-    expect(RECOMMENDATION_RULE_VERSION).toBe('1.0.0')
+    expect(CONSERVATIVE_PLAN_ORDER).toEqual(['RAIZ', 'FUERZA', 'RENDIMIENTO', 'ELITE'])
+    expect(RECOMMENDATION_RULE_VERSION).toBe('1.1.0')
 
     expect(Object.isFrozen(MOTIVATIONS)).toBe(true)
     expect(Object.isFrozen(EXPERIENCES)).toBe(true)
@@ -112,11 +112,11 @@ describe('reglas de recomendación explicable', () => {
       supportLevel: 'sesiones-privadas',
     })
 
-    expect(result.scores).toEqual({ RAIZ: 1, PERFORMANCE: 1, ELITE: 1 })
+    expect(result.scores).toEqual({ RAIZ: 1, FUERZA: 1, RENDIMIENTO: 0, ELITE: 1 })
     expect(result.planId).toBe('RAIZ')
     expect(result.decision).toMatchObject({
       type: 'conservative-tie-break',
-      candidates: ['RAIZ', 'PERFORMANCE', 'ELITE'],
+      candidates: ['RAIZ', 'FUERZA', 'ELITE'],
     })
     expect(result.decision.reason).toMatch(/regla conservadora.*menor alcance comercial/i)
   })
@@ -149,19 +149,19 @@ describe('reglas de recomendación explicable', () => {
     [
       { motivation: 'constancia', experience: 'inicio', supportLevel: 'estructura' },
       'RAIZ',
-      ['PERFORMANCE', 'ELITE'],
+      ['FUERZA', 'RENDIMIENTO', 'ELITE'],
     ],
     [
       { motivation: 'personalizacion', experience: 'constante', supportLevel: 'seguimiento-semanal' },
-      'PERFORMANCE',
-      ['RAIZ', 'ELITE'],
+      'FUERZA',
+      ['RAIZ', 'RENDIMIENTO', 'ELITE'],
     ],
     [
       { motivation: 'acompanamiento-directo', experience: 'constante', supportLevel: 'sesiones-privadas' },
       'ELITE',
-      ['RAIZ', 'PERFORMANCE'],
+      ['RAIZ', 'FUERZA', 'RENDIMIENTO'],
     ],
-  ])('devuelve %s con exactamente las otras dos alternativas', (input, expectedPlan, alternatives) => {
+  ])('devuelve %s con exactamente los otros tres planes como alternativas', (input, expectedPlan, alternatives) => {
     const result = recommendPlan(input)
 
     expect(result.planId).toBe(expectedPlan)

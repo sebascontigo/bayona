@@ -4,7 +4,7 @@ import { membershipPlanEditorialProjection } from '../../config/conversionConten
 /** @typedef {'inicio'|'retomo'|'constante'} Experience */
 /** @typedef {'estructura'|'seguimiento-semanal'|'sesiones-privadas'} SupportLevel */
 /** @typedef {'uno-dos'|'tres'|'cuatro-mas'} Availability */
-/** @typedef {'RAIZ'|'PERFORMANCE'|'ELITE'} CanonicalPlanId */
+/** @typedef {'RAIZ'|'FUERZA'|'RENDIMIENTO'|'ELITE'} CanonicalPlanId */
 /** @typedef {'motivation'|'experience'|'supportLevel'|'availability'} RecommendationField */
 
 /**
@@ -74,8 +74,10 @@ export const RECOMMENDATION_VOCABULARY = Object.freeze({
 
 /**
  * La versión cambia cuando cambia una regla, su puntuación o el orden de desempate.
+ * 1.1.0 — catálogo de cuatro planes (RAIZ, FUERZA, RENDIMIENTO, ELITE) y
+ * características re-publicadas por el catálogo vigente.
  */
-export const RECOMMENDATION_RULE_VERSION = '1.0.0'
+export const RECOMMENDATION_RULE_VERSION = '1.1.0'
 
 /**
  * Orden explícito de menor a mayor alcance comercial. Solo interviene si dos o
@@ -85,7 +87,8 @@ export const RECOMMENDATION_RULE_VERSION = '1.0.0'
  */
 export const CONSERVATIVE_PLAN_ORDER = Object.freeze([
   'RAIZ',
-  'PERFORMANCE',
+  'FUERZA',
+  'RENDIMIENTO',
   'ELITE',
 ])
 
@@ -118,39 +121,56 @@ function publishedIncludedFeature(id, planId, value) {
 }
 
 /**
- * Referencias verificadas al importar contra los objetos fuente conservados por
- * el adapter de 1.6. No incluyen precio, CTA, audiencia inferida ni datos de salud.
+ * Referencias verificadas al importar contra el catálogo publicado en
+ * Commercial_Config (membershipPlans). Cada cadena debe existir literalmente
+ * en el `included` del plan citado. No incluyen precio, CTA, audiencia
+ * inferida ni datos de salud.
  */
 export const PUBLISHED_RECOMMENDATION_FEATURES = Object.freeze({
   'RAIZ.adjustable-plan': publishedIncludedFeature(
     'RAIZ.adjustable-plan',
     'RAIZ',
-    'Plan mensual personalizado y ajustable',
+    'Plan de entrenamiento mensual personalizado',
   ),
   'RAIZ.biweekly-review': publishedIncludedFeature(
     'RAIZ.biweekly-review',
     'RAIZ',
-    'Control quincenal',
+    'Seguimiento quincenal con ajustes',
   ),
-  'PERFORMANCE.personalized-plan': publishedIncludedFeature(
-    'PERFORMANCE.personalized-plan',
-    'PERFORMANCE',
-    'Plan 100% personalizado',
+  'FUERZA.live-sessions': publishedIncludedFeature(
+    'FUERZA.live-sessions',
+    'FUERZA',
+    '2 sesiones virtuales 1:1 al mes con tu entrenador',
   ),
-  'PERFORMANCE.weekly-review': publishedIncludedFeature(
-    'PERFORMANCE.weekly-review',
-    'PERFORMANCE',
-    'Control semanal',
+  'FUERZA.weekly-review': publishedIncludedFeature(
+    'FUERZA.weekly-review',
+    'FUERZA',
+    'Seguimiento semanal con ajustes',
+  ),
+  'RENDIMIENTO.live-sessions': publishedIncludedFeature(
+    'RENDIMIENTO.live-sessions',
+    'RENDIMIENTO',
+    '4 sesiones virtuales 1:1 al mes con tu entrenador',
+  ),
+  'RENDIMIENTO.biomechanical-assessment': publishedIncludedFeature(
+    'RENDIMIENTO.biomechanical-assessment',
+    'RENDIMIENTO',
+    'Evaluación biomecánica inicial completa',
+  ),
+  'RENDIMIENTO.advanced-plan': publishedIncludedFeature(
+    'RENDIMIENTO.advanced-plan',
+    'RENDIMIENTO',
+    'Plan de alimentación avanzado con ajustes semanales',
   ),
   'ELITE.private-sessions': publishedIncludedFeature(
     'ELITE.private-sessions',
     'ELITE',
-    'Hasta 12 sesiones privadas al mes',
+    '8 sesiones privadas al mes (virtuales o presenciales en España)',
   ),
   'ELITE.direct-contact': publishedIncludedFeature(
     'ELITE.direct-contact',
     'ELITE',
-    'Contacto directo',
+    'WhatsApp DIRECTO con Sebastián (chat privado)',
   ),
 })
 
@@ -182,8 +202,10 @@ function createRule(
 
 /**
  * Cada respuesta cerrada activa exactamente una regla y un punto. Las razones
- * solo citan estructura ajustable/control quincenal, personalización/control
- * semanal o sesiones privadas/contacto directo publicados por Commercial_Config.
+ * solo citan características publicadas literalmente por Commercial_Config:
+ * estructura ajustable/seguimiento quincenal (RAÍZ), sesiones en vivo y
+ * seguimiento semanal (FUERZA), sesiones/evaluación/ajustes semanales
+ * (RENDIMIENTO) o sesiones privadas/contacto directo (ELITE).
  */
 export const RECOMMENDATION_RULES = Object.freeze([
   createRule(
@@ -192,23 +214,23 @@ export const RECOMMENDATION_RULES = Object.freeze([
     'constancia',
     'RAIZ',
     ['RAIZ.adjustable-plan', 'RAIZ.biweekly-review'],
-    'La motivación de construir constancia se orienta a RAÍZ por su plan ajustable y sus controles quincenales.',
+    'La motivación de construir constancia se orienta a RAÍZ por su plan ajustable y su seguimiento quincenal con ajustes.',
   ),
   createRule(
-    'motivation.comprension.performance-personalization',
+    'motivation.comprension.rendimiento-assessment',
     'motivation',
     'comprension',
-    'PERFORMANCE',
-    ['PERFORMANCE.personalized-plan', 'PERFORMANCE.weekly-review'],
-    'La motivación de comprender mejor el proceso se orienta a PERFORMANCE por su personalización y su control semanal.',
+    'RENDIMIENTO',
+    ['RENDIMIENTO.biomechanical-assessment'],
+    'La motivación de comprender mejor el proceso se orienta a RENDIMIENTO por su evaluación biomecánica inicial completa.',
   ),
   createRule(
-    'motivation.personalizacion.performance-plan',
+    'motivation.personalizacion.fuerza-plan',
     'motivation',
     'personalizacion',
-    'PERFORMANCE',
-    ['PERFORMANCE.personalized-plan'],
-    'La motivación de personalizar el camino se orienta a PERFORMANCE por su plan completamente personalizado.',
+    'FUERZA',
+    ['FUERZA.weekly-review'],
+    'La motivación de personalizar el camino se orienta a FUERZA por su seguimiento semanal con ajustes.',
   ),
   createRule(
     'motivation.acompanamiento-directo.elite-contact',
@@ -216,7 +238,7 @@ export const RECOMMENDATION_RULES = Object.freeze([
     'acompanamiento-directo',
     'ELITE',
     ['ELITE.direct-contact', 'ELITE.private-sessions'],
-    'La preferencia por acompañamiento directo se orienta a ELITE por su contacto directo y sus sesiones privadas publicadas.',
+    'La preferencia por acompañamiento directo se orienta a ELITE por su WhatsApp directo con Sebastián y sus sesiones privadas publicadas.',
   ),
   createRule(
     'experience.inicio.raiz-adjustable',
@@ -232,15 +254,15 @@ export const RECOMMENDATION_RULES = Object.freeze([
     'retomo',
     'RAIZ',
     ['RAIZ.adjustable-plan', 'RAIZ.biweekly-review'],
-    'Retomar una práctica se orienta a RAÍZ por su plan ajustable y sus controles quincenales.',
+    'Retomar una práctica se orienta a RAÍZ por su plan ajustable y su seguimiento quincenal con ajustes.',
   ),
   createRule(
-    'experience.constante.performance-follow-up',
+    'experience.constante.fuerza-follow-up',
     'experience',
     'constante',
-    'PERFORMANCE',
-    ['PERFORMANCE.personalized-plan', 'PERFORMANCE.weekly-review'],
-    'Una práctica constante se orienta a PERFORMANCE por su personalización y su control semanal.',
+    'FUERZA',
+    ['FUERZA.live-sessions', 'FUERZA.weekly-review'],
+    'Una práctica constante se orienta a FUERZA por sus sesiones en vivo y su seguimiento semanal con ajustes.',
   ),
   createRule(
     'supportLevel.estructura.raiz-plan',
@@ -251,12 +273,12 @@ export const RECOMMENDATION_RULES = Object.freeze([
     'Preferir una estructura se orienta a RAÍZ por su plan mensual ajustable.',
   ),
   createRule(
-    'supportLevel.seguimiento-semanal.performance-review',
+    'supportLevel.seguimiento-semanal.fuerza-review',
     'supportLevel',
     'seguimiento-semanal',
-    'PERFORMANCE',
-    ['PERFORMANCE.weekly-review'],
-    'Preferir seguimiento semanal se orienta a PERFORMANCE porque publica control semanal.',
+    'FUERZA',
+    ['FUERZA.weekly-review'],
+    'Preferir seguimiento semanal se orienta a FUERZA porque publica seguimiento semanal con ajustes.',
   ),
   createRule(
     'supportLevel.sesiones-privadas.elite-sessions',
@@ -275,12 +297,12 @@ export const RECOMMENDATION_RULES = Object.freeze([
     'Una disponibilidad de uno o dos momentos prioriza la estructura ajustable publicada por RAÍZ.',
   ),
   createRule(
-    'availability.tres.performance-weekly',
+    'availability.tres.rendimiento-weekly',
     'availability',
     'tres',
-    'PERFORMANCE',
-    ['PERFORMANCE.personalized-plan', 'PERFORMANCE.weekly-review'],
-    'Una disponibilidad de tres momentos orienta la comparación hacia la personalización y el control semanal de PERFORMANCE.',
+    'RENDIMIENTO',
+    ['RENDIMIENTO.live-sessions', 'RENDIMIENTO.advanced-plan'],
+    'Una disponibilidad de tres momentos orienta la comparación hacia las cuatro sesiones mensuales y los ajustes semanales publicados por RENDIMIENTO.',
   ),
   createRule(
     'availability.cuatro-mas.elite-sessions',

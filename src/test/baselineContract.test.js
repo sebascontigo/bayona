@@ -12,6 +12,11 @@ const PUBLIC_ROUTES = Object.freeze([
   '/',
   '/about',
   '/programs',
+  '/parkour-academy',
+  '/plan/raiz',
+  '/plan/fuerza',
+  '/plan/rendimiento',
+  '/plan/elite',
   '/shop',
   '/app',
   '/community',
@@ -20,11 +25,13 @@ const PUBLIC_ROUTES = Object.freeze([
   '/checkout',
   '/order-confirmation',
   '/onboarding',
+  '/entrar',
 ])
 
 const CANONICAL_PLANS = Object.freeze([
   { id: 'RAIZ', name: 'RAÍZ', priceCop: 149000 },
-  { id: 'PERFORMANCE', name: 'PERFORMANCE', priceCop: 399000 },
+  { id: 'FUERZA', name: 'FUERZA', priceCop: 299000 },
+  { id: 'RENDIMIENTO', name: 'RENDIMIENTO', priceCop: 499000 },
   { id: 'ELITE', name: 'ELITE', priceCop: 899000 },
 ])
 

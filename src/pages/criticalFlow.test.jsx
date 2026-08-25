@@ -20,7 +20,7 @@ describe('flujo de solicitud por WhatsApp', () => {
     expect(screen.getByRole('textbox', { name: 'Nombre' })).toBeInTheDocument()
     expect(screen.getByRole('textbox', { name: 'Email' })).toBeInTheDocument()
     expect(screen.getByRole('textbox', { name: 'WhatsApp' })).toBeInTheDocument()
-    expect(screen.getAllByRole('radio')).toHaveLength(3)
+    expect(screen.getAllByRole('radio')).toHaveLength(4)
     expect(screen.queryByText(/número de tarjeta|caducidad|cvc|pago seguro/i)).not.toBeInTheDocument()
   })
 

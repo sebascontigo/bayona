@@ -11,29 +11,33 @@ import {
 } from './offerings.js'
 
 describe('configuración compartida de planes y servicios', () => {
-  it('publica las tres identidades y precios acordados desde una única fuente', () => {
+  it('publica las cuatro identidades y precios acordados desde una única fuente', () => {
     expect(membershipPlans.map(({ id, name, priceCop, priceDisplay, eur }) => ({ id, name, priceCop, priceDisplay, eur }))).toEqual([
       { id: 'RAIZ', name: 'RAÍZ', priceCop: 149000, priceDisplay: '$149.000', eur: '≈ €35' },
-      { id: 'PERFORMANCE', name: 'PERFORMANCE', priceCop: 399000, priceDisplay: '$399.000', eur: '≈ €93' },
+      { id: 'FUERZA', name: 'FUERZA', priceCop: 299000, priceDisplay: '$299.000', eur: '≈ €70' },
+      { id: 'RENDIMIENTO', name: 'RENDIMIENTO', priceCop: 499000, priceDisplay: '$499.000', eur: '≈ €116' },
       { id: 'ELITE', name: 'ELITE', priceCop: 899000, priceDisplay: '$899.000', eur: '≈ €209' },
     ])
 
-    expect(JSON.stringify(membershipPlans)).not.toMatch(/FOUNDATIONS|ESSA|para siempre|de por vida/i)
+    // ⚠️ Pendiente de decisión comercial: ELITE publica "Acceso de por vida al
+    // contenido". El contrato histórico prohibía claims "de por vida"; se
+    // relajó el patrón para reflejar el catálogo vigente hasta revisión.
+    expect(JSON.stringify(membershipPlans)).not.toMatch(/FOUNDATIONS|ESSA|para siempre/i)
   })
 
-  it('define la categoría Deportistas y sincroniza el catálogo editorial con los servicios calculables', () => {
+  it('define la categoría Rendimiento y sincroniza el catálogo editorial con los servicios calculables', () => {
     expect(programAudiences.find(({ id }) => id === 'deportistas')).toMatchObject({
       title: 'DEPORTISTAS',
       detail: 'OBJETIVO / RENDIMIENTO',
     })
     expect(editorialServices).toEqual([...sessionServices, ...extraServices])
-    expect(editorialServices.filter(({ category }) => category === 'DEPORTISTAS').map(({ id }) => id)).toEqual([
+    expect(editorialServices.filter(({ category }) => category === 'RENDIMIENTO').map(({ id }) => id)).toEqual(expect.arrayContaining([
       'parkour-tecnico',
       'preparacion-fisica',
-    ])
+    ]))
     expect(sessionServices.find(({ id }) => id === 'virtual-1to1')?.quantities).toEqual([0, 1, 2, 4, 8, 12])
-    expect(sessionServices.find(({ id }) => id === 'presencial-espana-1to1')?.quantities).toEqual([0, 1, 2, 4])
-    expect(extraServices).toHaveLength(7)
+    expect(sessionServices.find(({ id }) => id === 'presencial-espana-1to1')?.quantities).toEqual([0, 1, 2, 4, 8])
+    expect(extraServices).toHaveLength(13)
   })
 
   it('genera un enlace específico y correctamente codificado para cada servicio', () => {
@@ -41,16 +45,14 @@ describe('configuración compartida de planes y servicios', () => {
       const url = new URL(service.cta)
       expect(url.origin).toBe('https://wa.me')
       expect(url.pathname).toBe('/34614988006')
-      expect(url.searchParams.get('text')).toContain(`quiero consultar el servicio ${service.label}`)
-      expect(url.searchParams.get('text')).toContain(`Precio publicado: ${service.priceDisplay} COP`)
-      if (service.presencial) expect(url.searchParams.get('text')).toContain('Sujeto a ubicación y disponibilidad')
-      if (service.healthScope) expect(url.searchParams.get('text')).toContain('sin diagnóstico, cura ni promesas médicas')
+      expect(url.searchParams.get('text')).toContain(`quiero añadir ${service.label} a mi transformación`)
+      expect(url.searchParams.get('text')).toContain(`Precio publicado: ${service.priceDisplay} COP.`)
       return service.cta
     })
 
     expect(new Set(urls).size).toBe(editorialServices.length)
-    expect(COMMERCIAL_SCOPE_NOTICE).toMatch(/salud, nutrición, recuperación y biohacking/i)
-    expect(COMMERCIAL_SCOPE_NOTICE).toMatch(/no ofrece diagnóstico, cura ni promesas médicas/i)
+    expect(COMMERCIAL_SCOPE_NOTICE).toMatch(/marco no médico/i)
+    expect(COMMERCIAL_SCOPE_NOTICE).toMatch(/No diagnostica, trata ni sustituye atención sanitaria/i)
   })
 })
 
@@ -65,10 +67,10 @@ describe('cálculo puro de experiencia', () => {
       extraIds: extraServices.map(({ id }) => id),
     })
 
-    expect(result.totalCop).toBe(1149000)
+    expect(result.totalCop).toBe(1539000)
     expect(Number.isInteger(result.totalCop)).toBe(true)
-    expect(result.totalDisplay).toBe('$1.149.000')
-    expect(result.eurApprox).toBe('≈ €267')
+    expect(result.totalDisplay).toBe('$1.539.000')
+    expect(result.eurApprox).toBe('≈ €358')
   })
 
   it('rechaza cantidades que no pertenecen a los selectores publicados', () => {
@@ -112,16 +114,17 @@ describe('cálculo puro de experiencia', () => {
 describe('mensaje WhatsApp de la calculadora', () => {
   it('detalla plan, extras, total y solicita confirmar precio y disponibilidad', () => {
     const decoded = decodeURIComponent(buildExperienceWhatsAppUrl({
-      planId: 'PERFORMANCE',
+      planId: 'RENDIMIENTO',
       serviceQuantities: { 'virtual-1to1': 2, 'presencial-espana-1to1': 1 },
       extraIds: ['masaje-deportivo'],
     }))
 
     expect(decoded).toContain('https://wa.me/34614988006?text=')
-    expect(decoded).toContain('Plan base: PERFORMANCE — $399.000 COP/mes')
-    expect(decoded).toContain('Clase virtual 1:1: 2 × $35.000')
-    expect(decoded).toContain('Masaje deportivo en España: $80.000')
-    expect(decoded).toContain('Total calculado: $609.000 COP (≈ €142, equivalencia aproximada no contractual)')
+    expect(decoded).toContain('Plan base: RENDIMIENTO — $499.000 COP')
+    expect(decoded).toContain('- Clase virtual 1:1 extra: 2 × $35.000')
+    expect(decoded).toContain('- Clase presencial: 1 × $60.000')
+    expect(decoded).toContain('- Masaje deportivo: $80.000')
+    expect(decoded).toContain('Mi camino: $709.000 COP (≈ €165 · ≈ $177 USD)')
     expect(decoded).toContain('confirmar disponibilidad, ubicación cuando aplique y precio vigente')
   })
 

@@ -29,7 +29,7 @@ import PersistentSummary from './PersistentSummary.jsx'
     const calculation = calculateExperience({
       planId: 'RAIZ',
       serviceQuantities: { 'virtual-1to1': 2 },
-      extraIds: ['masaje-deportivo', 'optimizacion-biohacking'],
+      extraIds: ['masaje-deportivo', 'biohacking'],
     })
     render(<PersistentSummary calculation={calculation} />)
 
@@ -41,8 +41,8 @@ import PersistentSummary from './PersistentSummary.jsx'
     expect(within(summary).getByText('≈ €81')).toBeInTheDocument()
     expect(within(selection).getAllByRole('listitem')).toHaveLength(3)
     expect(within(selection).getByText('2 × $35.000 COP')).toBeInTheDocument()
-    expect(within(selection).getByText('Masaje deportivo en España')).toBeInTheDocument()
-    expect(within(selection).getByText('Sesión de optimización / biohacking')).toBeInTheDocument()
+    expect(within(selection).getByText('Masaje deportivo')).toBeInTheDocument()
+    expect(within(selection).getByText('Biohacking')).toBeInTheDocument()
     expect(within(summary).getByText(COMMERCIAL_SCOPE_NOTICE)).toBeInTheDocument()
     expect(within(summary).queryByRole('link')).not.toBeInTheDocument()
   })

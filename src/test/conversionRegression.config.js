@@ -3,6 +3,10 @@ export const PUBLIC_ROUTES = Object.freeze([
   '/about',
   '/programs',
   '/parkour-academy',
+  '/plan/raiz',
+  '/plan/fuerza',
+  '/plan/rendimiento',
+  '/plan/elite',
   '/shop',
   '/app',
   '/community',
@@ -11,6 +15,7 @@ export const PUBLIC_ROUTES = Object.freeze([
   '/checkout',
   '/order-confirmation',
   '/onboarding',
+  '/entrar',
 ])
 
 export const VISUAL_QA_VIEWPORTS = Object.freeze([
