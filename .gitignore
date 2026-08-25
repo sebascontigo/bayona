@@ -7,7 +7,9 @@ BACKUP_BAYONA3D/
 test-results/
 playwright-report/
 coverage/
-e2e/
+# e2e/ NO se ignora: conversionRegression.test.jsx lee la suite via ?raw
+# (contrato de conversión). Los artefactos de Playwright ya cubren las
+# líneas de arriba.
 *EXPORT*
 .env
 .env.local

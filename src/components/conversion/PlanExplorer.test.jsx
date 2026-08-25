@@ -1,4 +1,5 @@
 import { cleanup, fireEvent, render, screen, within } from '@testing-library/react'
+import { MemoryRouter } from 'react-router-dom'
 import { afterEach, describe, expect, it } from 'vitest'
 import { membershipPlanEditorialProjection } from '../../config/conversionContent.js'
 import {
@@ -11,7 +12,11 @@ import PlanExplorer from './PlanExplorer.jsx'
 afterEach(cleanup)
 
 function renderExplorer() {
-  return render(<PlanExplorer />)
+  return render(
+    <MemoryRouter>
+      <PlanExplorer />
+    </MemoryRouter>,
+  )
 }
 
 function getActiveArticle() {

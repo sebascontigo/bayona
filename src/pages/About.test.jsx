@@ -10,6 +10,8 @@ vi.mock('framer-motion', () => ({
       React.createElement(tag, { ...props, ref }, children)
     )),
   }),
+  AnimatePresence: ({ children }) => children,
+  useReducedMotion: () => false,
 }))
 
 vi.mock('../components/Layout', () => ({

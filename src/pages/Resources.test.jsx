@@ -1,4 +1,5 @@
 import { cleanup, fireEvent, render, screen, within } from '@testing-library/react'
+import { MemoryRouter } from 'react-router-dom'
 import { readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { afterEach, describe, expect, it } from 'vitest'
@@ -9,7 +10,11 @@ import { resolveProfiles } from '../lib/social/platforms.js'
 const resourcesCss = readFileSync(resolve(process.cwd(), 'src/styles/resources.css'), 'utf8')
 
 function renderPage() {
-  return render(<Resources />)
+  return render(
+    <MemoryRouter>
+      <Resources />
+    </MemoryRouter>,
+  )
 }
 
 afterEach(cleanup)

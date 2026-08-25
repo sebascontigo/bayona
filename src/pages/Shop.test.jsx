@@ -12,7 +12,11 @@ vi.mock('framer-motion', () => {
     return React.createElement(tag, { ...domProps, ref }, children)
   })
 
-  return { motion: new Proxy({}, { get: (_, tag) => component(tag) }) }
+  return {
+    motion: new Proxy({}, { get: (_, tag) => component(tag) }),
+    AnimatePresence: ({ children }) => children,
+    useReducedMotion: () => false,
+  }
 })
 
 vi.mock('../components/Layout', () => ({
