@@ -1,6 +1,7 @@
 import { useId, useState } from 'react'
 import { membershipPlanEditorialProjection } from '../../config/conversionContent.js'
 import {
+  CONSERVATIVE_PLAN_ORDER,
   EXPERIENCES,
   MOTIVATIONS,
   RecommendationInputError,
@@ -158,9 +159,11 @@ export default function RecommendationGuide({
     try {
       const nextResult = recommendPlan(answers)
       const nextPlanIds = [nextResult.planId, ...nextResult.alternatives]
-      const hasExactCommercialProjection = nextPlanIds.length === 3
-        && new Set(nextPlanIds).size === 3
-        && planProjectionById.size === 3
+      // La proyección comercial debe cubrir exactamente el orden canónico
+      // vigente del motor (hoy: RAIZ, FUERZA, RENDIMIENTO, ELITE).
+      const hasExactCommercialProjection = nextPlanIds.length === CONSERVATIVE_PLAN_ORDER.length
+        && new Set(nextPlanIds).size === nextPlanIds.length
+        && planProjectionById.size === CONSERVATIVE_PLAN_ORDER.length
         && nextPlanIds.every((planId) => planProjectionById.has(planId))
 
       if (!hasExactCommercialProjection) {

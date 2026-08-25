@@ -7,22 +7,24 @@ describe('PlanCalculator', () => {
     render(<PlanCalculator />)
 
     expect(screen.getByRole('group', { name: /elige tu plan base/i })).toBeInTheDocument()
-    expect(screen.getByRole('group', { name: /añade clases 1:1/i })).toBeInTheDocument()
-    expect(screen.getByRole('group', { name: /elige extras/i })).toBeInTheDocument()
-    expect(screen.getByRole('radio', { name: /RAÍZ.*\$149\.000 COP\/mes/i })).toBeChecked()
-    expect(screen.getByRole('radio', { name: /PERFORMANCE.*\$399\.000 COP\/mes/i })).toBeInTheDocument()
-    expect(screen.getByRole('radio', { name: /ELITE.*\$899\.000 COP\/mes/i })).toBeInTheDocument()
+    expect(screen.getByRole('group', { name: /añade clases extra/i })).toBeInTheDocument()
+    expect(screen.getByRole('group', { name: /completa tu arsenal/i })).toBeInTheDocument()
+    expect(screen.getByRole('radio', { name: /RAÍZ.*\$149\.000/i })).toBeChecked()
+    expect(screen.getByRole('radio', { name: /FUERZA.*\$299\.000/i })).toBeInTheDocument()
+    expect(screen.getByRole('radio', { name: /RENDIMIENTO.*\$499\.000/i })).toBeInTheDocument()
+    expect(screen.getByRole('radio', { name: /ELITE.*\$899\.000/i })).toBeInTheDocument()
 
     fireEvent.change(screen.getByRole('combobox', { name: /clase virtual 1:1/i }), { target: { value: '2' } })
-    fireEvent.click(screen.getByRole('checkbox', { name: /masaje deportivo en españa/i }))
-    fireEvent.click(screen.getByRole('checkbox', { name: /optimización.*biohacking/i }))
+    fireEvent.click(screen.getByRole('checkbox', { name: /masaje deportivo/i }))
+    fireEvent.click(screen.getByRole('checkbox', { name: /^biohacking/i }))
 
-    expect(screen.getByText('$349.000 COP')).toBeInTheDocument()
-    const whatsapp = screen.getByRole('link', { name: /solicitar confirmación por whatsapp/i })
+    // RAÍZ 149.000 + 2×35.000 + masaje 80.000 + biohacking 50.000
+    expect(screen.getByText('$349.000 COP/mes')).toBeInTheDocument()
+    const whatsapp = screen.getByRole('link', { name: /dar el primer paso/i })
     const decodedUrl = decodeURIComponent(whatsapp.getAttribute('href'))
-    expect(decodedUrl).toContain('Total calculado: $349.000 COP')
-    expect(decodedUrl).toContain('Masaje deportivo en España: $80.000')
-    expect(decodedUrl).toContain('Sesión de optimización / biohacking: $50.000')
+    expect(decodedUrl).toContain('Mi camino: $349.000 COP')
+    expect(decodedUrl).toContain('- Masaje deportivo: $80.000')
+    expect(decodedUrl).toContain('- Biohacking: $50.000')
   })
 
   it('explica disponibilidad presencial y límites de salud sin garantías médicas', () => {

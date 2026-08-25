@@ -80,7 +80,7 @@ describe('RecommendationGuide — recomendación explicable', () => {
     const reasons = within(result).getByRole('list', { name: 'Razones de la orientación' })
     const alternatives = within(result).getByRole('navigation', { name: 'Compara los tres planes' })
 
-    expect(result).toHaveTextContent('Dominio')
+    expect(result).toHaveTextContent('Acompañamiento privado')
     expect(result).toHaveTextContent('Contar con acompañamiento directo')
     expect(result).toHaveTextContent('Mantengo una práctica constante')
     expect(result).toHaveTextContent('Sesiones privadas')
@@ -97,11 +97,11 @@ describe('RecommendationGuide — recomendación explicable', () => {
     })
 
     const links = within(alternatives).getAllByRole('link')
-    expect(links).toHaveLength(3)
     expect(links.map((link) => link.getAttribute('href'))).toEqual([
       '#plan-elite',
       '#plan-raiz',
-      '#plan-performance',
+      '#plan-fuerza',
+      '#plan-rendimiento',
     ])
     expect(links[0]).toHaveAttribute('data-recommendation-role', 'suggested')
     expect(links.slice(1).every((link) => (

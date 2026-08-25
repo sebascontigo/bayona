@@ -103,6 +103,11 @@ export default function PlanCalculator() {
                     <strong>{service.label}</strong>
                     <small>{service.description}</small>
                     <b>{formatCop(service.priceCop)} COP / sesión</b>
+                    {service.presencial && (
+                      <small className="calculator-presencial-note">
+                        Presencial en España · sujeto a ubicación y disponibilidad
+                      </small>
+                    )}
                   </span>
                   <span className="calculator-select-wrap">
                     <small>CANTIDAD</small>
@@ -153,6 +158,11 @@ export default function PlanCalculator() {
             ))}
           </div>
         </fieldset>
+
+        <p className="calculator-health-note">
+          Todo lo publicado aquí sobre salud, nutrición, recuperación y biohacking es educativa y de
+          bienestar: sin diagnóstico, cura ni promesas médicas. BAYONA no sustituye atención sanitaria.
+        </p>
       </div>
 
       <aside className="calculator-summary" aria-live="polite">

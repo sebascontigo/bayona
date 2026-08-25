@@ -25,7 +25,10 @@ describe('PaseBayona', () => {
     expect(pass).toHaveTextContent(/PASE BAYONA/i)
     expect(pass).toHaveTextContent(/VISITANTE · ACCESO TEMPORAL/i)
     expect(pass).toHaveTextContent(/OBJETIVO|EXPERIENCIA|RITMO SEMANAL|RUTA SUGERIDA/i)
-    expect(pass).toHaveTextContent('Pase temporal. No guardamos tus datos.')
-    expect(pass).not.toHaveTextContent(/CÓDIGO VISUAL|BYN-V|identificador permanente/i)
+    expect(pass).toHaveTextContent(/Este pase es temporal y se borra al salir\. No pedimos cuenta, nombre ni foto\./i)
+    // El pase puede mostrar un código visual, pero nunca presentarse como
+    // identificador permanente ni prometer persistencia del visitante.
+    expect(pass).toHaveTextContent(/NO ES UN IDENTIFICADOR PERMANENTE/i)
+    expect(pass).not.toHaveTextContent(/identificador permanente y único|tu código se guarda/i)
   })
 })

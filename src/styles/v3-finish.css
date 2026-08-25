@@ -1,0 +1,152 @@
+/*
+ * BAYONA · V3 FINISH — capa de acabado Awwwards-style
+ * ---------------------------------------------------------------------------
+ * Última hoja de la cascada a propósito. Solo añade pulido: nunca corrige ni
+ * compite con las hojas del sistema v2. Todo lo animado respeta
+ * prefers-reduced-motion (la política de motionProfile es ley).
+ */
+
+:root {
+  /* Acento champán: se usa en detalles mínimos (marcadores, subrayados,
+   * foco). Nunca en bloques grandes: el lujo de BAYONA es la contención. */
+  --luxury-accent: #c8b48a;
+  --luxury-accent-soft: rgba(200, 180, 138, 0.32);
+  --grain-opacity: 0.05;
+}
+
+/* --- Grano fílmico -------------------------------------------------------
+ * Textura viva sobre el negro puro. Un solo overlay global, sin imágenes
+ * externas (SVG embebido), por encima del contenido pero sin capturar
+ * puntero. En movimiento reducido queda estático: sigue funcionando. */
+body::after {
+  content: "";
+  position: fixed;
+  inset: -50%;
+  z-index: 2147483647;
+  pointer-events: none;
+  opacity: var(--grain-opacity);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.72' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  animation: grain-shift 1.1s steps(6) infinite;
+}
+
+@keyframes grain-shift {
+  0% { transform: translate(0, 0); }
+  20% { transform: translate(-2%, 2%); }
+  40% { transform: translate(2%, -1%); }
+  60% { transform: translate(-1%, -2%); }
+  80% { transform: translate(1%, 2%); }
+  100% { transform: translate(0, 0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body::after {
+    animation: none;
+  }
+}
+
+/* --- Selección y scrollbar ---------------------------------------------- */
+::selection {
+  color: var(--luxury-black);
+  background: var(--luxury-accent);
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(247, 245, 241, 0.28) transparent;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(247, 245, 241, 0.22);
+  border-radius: 0;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--luxury-accent-soft);
+}
+
+/* --- Foco editorial ------------------------------------------------------
+ * Anillo fino desplazado: visible para teclado, invisible al ratón. */
+:focus-visible {
+  outline: 1px solid var(--luxury-accent);
+  outline-offset: 4px;
+  border-radius: 0;
+}
+
+/* --- Marcadores y etiquetas ----------------------------------------------
+ * El detalle que distingue: los números de sección y labels monoespaciados
+ * llevan el acento champán antes que el contenido principal. */
+.section-label::before,
+.app-eyebrow::before,
+.eyebrow::before {
+  content: "";
+  display: inline-block;
+  width: 2.25rem;
+  height: 1px;
+  margin-right: 0.75rem;
+  vertical-align: middle;
+  background: linear-gradient(90deg, transparent, var(--luxury-accent));
+}
+
+/* --- Enlaces de texto ----------------------------------------------------
+ * Subrayado que se dibuja al pasar: transición de escala, no de color. */
+#main-content a:not([class]) {
+  text-decoration: none;
+  background-image: linear-gradient(var(--luxury-accent), var(--luxury-accent));
+  background-size: 0% 1px;
+  background-repeat: no-repeat;
+  background-position: 0 100%;
+  transition: background-size 0.45s var(--luxury-ease);
+}
+
+#main-content a:not([class]):hover,
+#main-content a:not([class]):focus-visible {
+  background-size: 100% 1px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #main-content a:not([class]) {
+    transition: none;
+    background-size: 100% 1px;
+  }
+}
+
+/* --- Imágenes de tarjeta -------------------------------------------------
+ * Respiración sutil al hover solo en dispositivos con puntero fino: la
+ * imagen escala dentro de su marco, el marco no cambia. */
+@media (hover: hover) and (pointer: fine) {
+  .app-feature-card,
+  .shop-item,
+  .plan-card {
+    overflow: hidden;
+  }
+
+  .app-feature-card img,
+  .shop-item img,
+  .plan-card img {
+    transition: transform 1.1s var(--luxury-ease);
+  }
+
+  .app-feature-card:hover img,
+  .shop-item:hover img,
+  .plan-card:hover img {
+    transform: scale(1.04);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .app-feature-card img,
+  .shop-item img,
+  .plan-card img {
+    transition: none !important;
+    transform: none !important;
+  }
+}

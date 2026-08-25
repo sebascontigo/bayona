@@ -87,7 +87,7 @@ describe('configuración del Content_Model', () => {
       claimType: 'aspiration',
       state: 'aspirational',
     })
-    expect(visionBlock.body).toMatch(/Esto no es magia ni promesa vacía/i)
+    expect(visionBlock.body).toMatch(/Esto no es una promesa\. Es lo que construye un método con dirección/i)
 
     expect(mechanismBlock.items).toHaveLength(3)
     expect(mechanismBlock.items.map(({ marker }) => marker)).toEqual(['01', '02', '03'])

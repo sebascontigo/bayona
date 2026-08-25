@@ -84,7 +84,7 @@ describe('PlanExplorer — showroom comercial fiel', () => {
     })).toHaveAttribute('href', plan.cta)
     expect(within(article).getByRole('link', {
       name: `Ver presentación de ${plan.name}`,
-    })).toHaveAttribute('href', plan.presentationUrl)
+    })).toHaveAttribute('href', `/plan/${plan.id}`)
   })
 })
 
@@ -148,7 +148,7 @@ describe('PlanExplorer — selección y progressive disclosure', () => {
       })).toHaveAttribute('href', plan.cta)
       expect(within(article).getByRole('link', {
         name: `Ver presentación de ${plan.name}`,
-      })).toHaveAttribute('href', plan.presentationUrl)
+      })).toHaveAttribute('href', `/plan/${plan.id}`)
 
       fireEvent.click(disclosure)
       const panel = document.getElementById(disclosure.getAttribute('aria-controls'))

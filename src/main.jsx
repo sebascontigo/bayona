@@ -44,6 +44,11 @@ import './styles/v2-hero-depth.css'
 import './styles/v2-image-grade.css'
 import './styles/v2-pricing.css'
 import './styles/v2-scroll-motion.css'
+/*
+ * V3 finish: grano fílmico, selección/scroll de lujo, acento champán y
+ * micro-interacciones. Última capa, solo añade pulido.
+ */
+import './styles/v3-finish.css'
 
 /**
  * Arranca la medición. No carga ningún proveedor hasta que haya consentimiento

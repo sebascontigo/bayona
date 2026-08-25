@@ -67,10 +67,15 @@ function ConfiguratorHarness() {
     render(<ConfiguratorHarness />)
     const categoryNavigation = screen.getByRole('navigation', { name: 'Categorías de servicios' })
 
+    const visitedCategories = new Set()
     for (const service of sessionServices) {
-      fireEvent.click(within(categoryNavigation).getByRole('button', {
-        name: `Explorar categoría ${service.category}`,
-      }))
+      // Varias sesiones comparten categoría: solo se explora la primera vez.
+      if (!visitedCategories.has(service.category)) {
+        fireEvent.click(within(categoryNavigation).getByRole('button', {
+          name: `Explorar categoría ${service.category}`,
+        }))
+        visitedCategories.add(service.category)
+      }
       const panel = screen.getByRole('region', { name: service.category })
 
       expect(within(panel).queryByText(`${service.priceDisplay} COP`)).not.toBeInTheDocument()
@@ -90,6 +95,11 @@ function ConfiguratorHarness() {
 
     const inPersonService = sessionServices.find(({ presencial }) => presencial)
     const inPersonPanel = screen.getByRole('region', { name: inPersonService.category })
+    // El acordeón mantiene un solo detalle abierto: tras el bucle queda
+    // expandido el último servicio; se vuelve a abrir el presencial.
+    fireEvent.click(within(inPersonPanel).getByRole('button', {
+      name: `Ver detalle y opciones de ${inPersonService.label}`,
+    }))
     expect(within(inPersonPanel).getByText(
       'presencial sujeto a ubicación y disponibilidad',
     )).toBeInTheDocument()
@@ -104,7 +114,7 @@ function ConfiguratorHarness() {
     expect(within(summary).getByText('$149.000 COP')).toBeInTheDocument()
 
     fireEvent.click(within(categoryNavigation).getByRole('button', {
-      name: 'Explorar categoría ENTRENAMIENTO ONLINE',
+      name: 'Explorar categoría CLASES',
     }))
     fireEvent.click(screen.getByRole('button', {
       name: `Ver detalle y opciones de ${sessionServices[0].label}`,
@@ -133,9 +143,9 @@ function ConfiguratorHarness() {
     expect(within(summary).getByText(extra.label)).toBeInTheDocument()
 
     fireEvent.click(screen.getByRole('radio', {
-      name: new RegExp(`${membershipPlans[1].name}.*\\$399\\.000`, 'i'),
+      name: new RegExp(`${membershipPlans[1].name}.*\\$299\\.000`, 'i'),
     }))
-    expect(within(summary).getByText('$549.000 COP')).toBeInTheDocument()
+    expect(within(summary).getByText('$449.000 COP')).toBeInTheDocument()
     expect(within(summary).getByText(membershipPlans[1].name)).toBeInTheDocument()
     expect(within(summary).queryByRole('link')).not.toBeInTheDocument()
   })
