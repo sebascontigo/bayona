@@ -80,7 +80,11 @@ function burst(slug, description, { width = 1600, height = 1000 } = {}) {
 
   return Object.freeze({
     key: `burst:${slug}`,
-    src: `${BURST_CDN}/${fileSlug}.jpg?width=${width}&format=pjpg&exif=0&iptc=0${cacheVariant}`,
+    // Las fotos se sirven desde el propio sitio (public/images/burst/):
+    // el CDN externo de Shopify se cuelga para algunos visitantes y
+    // dejaba media tienda sin imágenes. Sin query de ancho, StockImage
+    // usa un único src (sin srcset), suficiente a estos tamaños.
+    src: `/images/burst/${fileSlug}.jpg?v=${encodeURIComponent(slug)}&w=${width}`,
     description: mediaDescription,
     source: 'Burst by Shopify',
     sourceUrl: `${BURST_PAGE}/${mediaSlug}`,
