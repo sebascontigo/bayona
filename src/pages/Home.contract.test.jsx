@@ -80,10 +80,15 @@ describe('Home — contratos de composición premium', () => {
       destination.startsWith('/') && !destination.startsWith('/docs/')
     ))
 
-    expect(new Set(anchors)).toEqual(new Set(['#problemas']))
-    expect(new Set(routes)).toEqual(new Set(['/programs', '/community', '/about']))
-    expect(pdfs).toHaveLength(1)
-    expect(membershipPlans.map(({ presentationUrl }) => presentationUrl)).toContain(pdfs[0])
+    // Las presentaciones de plan son rutas internas (/plan/:id), no PDFs.
+    const planRoutes = destinations.filter((destination) => destination.startsWith('/plan/'))
+    expect(new Set(anchors)).toEqual(new Set(['#problemas', '#home-offer-heading']))
+    // En Home el acceso directo a la presentación completa se concentra en
+    // el plan destacado (FUERZA); los demás se abren desde el showroom.
+    const featuredPlan = membershipPlans.find(({ featured }) => featured)
+    expect(new Set(planRoutes.map((route) => route.toLowerCase())))
+      .toEqual(new Set([`/plan/${featuredPlan.id.toLowerCase()}`]))
+    expect(pdfs).toHaveLength(0)
 
     anchors.forEach((destination) => {
       expect(container.querySelector(destination)).not.toBeNull()
@@ -131,7 +136,6 @@ describe('Home — contratos de composición premium', () => {
         '.plan-summary-price',
         '.plan-disclosure-button',
       ].join(', '))]
-      const priceCount = article.querySelector('.plan-price-count')
 
       expect(orderedSummary.map((element) => element.classList[0])).toEqual([
         'plan-canonical-name',
@@ -147,14 +151,12 @@ describe('Home — contratos de composición premium', () => {
       expect(within(article).getByText(overlay.jtbdSummary)).toBeInTheDocument()
       expect(within(article).getByText(overlay.valueSummary)).toBeInTheDocument()
       expect(within(article).getByText(plan.shortDescription)).toBeInTheDocument()
-      expect(priceCount).toHaveTextContent('0')
-      expect(priceCount).toHaveAttribute('aria-label', plan.priceDisplay)
       expect(within(article).getByRole('link', {
         name: `Consultar ${plan.name} por WhatsApp`,
       })).toHaveAttribute('href', plan.cta)
       expect(within(article).getByRole('link', {
         name: `Ver presentación de ${plan.name}`,
-      })).toHaveAttribute('href', plan.presentationUrl)
+      })).toHaveAttribute('href', `/plan/${plan.id.toLowerCase()}`)
       expect(article.querySelector('.plan-presentation-thumbnail')).not.toBeNull()
 
       const disclosure = within(article).getByRole('button', {

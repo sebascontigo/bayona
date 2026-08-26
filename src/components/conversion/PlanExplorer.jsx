@@ -213,7 +213,7 @@ export default function PlanExplorer({
                 ELEGIR {plan.name} <MoveRight size={17} aria-hidden="true" />
               </a>
               <Link
-                to={`/plan/${plan.id}`}
+                to={`/plan/${plan.id.toLowerCase()}`}
                 className="plan-presentation-link"
                 aria-label={`Ver presentación de ${plan.name}`}
               >

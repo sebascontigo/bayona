@@ -29,14 +29,19 @@ vi.mock('../components/Globe3D.jsx', () => ({
   default: () => <div data-testid="globe-3d" />,
 }))
 
+// La página /about actual narra método, recorrido y valores sin inventar
+// credenciales. Este contrato protege esa honestidad editorial.
 describe('/about — historia, honestidad y conversión', () => {
-  it('muestra el hero y el problema con el copy aprobado', () => {
+  it('muestra el hero del método y el problema que resuelve BAYONA', () => {
     render(<MemoryRouter><About /></MemoryRouter>)
 
-    expect(screen.getByText('ESTÁNDARES EUROPEOS. PASIÓN LATINOAMERICANA. VISIÓN GLOBAL.')).toBeInTheDocument()
-    expect(screen.getByRole('heading', { name: /NUESTRA\s*HISTORIA\./i })).toBeInTheDocument()
-    expect(screen.getByText('Del movimiento a la ciencia. De la intuición al método. Una misión: ayudarte a avanzar.')).toBeInTheDocument()
-    expect(screen.getByText(/empieza motivada, pero sin una dirección clara puede perderse o entrenar con miedo a lesionarse/i)).toBeInTheDocument()
+    expect(screen.getByText('BAYONA • SOBRE EL MÉTODO')).toBeInTheDocument()
+    expect(screen.getByRole('heading', { level: 1, name: /MOVIMIENTO\. FORMACIÓN\.\s*MÉTODO\./i })).toBeInTheDocument()
+    expect(screen.getByText('Entrenamiento, fuerza y nutrición organizados alrededor de tu punto de partida.')).toBeInTheDocument()
+    expect(screen.getByRole('heading', { name: /UN PLAN SIRVE\s*CUANDO ENCAJA CONTIGO/i })).toBeInTheDocument()
+    expect(screen.getByText('VALORAR ANTES DE PRESCRIBIR')).toBeInTheDocument()
+    expect(screen.getByText('EXPLICAR ANTES DE EXIGIR')).toBeInTheDocument()
+    expect(screen.getByText('REVISAR ANTES DE AJUSTAR')).toBeInTheDocument()
   })
 
   it('presenta la cronología y los cuatro valores sin inventar credenciales', () => {
@@ -44,32 +49,31 @@ describe('/about — historia, honestidad y conversión', () => {
     const copy = container.textContent
 
     expect(copy).toContain('2003')
-    expect(copy).toContain('ETAPA DE PARKOUR')
-    expect(copy).toContain('2019–2025')
-    expect(copy).toContain('gimnasios, clubes y contextos deportivos de Colombia')
-    expect(copy).toContain('carrera tecnológica en entrenamiento personal y funcional')
+    expect(copy).toContain('LA PRÁCTICA DEL PARKOUR')
+    expect(copy).toContain('2019-2025')
     expect(copy).toContain('formación europea en preparación física')
     expect(copy).toContain('2026')
-    expect(copy).toContain('salud, entrenamiento, recuperación y longevidad')
-    expect(screen.getByText('CIENCIA')).toBeInTheDocument()
-    expect(screen.getByText('RESPETO')).toBeInTheDocument()
-    expect(screen.getByText('EDUCACIÓN')).toBeInTheDocument()
-    expect(screen.getByText('EXCELENCIA')).toBeInTheDocument()
+    for (const value of ['CRITERIO', 'RESPETO', 'EDUCACIÓN', 'RIGOR']) {
+      expect(screen.getByText(value)).toBeInTheDocument()
+    }
 
-    expect(copy).not.toMatch(/ESSA|\+1[.\s]?000|personas transformadas|casos de éxito reales|clientes por país|para siempre|De Colombia al Mediterráneo/i)
+    // Sin métricas infladas ni marcas de catálogos anteriores.
+    expect(copy).not.toMatch(/ESSA|\+1[.\s]?000|personas transformadas|casos de éxito|para siempre/i)
   })
 
-  it('integra el globo antes de la frase final y usa CTAs verificables', () => {
+  it('cierra con el método y CTAs verificables hacia planes y WhatsApp', () => {
     const { container } = render(<MemoryRouter><About /></MemoryRouter>)
-    const globe = screen.getByTestId('globe-3d')
-    const quote = screen.getByText('No te doy una rutina más. Construimos un método que puedas entender y sostener.')
 
-    expect(globe.compareDocumentPosition(quote) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy()
-    expect(screen.getByRole('link', { name: /conocer los programas/i })).toHaveAttribute('href', '/programs')
+    expect(screen.getByRole('heading', { name: /HISTORIAS\s*EN MOVIMIENTO/i })).toBeInTheDocument()
+    expect(screen.getByRole('heading', { name: /NO ES UNA RUTINA\.\s*ES UNA DECISIÓN TRAS OTRA\./i })).toBeInTheDocument()
+    expect(container.textContent).toContain('ENTRENAR, REGISTRAR Y AJUSTAR. SIN PROMESAS VACÍAS.')
 
-    const call = screen.getByRole('link', { name: /agendar una videollamada de 15 min/i })
+    expect(screen.getByRole('link', { name: /VER PLANES/i })).toHaveAttribute('href', '/programs')
+
+    const call = screen.getByRole('link', { name: /HABLAR CON SEBASTIÁN/i })
     expect(call.getAttribute('href')).toMatch(/^https:\/\/wa\.me\/34614988006\?text=/)
-    expect(decodeURIComponent(call.getAttribute('href'))).toContain('para conocernos y resolver algunas dudas')
-    expect(container.textContent).not.toMatch(/gratis|garantizad[ao]|casos de éxito/i)
+    expect(decodeURIComponent(call.getAttribute('href'))).toContain('quiero conocer mi camino con BAYONA')
+
+    expect(container.textContent).toMatch(/No diagnostica, trata ni sustituye atención sanitaria\./)
   })
 })

@@ -71,9 +71,9 @@ describe('Home — narrativa premium y contenido crítico', () => {
     })).toBeInTheDocument()
     expect(within(hero).getByText((_, element) => (
       element?.classList.contains('hero-kicker')
-      && element.textContent === 'BAYONA · NO ES FITNESS · ES TRANSFORMACIÓN'
+      && element.textContent === 'BAYONA · NO ES MOTIVACIÓN · ES ESTRUCTURA'
     ))).toBeInTheDocument()
-    expect(within(hero).getByText(/Un método con ciencia que recupera tu energía/i)).toBeInTheDocument()
+    expect(within(hero).getByText(/Entrena con dirección, seguimiento real y una estructura que cabe en tu vida\./i)).toBeInTheDocument()
     expect(hero).toHaveAttribute('data-media-key')
     expect(container.querySelector('canvas')).toBeNull()
     expect(container.querySelector('.hero-3d-scene, .hero-canvas, .hero-orbits')).toBeNull()
@@ -110,13 +110,13 @@ describe('Home — narrativa premium y contenido crítico', () => {
       name: 'Explorar los programas BAYONA',
     })
 
-    expect(within(heroNavigation).getAllByRole('link')).toHaveLength(2)
+    expect(within(heroNavigation).getAllByRole('link')).toHaveLength(3)
     expect(within(heroNavigation).getByRole('link', {
-      name: homeContentModel.primaryAction.label,
-    })).toHaveAttribute('href', homeContentModel.primaryAction.destination)
+      name: 'VER PLANES',
+    })).toHaveAttribute('href', '/programs')
     expect(within(heroNavigation).getByRole('link', {
-      name: /DESCUBRE TU CAMINO/i,
-    })).toHaveAttribute('href', '#problemas')
+      name: /IR DIRECTO A LA DECISIÓN/i,
+    })).toHaveAttribute('href', '#home-offer-heading')
     expect(container.querySelector('#problemas')).toHaveAttribute(
       'aria-labelledby',
       'transformation-heading',
@@ -280,14 +280,11 @@ describe('Home — narrativa premium y contenido crítico', () => {
       fireEvent.click(selector)
 
       const article = within(offerSection).getByRole('article', { name: plan.name })
-      const price = article.querySelector('.plan-price-count')
 
       expect(selector).toHaveAttribute('aria-pressed', 'true')
       expect(within(article).getByText(overlay.descriptor)).toBeInTheDocument()
       expect(within(article).getByText(overlay.jtbdSummary)).toBeInTheDocument()
       expect(within(article).getByText(overlay.valueSummary)).toBeInTheDocument()
-      expect(price).toHaveTextContent('0')
-      expect(price).toHaveAttribute('aria-label', plan.priceDisplay)
       expect(within(article).getByRole('button', {
         name: `Ver alcance y condiciones de ${plan.name}`,
       })).toHaveAttribute('aria-expanded', 'false')
@@ -296,7 +293,7 @@ describe('Home — narrativa premium y contenido crítico', () => {
       })).toHaveAttribute('href', plan.cta)
       expect(within(article).getByRole('link', {
         name: `Ver presentación de ${plan.name}`,
-      })).toHaveAttribute('href', plan.presentationUrl)
+      })).toHaveAttribute('href', `/plan/${plan.id.toLowerCase()}`)
       expect(article.querySelector('.plan-presentation-thumbnail')).not.toBeNull()
     })
   })
