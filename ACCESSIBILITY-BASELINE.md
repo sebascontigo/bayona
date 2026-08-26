@@ -11,7 +11,7 @@ commit BASELINE. Sin herramientas de visión: lo que requiere inspección visual
 | Fichero | Regla | Problema |
 |---|---|---|
 | `src/components/VideoSection.jsx:71` | `jsx-a11y/media-has-caption` | El `<video>` no tiene `<track>` de subtítulos |
-| `src/components/RecommendationGuide.jsx:230` | `jsx-a11y/role-supports-aria-props` | `aria-invalid` sobre un `input` con rol implícito `radio` (atributo no soportado por ese rol) |
+| ~~`src/components/RecommendationGuide.jsx:230`~~ | ~~`jsx-a11y/role-supports-aria-props`~~ | **RESUELTO en Fase 2 (2026-08-26):** `aria-invalid` se movió de cada radio al `fieldset role="radiogroup"` (rol que sí lo soporta), con `aria-labelledby` al legend. Warning eliminado; ver FASE2-CIERRE.md §2E |
 
 Ambos son deuda real menor; se corrigen en las Fases 10/11 (no en la baseline).
 
@@ -42,8 +42,8 @@ Ambos son deuda real menor; se corrigen en las Fases 10/11 (no en la baseline).
 4. **CustomCursor**: el cursor personalizado debe respetar `prefers-reduced-motion`
    y no interferir con el foco del sistema; además está duplicado (ver
    DESIGN-AUDIT.md). Se revisa al unificarlo.
-5. **`aria-invalid` mal aplicado** en el recomendador (§1): corregir al trabajar
-   el recomendador (resto de Fase 2).
+5. ~~**`aria-invalid` mal aplicado** en el recomendador (§1)~~ — **resuelto en la
+   Fase 2** (radiogroup + tests actualizados).
 
 ## 4. Disciplina acordada
 

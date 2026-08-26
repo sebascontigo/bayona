@@ -1,22 +1,27 @@
-# TEST-MATRIX — Los 212 tests de BAYONA
+# TEST-MATRIX — Los 217 tests de BAYONA
 
 **Fase 1 (plan 1.5–1.6).** Estado en el commit BASELINE `8e67cd2`:
 **48 ficheros, 212 tests, 0 fallos, 0 saltados** (verificado con `vitest --run`,
 reporter JSON; el grep de `test.skip|it.skip|describe.skip|xit|xdescribe` no encuentra
 nada en `src/` ni `e2e/`).
 
+**Actualización Fase 2 (2026-08-26):** **49 ficheros, 217 tests, 0 fallos, 0 saltados.**
+Nuevos: `src/test/commercialSync.test.jsx` (4 tests de sincronización comercial) y
+1 test en `pages/Checkout.test.jsx` (los 4 planes de principio a fin). Detalle en FASE2-CIERRE.md.
+
 Regla de oro del proyecto: **prohibido saltar tests.** Cada fallo se clasifica y se
 resuelve por su causa raíz (taxonomía A–G del plan).
 
-## 1. Matriz por fichero (212 tests)
+## 1. Matriz por fichero (217 tests)
 
-### Contratos globales (10)
+### Contratos globales (14)
 | Fichero | Tests | Qué vigila |
 |---|---|---|
 | src/test/baselineContract.test.js | 4 | 17 rutas sin duplicados + 404, planes canónicos (id/nombre/precio COP), WhatsApp oficial, stack |
+| src/test/commercialSync.test.jsx | 4 | Fase 2: orden canónico ↔ catálogo ↔ rutas /plan/* ↔ presentaciones; 36 combinaciones del Inicio Guiado sin slugs fantasma; 4 PDFs existen y presentationUrl apunta al fichero; anclajes #plan-* del recomendador existen en PlanExplorer |
 | src/test/conversionRegression.test.jsx | 6 | Gate acumulativo de conversión: hitos home, e2e con emulación/capturas/teclado, recorrido |
 
-### Páginas (52)
+### Páginas (53)
 | Fichero | Tests | Fichero | Tests |
 |---|---|---|---|
 | pages/Home.test.jsx | 12 | pages/FAQ.test.jsx | 4 |
@@ -24,7 +29,7 @@ resuelve por su causa raíz (taxonomía A–G del plan).
 | pages/AppExperience.test.jsx | 6 | pages/Shop.test.jsx | 4 |
 | pages/Resources.test.jsx | 5 | pages/About.test.jsx | 3 |
 | pages/criticalFlow.test.jsx | 3 | pages/ParkourAcademy.test.jsx | 3 |
-| pages/Programs.test.jsx | 3 | pages/Checkout.test.jsx | 2 |
+| pages/Programs.test.jsx | 3 | pages/Checkout.test.jsx | 3 |
 
 ### Componentes (28)
 | Fichero | Tests | Fichero | Tests |
