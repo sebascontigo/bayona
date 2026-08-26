@@ -6,10 +6,11 @@ import Bridge from '../components/Bridge'
 import VideoSection from '../components/VideoSection.jsx'
 import { sceneBackgroundProps } from '../components/SceneBackground.jsx'
 import { siteMedia } from '../config/siteMedia.js'
+import { whatsAppLink } from '../config/site.config.js'
 // app.css era global en main.jsx (88 kB en todas las rutas). Ahora viaja con /app.
 import '../styles/app.css'
 
-const WHATSAPP_EARLY_ACCESS_URL = 'https://wa.me/34614988006?text=Hola%20BAYONA%2C%20quiero%20recibir%20novedades%20sobre%20BAYONA%2B%2C%20que%20est%C3%A1%20en%20desarrollo.'
+const WHATSAPP_EARLY_ACCESS_URL = whatsAppLink('Hola BAYONA, quiero recibir novedades sobre BAYONA+, que está en desarrollo.')
 
 const VISION_POINTS = [
   'Consultar el plan del día y sus indicaciones desde un mismo lugar.',

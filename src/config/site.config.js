@@ -13,7 +13,7 @@
 
 /** Dominio canónico. Sobrescribible en despliegue con VITE_SITE_URL. */
 const RAW_SITE_URL =
-  (typeof import.meta !== 'undefined' && import.meta.env?.VITE_SITE_URL) || 'https://sebasbayona.co'
+  (typeof import.meta !== 'undefined' && import.meta.env?.VITE_SITE_URL) || 'https://bayona-jet.vercel.app'
 
 /** Normaliza a origen sin barra final para poder concatenar rutas con seguridad. */
 export const SITE_URL = String(RAW_SITE_URL).replace(/\/+$/, '')

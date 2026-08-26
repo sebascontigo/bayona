@@ -1,4 +1,8 @@
-export const WHATSAPP_NUMBER = '34614988006'
+// El número vive en site.config.js (fuente única de verdad). Aquí se
+// re-exporta para no romper los imports existentes.
+import { WHATSAPP_NUMBER, whatsAppLink } from './site.config.js'
+
+export { WHATSAPP_NUMBER }
 
 const COP_PER_EUR_REFERENCE = 4300
 const COP_PER_USD_REFERENCE = 4000
@@ -16,7 +20,7 @@ export function formatUsdApprox(valueCop) {
 }
 
 export function buildWhatsAppUrl(message) {
-  return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`
+  return whatsAppLink(message)
 }
 
 function buildPlanWhatsAppUrl(plan) {

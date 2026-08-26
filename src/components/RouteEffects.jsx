@@ -24,18 +24,25 @@ import '../styles/route-effects.css'
 export default function RouteEffects() {
   const { pathname } = useLocation()
   const [announcement, setAnnouncement] = useState('')
-  /** La carga inicial no se anuncia ni roba el foco: sería intrusivo. */
-  const isFirstRender = useRef(true)
+  /**
+   * La carga inicial no se anuncia ni roba el foco: sería intrusivo. Se guarda
+   * la ruta anterior en vez de un booleano porque StrictMode (dev) re-ejecuta
+   * los efectos al montar: con un booleano, la segunda pasada se creía una
+   * navegación y movía el foco a <main> nada más cargar, rompiendo el orden de
+   * tabulación real (el skip link dejaba de ser el primer foco).
+   */
+  const prevPathname = useRef(null)
 
   useEffect(() => {
     const meta = resolveRouteMeta(pathname)
 
     trackPageView({ path: pathname, title: meta.fullTitle })
 
-    if (isFirstRender.current) {
-      isFirstRender.current = false
+    if (prevPathname.current === null || prevPathname.current === pathname) {
+      prevPathname.current = pathname
       return
     }
+    prevPathname.current = pathname
 
     setAnnouncement(meta.fullTitle)
 

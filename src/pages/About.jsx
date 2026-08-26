@@ -6,6 +6,7 @@ import Bridge from '../components/Bridge'
 import { sceneBackgroundProps } from '../components/SceneBackground.jsx'
 import { PageHero, SectionLabel } from '../components/Layout'
 import { siteMedia } from '../config/siteMedia.js'
+import { whatsAppLink } from '../config/site.config.js'
 import { useCapabilities } from '../engine/hooks/useCapabilities.js'
 import '../styles/about.css'
 
@@ -61,7 +62,7 @@ const methodSteps = [
   },
 ]
 
-const sebastianWhatsAppUrl = 'https://wa.me/34614988006?text=Hola%20Sebasti%C3%A1n%2C%20quiero%20conocer%20mi%20camino%20con%20BAYONA.'
+const sebastianWhatsAppUrl = whatsAppLink('Hola Sebastián, quiero conocer mi camino con BAYONA.')
 
 export default function About() {
   const { reducedMotion } = useCapabilities()

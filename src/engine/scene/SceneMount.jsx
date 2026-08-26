@@ -19,17 +19,44 @@
 // del contenido del hero mediante z-index; la UI debe ocupar una capa superior
 // (lo garantizan `PageHero` y los consumidores directos).
 
-import { lazy, Suspense, useCallback, useState } from 'react'
+import { Component, lazy, Suspense, useCallback, useState } from 'react'
 // Imports DIRECTOS (no el barrel del engine) para no arrastrar otros modulos ni
 // romper el code-splitting: solo logica pura + lectura de capacidades.
 import { resolveSceneConfig } from '../config/sceneConfig.js'
 import { useCapabilities } from '../hooks/useCapabilities.js'
+import { trackEvent } from '../../lib/analytics/analytics.js'
 
 // Carga diferida del host del lienzo: aisla `@react-three/fiber` en su propio
 // chunk. Las rutas sin escena NO descargan este modulo (R22.7).
 const Scene3D = lazy(() =>
   import('./Scene3D.jsx').then((module) => ({ default: module.Scene3D })),
 )
+
+/**
+ * Barrera local de la escena 3D. La capa es decorativa (`aria-hidden`): si
+ * Three.js o R3F fallan (WebGL inestable, contexto perdido, bug de escena),
+ * la barrera retira el lienzo en silencio y el contenido de la pagina sigue
+ * funcionando. Sin ella, el error subiria hasta AppErrorBoundary y tumbaria la
+ * pagina entera con la pantalla de recarga. Mismo patron que GlobeErrorBoundary.
+ */
+class SceneErrorBoundary extends Component {
+  constructor(props) {
+    super(props)
+    this.state = { failed: false }
+  }
+
+  static getDerivedStateFromError() {
+    return { failed: true }
+  }
+
+  componentDidCatch(error) {
+    trackEvent('scene_3d_error', { message: String(error?.message ?? error) })
+  }
+
+  render() {
+    return this.state.failed ? null : this.props.children
+  }
+}
 
 /**
  * Montador de escena 3D para una ruta o seccion.
@@ -67,17 +94,19 @@ export function SceneMount({ config, className, style }) {
   }
 
   return (
-    <div
-      ref={connectToParent}
-      className={className}
-      // La capa visual acepta puntero para la interacción 3D. Scene3D conecta
-      // además el event manager de R3F al hero padre; la UI permanece por encima.
-      style={{ position: 'absolute', inset: 0, zIndex: 0, pointerEvents: 'auto', ...style }}
-      aria-hidden="true"
-    >
-      <Suspense fallback={null}>
-        <Scene3D config={resolved} eventSource={eventSource} />
-      </Suspense>
-    </div>
+    <SceneErrorBoundary>
+      <div
+        ref={connectToParent}
+        className={className}
+        // La capa visual acepta puntero para la interacción 3D. Scene3D conecta
+        // además el event manager de R3F al hero padre; la UI permanece por encima.
+        style={{ position: 'absolute', inset: 0, zIndex: 0, pointerEvents: 'auto', ...style }}
+        aria-hidden="true"
+      >
+        <Suspense fallback={null}>
+          <Scene3D config={resolved} eventSource={eventSource} />
+        </Suspense>
+      </div>
+    </SceneErrorBoundary>
   )
 }

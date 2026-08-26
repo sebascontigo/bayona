@@ -1,6 +1,6 @@
 import { siteMedia } from './siteMedia.js'
+import { whatsAppLink } from './site.config.js'
 
-const WHATSAPP_NUMBER = '34614988006'
 const COP_PER_EUR_REFERENCE = 4300
 const COP_PER_USD_REFERENCE = 4000
 
@@ -69,7 +69,7 @@ const collectionById = new Map(shopCollections.map((collection) => [collection.i
 
 function buildShopWhatsAppUrl(product) {
   const message = `Hola BAYONA, quiero ${product.name} (${product.priceDisplay})`
-  return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`
+  return whatsAppLink(message)
 }
 
 function createProduct(product, index) {

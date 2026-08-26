@@ -17,7 +17,7 @@
  *
  * Variables de entorno (todas opcionales):
  *   VITE_GA4_ID           p. ej. G-XXXXXXXXXX
- *   VITE_PLAUSIBLE_DOMAIN p. ej. sebasbayona.co
+ *   VITE_PLAUSIBLE_DOMAIN p. ej. bayona-jet.vercel.app
  *   VITE_META_PIXEL_ID    p. ej. 1234567890
  *   VITE_ANALYTICS_DEBUG  'true' para volcar los eventos por consola
  */

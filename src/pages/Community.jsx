@@ -22,13 +22,13 @@ import VideoSection from '../components/VideoSection.jsx'
 import { sceneBackgroundProps } from '../components/SceneBackground.jsx'
 import Glyph from '../components/social/Glyph'
 import { siteMedia } from '../config/siteMedia.js'
+import { whatsAppLink } from '../config/site.config.js'
 import { overrides as socialOverrides, socialLinks } from '../config/social.config'
 import { fetchFeed } from '../lib/social/feed'
 import { resolveProfiles } from '../lib/social/platforms'
 import '../styles/community.css'
 
-const whatsappMessage = encodeURIComponent('Hola BAYONA, quiero unirme a la comunidad. ¿Cómo entro?')
-const whatsappUrl = `https://wa.me/34614988006?text=${whatsappMessage}`
+const whatsappUrl = whatsAppLink('Hola BAYONA, quiero unirme a la comunidad. ¿Cómo entro?')
 
 const profiles = resolveProfiles(socialLinks).map((profile) => ({
   ...profile,

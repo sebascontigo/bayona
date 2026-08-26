@@ -4,6 +4,7 @@ import { ArrowUpRight, Menu, MessageCircle, ShoppingCart, X } from 'lucide-react
 import { Link, NavLink } from 'react-router-dom'
 import { Toaster } from 'sonner'
 import { socialLinks } from '../config/social.config'
+import { whatsAppLink } from '../config/site.config.js'
 import { resolveProfiles } from '../lib/social/platforms'
 import { selectCartCount, useCartStore } from '../store/cartStore.js'
 import CartDrawer from './cart/CartDrawer.jsx'
@@ -182,8 +183,8 @@ export function Footer() {
 }
 
 export function WhatsAppButton() {
-  const message = encodeURIComponent('Hola BAYONA, quiero conocer el camino que mejor encaja conmigo.')
-  return <a className="whatsapp-button" href={`https://wa.me/34614988006?text=${message}`} target="_blank" rel="noreferrer" aria-label="Hablar con BAYONA por WhatsApp"><MessageCircle size={20} strokeWidth={1} /><span>Hablemos</span></a>
+  const href = whatsAppLink('Hola BAYONA, quiero conocer el camino que mejor encaja conmigo.')
+  return <a className="whatsapp-button" href={href} target="_blank" rel="noreferrer" aria-label="Hablar con BAYONA por WhatsApp"><MessageCircle size={20} strokeWidth={1} /><span>Hablemos</span></a>
 }
 
 export function SectionLabel({ children }) {

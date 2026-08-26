@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { SectionLabel } from '../components/Layout.jsx'
 import { sceneBackgroundProps } from '../components/SceneBackground.jsx'
 import { siteMedia } from '../config/siteMedia.js'
+import { whatsAppLink } from '../config/site.config.js'
 import '../styles/parkour-academy.css'
 
 const agePaths = [
@@ -32,7 +33,7 @@ const faqs = [
   ['¿Cómo se gestiona la seguridad?', 'Cada sesión empieza con preparación específica y progresiones acordes al nivel observado. No se obliga a ejecutar una habilidad y el dolor es señal para detenerse.'],
 ]
 
-const interestUrl = `https://wa.me/34614988006?text=${encodeURIComponent('Hola BAYONA, quiero registrar mi interés en la Academia de Parkour.')}`
+const interestUrl = whatsAppLink('Hola BAYONA, quiero registrar mi interés en la Academia de Parkour.')
 
 export default function ParkourAcademy() {
   const media = siteMedia.parkourAcademy
