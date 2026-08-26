@@ -27,4 +27,40 @@ export const motionTokens = {
     soft: { stiffness: 120, damping: 18 }, // reveals / respuesta suave
     magnetic: { stiffness: 220, damping: 22 }, // CTAs magneticas / tilt
   },
+
+  // Niveles semanticos del Design System 2.0 (Fase 3). No anaden valores:
+  // aliasan las claves anteriores para que el codigo de las paginas pida la
+  // INTENCION (micro/standard/emphasis/cinematic) y no la clave tecnica.
+  // Su espejo CSS vive en ds-tokens.css (--ds-dur-* / --ds-ease-*).
+  tier: {
+    micro: 'fast', // hover, tap, foco
+    standard: 'base', // reveals y transiciones de componente
+    emphasis: 'slow', // movimientos amplios, entradas de seccion
+    cinematic: 'curtain', // cortina de transicion de pagina
+  },
+}
+
+/**
+ * Resuelve la duracion (segundos) de un nivel semantico.
+ *
+ * @param {'micro'|'standard'|'emphasis'|'cinematic'} level Nivel pedido.
+ * @returns {number} Duracion en segundos; `duration.base` si el nivel no existe.
+ */
+export function tierDuration(level) {
+  const key = motionTokens.tier[level] ?? 'base'
+  return motionTokens.duration[key]
+}
+
+/**
+ * Resuelve la curva de easing de un nivel semantico.
+ * micro/standard usan la curva estandar; emphasis la de entrada;
+ * cinematic la de cortina.
+ *
+ * @param {'micro'|'standard'|'emphasis'|'cinematic'} level Nivel pedido.
+ * @returns {number[]} Curva cubic-bezier [x1, y1, x2, y2].
+ */
+export function tierEase(level) {
+  if (level === 'emphasis') return motionTokens.ease.entrance
+  if (level === 'cinematic') return motionTokens.ease.curtain
+  return motionTokens.ease.standard
 }

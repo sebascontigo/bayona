@@ -21,14 +21,26 @@ export { useCapabilities } from './hooks/useCapabilities.js'
 
 // --- Configuracion / tokens (Tareas 2 y 4) ---
 export { theme } from './config/theme.js'
-export { motionTokens } from './config/motionTokens.js'
+export { motionTokens, tierDuration, tierEase } from './config/motionTokens.js'
 export { sceneRegistry } from './config/sceneRegistry.js'
 export { resolveSceneConfig, clampDpr } from './config/sceneConfig.js'
 export { resolveMotionProfile } from './config/motionProfile.js'
 
+// --- Design System 2.0 (Fase 3): tokens responsivos y presets 3D ---
+export { BREAKPOINTS, minWidth, maxWidth } from './config/breakpoints.js'
+export {
+  cameraPresets,
+  materialPresets,
+  depthLayers,
+  sceneMotion,
+  resolveCameraPreset,
+  resolveMaterialPreset,
+} from './config/scenePresets.js'
+
 // --- Scroll y ciclo de vida de recursos (Tarea 5) ---
 export { useLenis } from './hooks/useLenis.js'
 export { useScrollProgress } from './hooks/useScrollProgress.js'
+export { useSticky } from './hooks/useSticky.js'
 export { useDisposable, createDisposableRegistry } from './hooks/useDisposable.js'
 
 // --- Escena 3D (Tareas 7-12) ---
