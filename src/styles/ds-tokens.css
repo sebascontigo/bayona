@@ -1,0 +1,183 @@
+/*
+  BAYONA · DESIGN SYSTEM 2.0 — TOKENS GLOBALES (Fase 3)
+  ===========================================================================
+  Capa ADITIVA: solo declara custom properties en `:root` bajo el prefijo
+  `--ds-`. Ninguna regla de este archivo toca selectores existentes, así que
+  las 17 rutas públicas mantienen exactamente el mismo estado visual.
+
+  Principios:
+  · No se inventan valores. Cada token ALIAS a uno ya vivo en la cascada
+    (`styles.css` para color/tipografía base, `v2-surface.css` para cristal,
+    `v2-typography.css` para la escala tipográfica) o documenta uno medido
+    en el código (grid, z-index, breakpoints).
+  · El prefijo `--ds-` convive con `--v2-*` y las variables legacy: cuando una
+    hoja de página migre al Design System pedirá `var(--ds-…)`; hasta entonces
+    nada cambia.
+  · Los tokens de movimiento de este archivo son el ESPEJO CSS de
+    `src/engine/config/motionTokens.js` (fuente única de verdad en JavaScript,
+    verificada por la Property 7). Si cambia uno, cambia el otro.
+*/
+
+:root {
+  /* ---------------------------------------------------------------------
+     1. COLOR — acento y neutros (alias de styles.css / theme.js)
+     --------------------------------------------------------------------- */
+  --ds-color-accent: var(--orange);            /* #F4A261 · acento principal (R9.1) */
+  --ds-color-accent-fire: var(--orange-fire);  /* #E76F51 */
+  --ds-color-accent-deep: var(--orange-deep);  /* #D45D38 */
+  --ds-color-ink: var(--white);                /* texto principal */
+  --ds-color-muted: var(--muted);              /* #A3A3A3 · texto secundario */
+  --ds-color-dim: var(--gray-dim);             /* #6b6b6b · microcopy/apoyo */
+
+  /* ---------------------------------------------------------------------
+     2. SUPERFICIES — escalera de elevación por luminosidad.
+     La identidad sigue siendo oscura: la profundidad se logra con tono,
+     luz y textura, no con color (diagnóstico de v2-surface.css).
+     Orden: fondo de página → planos de contenido → superficies que flotan.
+     --------------------------------------------------------------------- */
+  --ds-surface-background: var(--black);        /* #050505 · fondo de página */
+  --ds-surface-deep: var(--deep-blue);          /* #0B0B0C · plano hundido */
+  --ds-surface-raised: var(--black-2);          /* #0c0c0d · plano elevado */
+  --ds-surface-content: var(--mediterranean);   /* #111111 · bloque de contenido */
+  --ds-surface-overlay: var(--black-3);         /* #141416 · capa superior */
+
+  /* Cristal (alias de v2-surface.css: la base ya tokenizada). */
+  --ds-surface-glass: var(--v2-glass-bg);
+  --ds-surface-glass-strong: var(--v2-glass-bg-strong);
+  --ds-surface-glass-blur: var(--v2-glass-blur);
+
+  /* ---------------------------------------------------------------------
+     3. BORDES Y SOMBRAS
+     --------------------------------------------------------------------- */
+  --ds-border-width: 1px;
+  --ds-border-color: var(--v2-glass-border);        /* rgba(255,255,255,0.1) */
+  --ds-border-color-hover: var(--v2-glass-border-hover); /* acento al 42 % */
+  --ds-border-hairline: var(--ds-border-width) solid var(--ds-border-color);
+
+  --ds-shadow-lift: var(--v2-lift);        /* contacto + caída larga */
+  --ds-shadow-lift-warm: var(--v2-lift-warm); /* elevación con brasa cálida */
+
+  /* ---------------------------------------------------------------------
+     4. RADIO DE BORDE — el canto afilado es identidad de marca (R9.5).
+     Cero es el valor por defecto; los radios suaves existen solo para las
+     superficies que flotan y para geometría deliberadamente circular.
+     --------------------------------------------------------------------- */
+  --ds-radius-sharp: 0px;                 /* defecto de marca */
+  --ds-radius-control: var(--v2-radius-sm); /* 10px · botones, inputs, chips */
+  --ds-radius-float: var(--v2-radius);      /* 16px · tarjetas y capas flotantes */
+  --ds-radius-round: 50%;                   /* avatares, cursor, órbitas */
+
+  /* ---------------------------------------------------------------------
+     5. TIPOGRAFÍA — escala semántica.
+     Los pasos display…label son alias de la escala v2 (v2-typography.css,
+     el reset por rol semántico sobre los 258 tamaños históricos). Aquí se
+     añaden los dos pasos que faltaban: CTA y numérico.
+     --------------------------------------------------------------------- */
+  --ds-fs-display: var(--fs-display);  /* portada: solo el h1 del héroe */
+  --ds-fs-h1: var(--fs-h1);            /* titular de página */
+  --ds-fs-h2: var(--fs-h2);            /* titular de sección */
+  --ds-fs-h3: var(--fs-h3);            /* subsección / tarjeta */
+  --ds-fs-h4: var(--fs-h4);            /* titulillo / acordeón */
+  --ds-fs-lead: var(--fs-lead);        /* párrafo de entrada */
+  --ds-fs-body: var(--fs-body);        /* cuerpo */
+  --ds-fs-body-small: var(--fs-meta);  /* apoyo, notas, microcopy */
+  --ds-fs-eyebrow: var(--fs-label);    /* etiqueta mono, fija a propósito */
+
+  /* Paso nuevo: texto de botón/CTA. Mayúsculas con tracking en el componente. */
+  --ds-fs-cta: clamp(0.78rem, 0.9vw, 0.88rem);
+
+  /* Paso nuevo: dato numérico (precios, métricas). DM Mono, no escala con
+     la mancha: el dato debe leerse igual en un hero y en una tarjeta. */
+  --ds-fs-numeric: clamp(1.3rem, 2vw, 1.9rem);
+
+  --ds-lh-display: var(--lh-display);
+  --ds-lh-heading: var(--lh-heading);
+  --ds-lh-title: var(--lh-title);
+  --ds-lh-body: var(--lh-body);
+
+  --ds-ls-display: var(--ls-display);
+  --ds-ls-heading: var(--ls-heading);
+  --ds-ls-title: var(--ls-title);
+  --ds-ls-body: var(--ls-body);
+  --ds-ls-eyebrow: 0.18em;  /* medido en v2-typography.css §9 */
+  --ds-ls-cta: 0.14em;
+
+  /* Familias y pesos (espejo de theme.js / R9.7). */
+  --ds-font-heading: "Montserrat", Arial, sans-serif;
+  --ds-font-body: "Inter", "Montserrat", Arial, sans-serif;
+  --ds-font-mono: "DM Mono", monospace;
+  --ds-fw-heading: 900;
+  --ds-fw-body-light: 300;
+  --ds-fw-body: 400;
+  --ds-fw-cta: 800;
+
+  /* Longitud máxima de línea de lectura (v2-typography.css §10). */
+  --ds-measure: 66ch;
+
+  /* ---------------------------------------------------------------------
+     6. ESPACIADO — escala de 4px. Cubre y ordena los valores en uso
+     (padding de shell 80px, gaps de retícula 24px, aire de sección 64–192px).
+     --------------------------------------------------------------------- */
+  --ds-space-1: 4px;
+  --ds-space-2: 8px;
+  --ds-space-3: 12px;
+  --ds-space-4: 16px;
+  --ds-space-5: 24px;
+  --ds-space-6: 32px;
+  --ds-space-7: 48px;
+  --ds-space-8: 64px;
+  --ds-space-9: 96px;
+  --ds-space-10: 128px;
+  --ds-space-11: 192px;
+
+  /* Aire vertical entre secciones editoriales. */
+  --ds-section-gap: clamp(var(--ds-space-8), 9vw, var(--ds-space-11));
+
+  /* ---------------------------------------------------------------------
+     7. RETÍCULA — medidas reales de .section-shell (styles.css):
+     ancho máximo 1240px con 40px de aire por lado (calc(100% - 80px)).
+     --------------------------------------------------------------------- */
+  --ds-grid-max: 1240px;
+  --ds-grid-gutter: 40px;
+  --ds-grid-gutter-mobile: 20px;
+  --ds-grid-columns: 12;
+  --ds-grid-gap: var(--ds-space-5);
+
+  /* ---------------------------------------------------------------------
+     8. Z-INDEX — escalera explícita. Ordena los valores ya vivos en la
+     cascada (medidos: 0–6 contenido, 100 familia navbar, 9997–12000 capas
+     fijas, cursor por encima del grano). Los componentes nuevos piden el
+     token; los legacy conservan sus valores hasta migrar.
+     --------------------------------------------------------------------- */
+  --ds-z-base: 0;        /* luz ambiente (body::before), fondos */
+  --ds-z-content: 1;     /* #root, contenido general */
+  --ds-z-raised: 10;     /* elementos apilados dentro de una sección */
+  --ds-z-sticky: 100;    /* navbar y barras fijas de sección */
+  --ds-z-overlay: 9997;  /* capas fijas: consent, ribbon, móvil-nav */
+  --ds-z-grain: 10000;   /* grano fílmico (GrainOverlay) */
+  --ds-z-cursor: 10001;  /* cursor personalizado, siempre encima del grano */
+  --ds-z-modal: 11000;   /* drawers y diálogos modales */
+  --ds-z-curtain: 12000; /* cortina de PageTransition */
+
+  /* ---------------------------------------------------------------------
+     9. MOVIMIENTO — espejo CSS de src/engine/config/motionTokens.js.
+     Cuatro niveles: micro (hover/tap), standard (reveals), emphasis
+     (movimientos amplios), cinematic (cortina de transición de página).
+     --------------------------------------------------------------------- */
+  --ds-dur-micro: 200ms;      /* motionTokens.duration.fast */
+  --ds-dur-standard: 400ms;   /* motionTokens.duration.base */
+  --ds-dur-emphasis: 800ms;   /* motionTokens.duration.slow */
+  --ds-dur-cinematic: 820ms;  /* motionTokens.duration.curtain */
+
+  --ds-ease-standard: cubic-bezier(0.4, 0, 0.2, 1);   /* easing general */
+  --ds-ease-entrance: cubic-bezier(0.16, 1, 0.3, 1);  /* entradas */
+  --ds-ease-curtain: cubic-bezier(0.76, 0, 0.24, 1);  /* cortina */
+
+  /* Transición tipo de los componentes del sistema. */
+  --ds-transition:
+    border-color var(--ds-dur-standard) var(--ds-ease-entrance),
+    background-color var(--ds-dur-standard) var(--ds-ease-entrance),
+    color var(--ds-dur-standard) var(--ds-ease-entrance),
+    transform var(--ds-dur-standard) var(--ds-ease-entrance),
+    box-shadow var(--ds-dur-standard) var(--ds-ease-entrance);
+}

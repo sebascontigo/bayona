@@ -49,6 +49,14 @@ import './styles/v2-scroll-motion.css'
  * micro-interacciones. Última capa, solo añade pulido.
  */
 import './styles/v3-finish.css'
+/*
+ * Design System 2.0 (Fase 3). Capa ADITIVA y prefijada `.ds-`: declara tokens
+ * en :root y estilos de los componentes base del sistema. No toca ningún
+ * selector existente: las 17 rutas conservan su estado visual hasta que cada
+ * página migre al sistema en su propia fase.
+ */
+import './styles/ds-tokens.css'
+import './styles/ds-base.css'
 
 /**
  * Arranca la medición. No carga ningún proveedor hasta que haya consentimiento
