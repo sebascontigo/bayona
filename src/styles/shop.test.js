@@ -5,12 +5,14 @@ import { describe, expect, it } from 'vitest'
 const css = readFileSync(resolve(process.cwd(), 'src/styles/shop.css'), 'utf8')
 
 describe('/shop — contrato visual responsive y accesible', () => {
-  it('es mobile-first y amplía el catálogo de forma asimétrica en tablet y escritorio', () => {
-    expect(css).toMatch(/\.shop-catalog-list\s*{[^}]*grid-template-columns:\s*1fr/s)
-    expect(css).toMatch(/@media\s*\(min-width:\s*700px\)/)
-    expect(css).toMatch(/grid-template-columns:\s*repeat\(2,\s*minmax\(0,\s*1fr\)\)/)
-    expect(css).toMatch(/@media\s*\(min-width:\s*1040px\)/)
-    expect(css).toMatch(/\.shop-catalog-list\s*>\s*li:nth-child\(1\)[\s\S]*grid-column:\s*span\s*7/)
+  it('es mobile-first y amplía el catálogo en masonry progresivo (1→2→3→4 columnas)', () => {
+    // El catálogo es un masonry CSS: 1 columna en móvil, 2 en tablet y
+    // hasta 4 en escritorio ancho, con tarjetas que no se cortan.
+    expect(css).toMatch(/\.shop-products-masonry\s*{[^}]*columns:\s*1;/s)
+    expect(css).toMatch(/\.shop-product-entry\s*{[^}]*break-inside:\s*avoid/s)
+    expect(css).toMatch(/@media\s*\(min-width:\s*700px\)[\s\S]*?\.shop-products-masonry\s*{[^}]*columns:\s*2/)
+    expect(css).toMatch(/@media\s*\(min-width:\s*1080px\)[\s\S]*?\.shop-products-masonry\s*{[^}]*columns:\s*3/)
+    expect(css).toMatch(/@media\s*\(min-width:\s*1500px\)[\s\S]*?\.shop-products-masonry\s*{[^}]*columns:\s*4/)
   })
 
   it('incluye foco visible, controles táctiles y reducción de movimiento', () => {

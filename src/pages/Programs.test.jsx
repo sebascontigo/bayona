@@ -44,7 +44,7 @@ describe('Programs fase 4 editorial', () => {
   it('presenta el concepto completo, Deportistas y copy honesto en español', () => {
     render(<MemoryRouter><Programs /></MemoryRouter>)
 
-    expect(screen.getByRole('heading', { level: 1, name: 'ENTRENAMIENTO CON UNA DIRECCIÓN CLARA.' })).toBeInTheDocument()
+    expect(screen.getByRole('heading', { level: 1, name: 'ENTRENAMIENTO CON DIRECCIÓN CLARA.' })).toBeInTheDocument()
     expect(screen.getByText('BAYONA • PROGRAMAS DE ENTRENAMIENTO')).toBeInTheDocument()
     expect(screen.getByRole('heading', { name: 'DEPORTISTAS' })).toBeInTheDocument()
     expect(screen.getByText('Revisa las propuestas por etapa y confirma disponibilidad antes de elegir.')).toBeInTheDocument()
