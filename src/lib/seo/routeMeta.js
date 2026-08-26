@@ -103,6 +103,17 @@ const STATIC_ROUTES = {
     noindex: true,
     breadcrumb: [['Solicitud recibida', '/order-confirmation']],
   },
+  /**
+   * Playground del Design System (Fase 3). Ruta interna de validación del
+   * sistema visual: `noindex` y `Disallow` en robots.txt, fuera del sitemap
+   * por el filtro de `indexableRoutes()`. Sin contenido comercial.
+   */
+  '/design-system': {
+    title: 'Design System — uso interno',
+    description: 'Página interna de validación del sistema visual de BAYONA. No forma parte del sitio público.',
+    noindex: true,
+    breadcrumb: [['Design System', '/design-system']],
+  },
 }
 
 /**

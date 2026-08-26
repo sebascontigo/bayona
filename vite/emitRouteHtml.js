@@ -196,6 +196,9 @@ Allow: /
 Disallow: /checkout
 Disallow: /order-confirmation
 
+# Página interna del sistema visual: solo para el equipo.
+Disallow: /design-system
+
 Sitemap: ${SITE_URL}/sitemap.xml
 `
 }

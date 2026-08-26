@@ -18,6 +18,13 @@ export const PUBLIC_ROUTES = Object.freeze([
   '/entrar',
 ])
 
+/**
+ * Rutas internas: declaradas en el router pero fuera del contenido público
+ * (noindex, Disallow en robots.txt, fuera del sitemap). Los inventarios de
+ * rutas públicas las excluyen y se inventarían por separado.
+ */
+export const INTERNAL_ROUTES = Object.freeze(['/design-system'])
+
 export const VISUAL_QA_VIEWPORTS = Object.freeze([
   Object.freeze({ name: 'móvil-375', width: 375, height: 812 }),
   Object.freeze({ name: 'tableta-768', width: 768, height: 1024 }),

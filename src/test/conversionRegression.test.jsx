@@ -17,6 +17,7 @@ import {
 } from '../config/offerings.js'
 import homeSource from '../pages/Home.jsx?raw'
 import {
+  INTERNAL_ROUTES,
   PUBLIC_ROUTES,
   VISUAL_QA_MOTION_MODES,
   VISUAL_QA_VIEWPORTS,
@@ -94,10 +95,16 @@ function visibleModelCopy(model) {
 describe('Regression_Gate acumulativo de conversión', () => {
   it('conserva el inventario exacto de rutas públicas y un único wildcard', () => {
     const declaredRoutes = collectDeclaredRoutes(appSource)
-    const concreteRoutes = declaredRoutes.filter((path) => path !== '*')
+    const concreteRoutes = declaredRoutes.filter(
+      (path) => path !== '*' && !INTERNAL_ROUTES.includes(path),
+    )
 
     expect(concreteRoutes).toHaveLength(PUBLIC_ROUTES.length)
     expect(new Set(concreteRoutes)).toEqual(new Set(PUBLIC_ROUTES))
+    // Las rutas internas también quedan inventariadas: ni una más ni una menos.
+    expect(
+      declaredRoutes.filter((path) => INTERNAL_ROUTES.includes(path)),
+    ).toEqual([...INTERNAL_ROUTES])
     expect(declaredRoutes.filter((path) => path === '*')).toEqual(['*'])
     expect(new Set(declaredRoutes).size).toBe(declaredRoutes.length)
   })

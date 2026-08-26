@@ -2,9 +2,8 @@ import { Suspense, lazy } from 'react'
 import { Route, Routes } from 'react-router-dom'
 import { Footer, Navbar, WhatsAppButton } from './components/Layout'
 import { ScrollProgress } from './components/Experience'
-import { PageTransition } from './engine'
+import { PageTransition, CustomCursor } from './engine'
 import PremiumRouteChrome from './components/PremiumRouteChrome'
-import CustomCursor from './components/CustomCursor'
 import RouteSeo from './components/seo/RouteSeo.jsx'
 import RouteEffects from './components/RouteEffects.jsx'
 import ConsentBanner from './components/consent/ConsentBanner.jsx'
@@ -35,6 +34,12 @@ const Checkout = lazy(() => import('./pages/Checkout'))
 const OrderConfirmation = lazy(() => import('./pages/OrderConfirmation'))
 const Onboarding = lazy(() => import('./pages/Onboarding'))
 const NotFound = lazy(() => import('./pages/NotFound'))
+/*
+ * Playground del Design System (Fase 3): ruta INTERNA, no indexable y fuera
+ * del sitemap (ver routeMeta.js y robots.txt). No forma parte del itinerario
+ * público; existe para validar el sistema visual antes de migrar las páginas.
+ */
+const DesignSystem = lazy(() => import('./pages/DesignSystem'))
 
 /** Estado de carga de una ruta diferida. Anunciado para lectores de pantalla. */
 function RouteFallback() {
@@ -78,6 +83,7 @@ function Site() {
               <Route path="/order-confirmation" element={<OrderConfirmation />} />
               <Route path="/onboarding" element={<Onboarding />} />
               <Route path="/entrar" element={<Onboarding />} />
+              <Route path="/design-system" element={<DesignSystem />} />
               {/*
                 404 real. Antes esta ruta devolvía <Home />, lo que generaba un
                 "soft 404": cualquier URL inexistente respondía 200 con la home.

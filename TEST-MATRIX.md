@@ -1,4 +1,4 @@
-# TEST-MATRIX — Los 217 tests de BAYONA
+# TEST-MATRIX — Los 273 tests de BAYONA
 
 **Fase 1 (plan 1.5–1.6).** Estado en el commit BASELINE `8e67cd2`:
 **48 ficheros, 212 tests, 0 fallos, 0 saltados** (verificado con `vitest --run`,
@@ -9,36 +9,47 @@ nada en `src/` ni `e2e/`).
 Nuevos: `src/test/commercialSync.test.jsx` (4 tests de sincronización comercial) y
 1 test en `pages/Checkout.test.jsx` (los 4 planes de principio a fin). Detalle en FASE2-CIERRE.md.
 
+**Actualización Fase 3 (2026-08-27):** **57 ficheros, 273 tests, 0 fallos, 0 saltados.**
+Nuevos (56): componentes base del Design System `components/ds/ds.test.jsx` (20),
+playground `pages/DesignSystem.test.jsx` (4), contrato del sistema
+`test/designSystemContract.test.js` (8), y en el engine `motionTokens.test.js` (6),
+`breakpoints.test.js` (4), `scenePresets.test.js` (7), `useSticky.test.jsx` (3) y
+`CustomCursor.test.jsx` (4). Los contratos de rutas ahora inventarían rutas públicas
+e internas (`/design-system`) por separado. Detalle en DESIGN-SYSTEM.md.
+
 Regla de oro del proyecto: **prohibido saltar tests.** Cada fallo se clasifica y se
 resuelve por su causa raíz (taxonomía A–G del plan).
 
-## 1. Matriz por fichero (217 tests)
+## 1. Matriz por fichero (273 tests)
 
-### Contratos globales (14)
+### Contratos globales (22)
 | Fichero | Tests | Qué vigila |
 |---|---|---|
-| src/test/baselineContract.test.js | 4 | 17 rutas sin duplicados + 404, planes canónicos (id/nombre/precio COP), WhatsApp oficial, stack |
+| src/test/baselineContract.test.js | 4 | 17 rutas públicas + internas inventariadas sin duplicados + 404, planes canónicos (id/nombre/precio COP), WhatsApp oficial, stack |
 | src/test/commercialSync.test.jsx | 4 | Fase 2: orden canónico ↔ catálogo ↔ rutas /plan/* ↔ presentaciones; 36 combinaciones del Inicio Guiado sin slugs fantasma; 4 PDFs existen y presentationUrl apunta al fichero; anclajes #plan-* del recomendador existen en PlanExplorer |
 | src/test/conversionRegression.test.jsx | 6 | Gate acumulativo de conversión: hitos home, e2e con emulación/capturas/teclado, recorrido |
+| src/test/designSystemContract.test.js | 8 | Fase 3: familias de tokens completas, radio de marca 0, z-index creciente, espejo CSS↔motionTokens, aislamiento `.ds-*`, sin capas `v4-*`, playground noindex fuera del sitemap (14 URLs) |
 
-### Páginas (53)
+### Páginas (57)
 | Fichero | Tests | Fichero | Tests |
 |---|---|---|---|
 | pages/Home.test.jsx | 12 | pages/FAQ.test.jsx | 4 |
 | pages/Home.contract.test.jsx | 6 | pages/Onboarding.test.jsx | 4 |
 | pages/AppExperience.test.jsx | 6 | pages/Shop.test.jsx | 4 |
-| pages/Resources.test.jsx | 5 | pages/About.test.jsx | 3 |
-| pages/criticalFlow.test.jsx | 3 | pages/ParkourAcademy.test.jsx | 3 |
-| pages/Programs.test.jsx | 3 | pages/Checkout.test.jsx | 3 |
+| pages/Resources.test.jsx | 5 | pages/DesignSystem.test.jsx | 4 |
+| pages/criticalFlow.test.jsx | 3 | pages/About.test.jsx | 3 |
+| pages/ParkourAcademy.test.jsx | 3 | pages/Programs.test.jsx | 3 |
+| pages/Checkout.test.jsx | 3 | | |
 
-### Componentes (28)
+### Componentes (48)
 | Fichero | Tests | Fichero | Tests |
 |---|---|---|---|
-| components/Globe3D.test.jsx | 5 | components/conversion/RecommendationGuide.test.jsx | 5 |
-| components/conversion/PlanExplorer.test.jsx | 3 | components/conversion/ExtrasExplorer.test.jsx | 3 |
-| components/Layout.test.jsx | 3 | components/conversion/PersistentSummary.test.jsx | 2 |
-| components/conversion/RequestPreview.test.jsx | 2 | components/PlanCalculator.test.jsx | 2 |
-| components/conversion/NarrativeHeroVisual.test.jsx | 1 | components/onboarding/PaseBayona.test.jsx | 1 |
+| components/ds/ds.test.jsx | 20 | components/conversion/RecommendationGuide.test.jsx | 5 |
+| components/Globe3D.test.jsx | 5 | components/conversion/PlanExplorer.test.jsx | 3 |
+| components/conversion/ExtrasExplorer.test.jsx | 3 | components/Layout.test.jsx | 3 |
+| components/conversion/PersistentSummary.test.jsx | 2 | components/conversion/RequestPreview.test.jsx | 2 |
+| components/PlanCalculator.test.jsx | 2 | components/conversion/NarrativeHeroVisual.test.jsx | 1 |
+| components/onboarding/PaseBayona.test.jsx | 1 | | |
 
 ### Config y datos comerciales (21)
 | Fichero | Tests | Qué vigila |
@@ -49,12 +60,17 @@ resuelve por su causa raíz (taxonomía A–G del plan).
 | config/shopProducts.test.js | 2 | Productos y URLs de WhatsApp |
 | config/evidenceRegistry.test.js | 1 | Registro de evidencia |
 
-### Motor visual — engine (28)
+### Motor visual — engine (52)
 | Fichero | Tests | Tipo |
 |---|---|---|
 | engine/scene/LightingRig.test.js | 9 | unidad |
+| engine/config/scenePresets.test.js | 7 | unidad (presets 3D del Design System) |
+| engine/config/motionTokens.test.js | 6 | unidad (tiers semánticos) |
 | engine/config/sceneConfig.pbt.test.js | 5 | property-based (fast-check) |
+| engine/effects/CustomCursor.test.jsx | 4 | unidad (puerta de capacidades) |
 | engine/hooks/useDisposable.pbt.test.js | 4 | property-based |
+| engine/config/breakpoints.test.js | 4 | unidad (tokens responsivos) |
+| engine/hooks/useSticky.test.jsx | 3 | unidad (infraestructura de scroll) |
 | engine/motion/Reveal.test.jsx | 2 | unidad |
 | engine/motion/TextReveal.test.jsx | 2 | unidad |
 | engine/config/motionProfile.pbt.test.js | 1 | property-based |
@@ -81,11 +97,12 @@ resuelve por su causa raíz (taxonomía A–G del plan).
 | styles/shop.test.js | 2 |
 | *(setup)* src/test/setup.js | — (mocks jsdom: matchMedia, IntersectionObserver, ResizeObserver, scrollTo) |
 
-### E2E — Playwright (5 + 34 capturas)
+### E2E — Playwright (5 + 34 capturas baseline + 2 capturas del sistema)
 | Fichero | Tests | Qué vigila |
 |---|---|---|
 | e2e/conversion-milestones.spec.js | 5 | 4 hitos de conversión con reduced-motion + captura fullPage; teclado: skip link primer foco |
-| e2e/baseline-visual.spec.js | 34 | Capturas baseline 17 rutas × desktop 1440×900 / mobile 390×844 (artefactos, no regresión) |
+| e2e/baseline-visual.spec.js | 34 | Capturas baseline 17 rutas × desktop 1440×900 / mobile 390×844 (artefactos, no regresión; referencia histórica desde Fase 1) |
+| e2e/design-system-visual.spec.js | 2 | Fase 3: capturas del playground /design-system (desktop y mobile) en carpeta propia, fuera de la baseline pública |
 
 ## 2. Entorno de test (plan 1.7–1.11)
 
