@@ -217,10 +217,17 @@ export default function RecommendationGuide({
             <form className="recommendation-form" noValidate onSubmit={handleSubmit}>
               {GUIDE_FIELDS.map((field) => {
                 const errorId = `${instanceId}-${field.name}-error`
+                const legendId = `${instanceId}-${field.name}-legend`
 
                 return (
-                  <fieldset key={field.name} className="recommendation-fieldset">
-                    <legend>{field.legend}</legend>
+                  <fieldset
+                    key={field.name}
+                    className="recommendation-fieldset"
+                    role="radiogroup"
+                    aria-labelledby={legendId}
+                    aria-invalid={errors[field.name] ? true : undefined}
+                  >
+                    <legend id={legendId}>{field.legend}</legend>
                     <div className="recommendation-options">
                       {field.options.map((option) => (
                         <label
@@ -232,7 +239,6 @@ export default function RecommendationGuide({
                             name={field.name}
                             value={option.value}
                             checked={answers[field.name] === option.value}
-                            aria-invalid={Boolean(errors[field.name])}
                             aria-describedby={errors[field.name] ? errorId : undefined}
                             onChange={handleAnswerChange}
                           />

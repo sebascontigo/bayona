@@ -69,4 +69,43 @@ describe('Checkout', () => {
     expect(document.querySelector('input[type="password"]')).not.toBeInTheDocument()
     expect(document.body.textContent).not.toMatch(/número de tarjeta|cvv|pagar ahora/i)
   })
+
+  it('resuelve los cuatro planes canónicos de principio a fin: precio real, resumen y contexto correcto de WhatsApp', () => {
+    const openSpy = vi.spyOn(window, 'open').mockImplementation(() => null)
+
+    membershipPlans.forEach((plan) => {
+      openSpy.mockClear()
+      const { unmount } = render(<Checkout />)
+
+      fireEvent.click(screen.getByRole('radio', { name: new RegExp(plan.name, 'i') }))
+
+      const summary = document.querySelector('.order-summary')
+      expect(within(summary).getByText(`BAYONA ${plan.name}`)).toBeInTheDocument()
+      // Línea de plan mensual y total estimado coinciden sin extras.
+      expect(within(summary).getAllByText(`${plan.priceDisplay} COP`).length).toBeGreaterThanOrEqual(2)
+
+      fireEvent.change(screen.getByRole('textbox', { name: /^nombre$/i }), {
+        target: { value: 'Persona Test' },
+      })
+      fireEvent.change(screen.getByRole('textbox', { name: /^email$/i }), {
+        target: { value: 'persona@example.com' },
+      })
+      fireEvent.change(screen.getByRole('textbox', { name: /^whatsapp$/i }), {
+        target: { value: '+34 600 123 456' },
+      })
+      fireEvent.click(screen.getByRole('button', { name: /solicitar detalles por whatsapp/i }))
+
+      expect(openSpy).toHaveBeenCalledTimes(1)
+      const url = new URL(openSpy.mock.calls[0][0])
+      const message = url.searchParams.get('text')
+
+      expect(url.origin).toBe('https://wa.me')
+      expect(url.pathname).toBe('/34614988006')
+      expect(message).toContain(`Plan base: ${plan.name} — ${plan.priceDisplay} ${plan.currency}`)
+      expect(message).toContain(`Mi camino: ${plan.priceDisplay} COP`)
+      expect(message).toContain('no constituye pago, pedido, inscripción, disponibilidad ni acceso confirmados')
+
+      unmount()
+    })
+  })
 })

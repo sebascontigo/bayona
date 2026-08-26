@@ -40,10 +40,14 @@ describe('RecommendationGuide — flujo opcional y minimización', () => {
 
     fireEvent.click(toggle)
 
-    expect(screen.getByRole('group', { name: '1. ¿Qué te gustaría priorizar?' })).toBeInTheDocument()
-    expect(screen.getByRole('group', { name: '2. ¿Cómo describes tu experiencia actual?' })).toBeInTheDocument()
-    expect(screen.getByRole('group', { name: '3. ¿Qué acompañamiento deseas comparar?' })).toBeInTheDocument()
+    expect(screen.getByRole('radiogroup', { name: '1. ¿Qué te gustaría priorizar?' })).toBeInTheDocument()
+    expect(screen.getByRole('radiogroup', { name: '2. ¿Cómo describes tu experiencia actual?' })).toBeInTheDocument()
+    expect(screen.getByRole('radiogroup', { name: '3. ¿Qué acompañamiento deseas comparar?' })).toBeInTheDocument()
     expect(screen.getAllByRole('radio')).toHaveLength(10)
+    // Sin errores todavía: ningún grupo declara estado inválido.
+    expect(screen.getAllByRole('radiogroup').every((group) => (
+      !group.hasAttribute('aria-invalid')
+    ))).toBe(true)
     expect(container.querySelector('input[name="gender"], input[name="health"], input[name="biometrics"]')).toBeNull()
     expect(guideSource).not.toMatch(/localStorage|sessionStorage|document\.cookie|fetch\(|XMLHttpRequest|sendBeacon|analytics|gtag|pixel/i)
   })
@@ -55,10 +59,22 @@ describe('RecommendationGuide — flujo opcional y minimización', () => {
 
     expect(screen.getAllByRole('alert')).toHaveLength(3)
     expect(screen.queryByText('PLAN SUGERIDO PARA COMPARAR')).not.toBeInTheDocument()
+    // El estado inválido vive en el radiogroup (rol que soporta aria-invalid);
+    // cada radio conserva la asociación con su mensaje de error.
+    expect(screen.getAllByRole('radiogroup').every((group) => (
+      group.getAttribute('aria-invalid') === 'true'
+    ))).toBe(true)
     expect(screen.getAllByRole('radio').every((radio) => (
-      radio.getAttribute('aria-invalid') === 'true'
+      !radio.hasAttribute('aria-invalid')
       && radio.hasAttribute('aria-describedby')
     ))).toBe(true)
+
+    // Al responder un grupo, su estado inválido se limpia.
+    fireEvent.click(screen.getByRole('radio', { name: 'Construir constancia' }))
+    expect(screen.getByRole('radiogroup', { name: '1. ¿Qué te gustaría priorizar?' }))
+      .not.toHaveAttribute('aria-invalid')
+    expect(screen.getByRole('radiogroup', { name: '2. ¿Cómo describes tu experiencia actual?' }))
+      .toHaveAttribute('aria-invalid', 'true')
   })
 })
 
