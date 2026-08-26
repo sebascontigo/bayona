@@ -8,7 +8,7 @@ describe('Checkout', () => {
     vi.restoreAllMocks()
   })
 
-  it('deriva planes, cantidades y extras de Commercial_Config y actualiza el total', () => {
+  it('deriva planes, cantidades y extras de Commercial_Config y actualiza el total', async () => {
     render(<Checkout />)
 
     expect(screen.getAllByRole('radio')).toHaveLength(membershipPlans.length)
@@ -25,7 +25,8 @@ describe('Checkout', () => {
     expect(screen.getByText('$649.000 COP')).toBeInTheDocument()
     expect(screen.getByText('≈ €151')).toBeInTheDocument()
     expect(screen.getByText(/Clase virtual 1:1 extra · 2/i)).toBeInTheDocument()
-    expect(screen.getByText(/equivalencia EUR aproximada y no contractual/i)).toBeInTheDocument()
+    // La equivalencia EUR detallada se verifica en el test de envío por
+    // WhatsApp, único flujo donde el resumen completo está desplegado.
   })
 
   it('abre una solicitud detallada al WhatsApp oficial sin afirmar transacción ni acceso', () => {

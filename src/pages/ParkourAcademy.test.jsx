@@ -20,7 +20,7 @@ describe('Parkour Academy — pre-apertura honesta', () => {
     render(<MemoryRouter><ParkourAcademy /></MemoryRouter>)
 
     expect(screen.getByRole('heading', { level: 1, name: /LA CIUDAD/i })).toBeInTheDocument()
-    expect(screen.getByRole('link', { name: /REGISTRAR MI INTERÉS/i })).toHaveAttribute('href', expect.stringContaining('https://wa.me/'))
+    expect(screen.getAllByRole('link', { name: /REGISTRAR MI INTERÉS/i })[0]).toHaveAttribute('href', expect.stringContaining('https://wa.me/'))
     expect(screen.getByText(/Interés abierto · Sin pago · Sede y horarios por confirmar/i)).toBeInTheDocument()
   })
 
