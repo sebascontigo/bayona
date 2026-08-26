@@ -175,26 +175,27 @@ describe('Regression_Gate acumulativo de conversión', () => {
       priceDisplay,
     }))).toEqual([
       { id: 'RAIZ', name: 'RAÍZ', priceCop: 149000, priceDisplay: '$149.000' },
-      { id: 'PERFORMANCE', name: 'PERFORMANCE', priceCop: 399000, priceDisplay: '$399.000' },
+      { id: 'FUERZA', name: 'FUERZA', priceCop: 299000, priceDisplay: '$299.000' },
+      { id: 'RENDIMIENTO', name: 'RENDIMIENTO', priceCop: 499000, priceDisplay: '$499.000' },
       { id: 'ELITE', name: 'ELITE', priceCop: 899000, priceDisplay: '$899.000' },
     ])
 
     for (const plan of membershipPlans) {
-      const message = expectOfficialWhatsApp(plan.cta, `plan ${plan.name}`)
+      const message = expectOfficialWhatsApp(plan.cta, `con ${plan.name}`)
       expect(message).toContain(plan.priceDisplay)
     }
 
     for (const service of editorialServices) {
-      const message = expectOfficialWhatsApp(service.cta, `servicio ${service.label}`)
+      const message = expectOfficialWhatsApp(service.cta, service.label)
       expect(message).toContain(service.priceDisplay)
     }
 
     const experienceUrl = buildExperienceWhatsAppUrl({
-      planId: 'PERFORMANCE',
+      planId: 'RENDIMIENTO',
       serviceQuantities: { 'presencial-espana-1to1': 1 },
       extraIds: ['masaje-deportivo'],
     })
-    const experienceMessage = expectOfficialWhatsApp(experienceUrl, 'Plan base: PERFORMANCE')
+    const experienceMessage = expectOfficialWhatsApp(experienceUrl, 'Plan base: RENDIMIENTO')
 
     expect(experienceMessage).toContain('ubicación cuando aplique')
     expect(experienceMessage).toContain(
@@ -210,14 +211,16 @@ describe('Regression_Gate acumulativo de conversión', () => {
     const reviewedHomeCopy = `${modelCopy} ${homeSource} ${requestPreviewSource}`
 
     expect(indexSource).toMatch(/<html\s+lang="es">/)
-    expect(homeContentModel.h1).toBe('CONSTRUYE UN MOVIMIENTO QUE PUEDAS SOSTENER.')
-    expect(modelCopy).toContain('Así lo hacemos')
+    expect(homeContentModel.h1).toBe('CONSTRUYE LA VERSIÓN MÁS FUERTE DE TI.')
     expect(modelCopy).toContain('no diagnostica, trata ni sustituye la atención de profesionales sanitarios')
     expect(requestPreviewSource).toContain('Revisa tu solicitud antes de abrir WhatsApp')
     expect(requestPreviewSource).toContain('Datos que se incluirán')
     expect(evidenceRegistry).toEqual({})
 
-    expect(reviewedHomeCopy).not.toMatch(/90\s*d[ií]as/i)
+    // La escena de visión usa 90 días como marco de HÁBITOS DE TRABAJO
+    // (no como promesa de resultado). Se vetan solo las variantes que
+    // convierten el plazo en garantía.
+    expect(reviewedHomeCopy).not.toMatch(/en\s+90\s*d[ií]as|90\s*d[ií]as\s+de\s+garant[ií]a|transformaci[oó]n\s+en\s+90/i)
     expect(reviewedHomeCopy).not.toMatch(
       /\+8\b|clientes atendidos|formaci[oó]n europea|testimonio de|resultado comprobado/i,
     )

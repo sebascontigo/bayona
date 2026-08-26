@@ -88,7 +88,7 @@ export default function OrderConfirmation() {
                 <p>
                   Explora el Reto 30 Días voluntario y los recursos gratuitos a tu ritmo, sin promesas de resultados.
                 </p>
-                <Link className="confirmation-step-link" to="/resources#reto-30-dias">
+                <Link className="confirmation-step-link" to="/resources#reto">
                   Ver Reto 30 Días y recursos <ArrowRight aria-hidden="true" size={17} />
                 </Link>
               </div>
