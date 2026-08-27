@@ -20,12 +20,28 @@ export const motionTokens = {
     standard: [0.4, 0, 0.2, 1], // easing general
     entrance: [0.16, 1, 0.3, 1], // entradas con overshoot suave
     curtain: [0.76, 0, 0.24, 1], // cortina de transicion de pagina
+    // Fase 5: curvas narrativas del Motion Engine 2.0. No alteran las tres
+    // originales; Property 7 sigue verificando que toda curva usada en
+    // variantes pertenezca a este objeto.
+    exit: [0.4, 0, 1, 1], // salidas: acelera al irse, sin despedirse
+    travel: [0.45, 0, 0.55, 1], // desplazamiento horizontal / scrub simetrico
+    transform: [0.65, 0, 0.35, 1], // cambios de escala/forma durante el scroll
   },
 
   // Animacion basada en resortes (R10.2): rigidez y amortiguacion.
   spring: {
     soft: { stiffness: 120, damping: 18 }, // reveals / respuesta suave
     magnetic: { stiffness: 220, damping: 22 }, // CTAs magneticas / tilt
+  },
+
+  // Fase 5: escala de DISTANCIAS de desplazamiento (px) para reveals,
+  // desplazamientos y parallax. El movimiento pide la INTENCION
+  // (near/medium/far) y no un numero de pixles suelto. Recorridos cortos a
+  // proposito: lo que se percibe es el ritmo, no el viaje.
+  distance: {
+    near: 16, // micro-desplazamientos: etiquetas, reglas, microcopia
+    medium: 48, // reveals de bloque y desplazamientos de componente
+    far: 120, // movimientos amplios: capas, parallax, pasos narrativos
   },
 
   // Niveles semanticos del Design System 2.0 (Fase 3). No anaden valores:
@@ -63,4 +79,15 @@ export function tierEase(level) {
   if (level === 'emphasis') return motionTokens.ease.entrance
   if (level === 'cinematic') return motionTokens.ease.curtain
   return motionTokens.ease.standard
+}
+
+/**
+ * Resuelve la distancia de desplazamiento (px) de un nivel de la escala
+ * near/medium/far (Fase 5).
+ *
+ * @param {'near'|'medium'|'far'} level Distancia pedida.
+ * @returns {number} Distancia en pixeles; `distance.medium` si el nivel no existe.
+ */
+export function distancePx(level) {
+  return motionTokens.distance[level] ?? motionTokens.distance.medium
 }

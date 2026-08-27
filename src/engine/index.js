@@ -21,7 +21,7 @@ export { useCapabilities } from './hooks/useCapabilities.js'
 
 // --- Configuracion / tokens (Tareas 2 y 4) ---
 export { theme } from './config/theme.js'
-export { motionTokens, tierDuration, tierEase } from './config/motionTokens.js'
+export { motionTokens, tierDuration, tierEase, distancePx } from './config/motionTokens.js'
 export { sceneRegistry } from './config/sceneRegistry.js'
 export { resolveSceneConfig, clampDpr } from './config/sceneConfig.js'
 export { resolveMotionProfile } from './config/motionProfile.js'

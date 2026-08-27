@@ -172,6 +172,15 @@
   --ds-ease-standard: cubic-bezier(0.4, 0, 0.2, 1);   /* easing general */
   --ds-ease-entrance: cubic-bezier(0.16, 1, 0.3, 1);  /* entradas */
   --ds-ease-curtain: cubic-bezier(0.76, 0, 0.24, 1);  /* cortina */
+  /* Fase 5: curvas narrativas (espejo de motionTokens.ease). */
+  --ds-ease-exit: cubic-bezier(0.4, 0, 1, 1);         /* salidas */
+  --ds-ease-travel: cubic-bezier(0.45, 0, 0.55, 1);   /* desplazamiento/scrub */
+  --ds-ease-transform: cubic-bezier(0.65, 0, 0.35, 1); /* escala/forma */
+
+  /* Fase 5: distancias de desplazamiento (espejo de motionTokens.distance). */
+  --ds-dist-near: 16px;    /* micro-desplazamientos */
+  --ds-dist-medium: 48px;  /* reveals de bloque */
+  --ds-dist-far: 120px;    /* capas, parallax, pasos narrativos */
 
   /* Transición tipo de los componentes del sistema. */
   --ds-transition:

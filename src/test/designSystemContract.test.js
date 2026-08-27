@@ -47,6 +47,7 @@ describe('Design System 2.0 — tokens', () => {
       '--ds-z-',
       '--ds-dur-',
       '--ds-ease-',
+      '--ds-dist-',
     ]
 
     for (const family of families) {
@@ -87,11 +88,28 @@ describe('Design System 2.0 — tokens', () => {
       '--ds-ease-standard': motionTokens.ease.standard,
       '--ds-ease-entrance': motionTokens.ease.entrance,
       '--ds-ease-curtain': motionTokens.ease.curtain,
+      // Fase 5: curvas narrativas.
+      '--ds-ease-exit': motionTokens.ease.exit,
+      '--ds-ease-travel': motionTokens.ease.travel,
+      '--ds-ease-transform': motionTokens.ease.transform,
     }
 
     for (const [token, curve] of Object.entries(eases)) {
       const expected = `cubic-bezier(${curve.join(', ')})`
       expect(tokensCss, token).toContain(expected)
+    }
+
+    // Fase 5: espejo de la escala de distancias.
+    const distances = {
+      '--ds-dist-near': motionTokens.distance.near,
+      '--ds-dist-medium': motionTokens.distance.medium,
+      '--ds-dist-far': motionTokens.distance.far,
+    }
+
+    for (const [token, px] of Object.entries(distances)) {
+      const match = tokensCss.match(new RegExp(`${token}:\\s*(\\d+)px`))
+      expect(match, token).not.toBeNull()
+      expect(Number(match[1])).toBe(px)
     }
   })
 })
