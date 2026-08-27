@@ -6,23 +6,24 @@
 
 ## Identificación
 
+> **Convención de referencias (veredicto ChatGPT 2026-08-27):** el HEAD vivo NO se congela en documentos versionados (evita commits circulares). Aquí se registran: commit auditado, último commit de código conocido, último commit documental y fecha. El estado vivo se comprueba con `git rev-parse HEAD` / `git status`.
+
 | Campo | Valor | Etiqueta |
 |---|---|---|
 | Repositorio | github.com/sebascontigo/bayona | VERIFIED |
 | Rama | main | VERIFIED |
-| HEAD | `2de0a6c19c87e796ec5dbb68a8e488bd5807a37b` (commit documental del sistema central V1.0). El commit de sincronización final que actualiza estas referencias (solo `docs/`, ver AUDIT-LOG entrada 004) lo sucede inmediatamente. | VERIFIED (2026-08-27) |
-| HEAD = origin/main | Sí, idénticos en `2de0a6c` antes de esta sincronización | VERIFIED (2026-08-27) |
 | Último commit de código | `70606dd` "Fase 5 (7/7): documentacion del Motion Engine 2.0 + Scroll Storytelling" — el código no ha cambiado desde entonces; los commits posteriores son exclusivamente documentales | VERIFIED |
-| Último commit documental | `2de0a6c` (sistema central docs/) + commit de sincronización final (AUDIT-LOG entrada 004) | VERIFIED |
-| Working tree | Limpio | VERIFIED |
+| Commits documentales | `2de0a6c` (sistema central docs/) → `bfcf6b4` (sincronización final de referencias, AUDIT-LOG 004) → registro de confirmación DF-006 (AUDIT-LOG 005) | VERIFIED |
+| Commit auditado (forense Fases 1–5) | `70606dd` (2026-08-27) | VERIFIED |
+| Estado vivo a 2026-08-27 | HEAD = origin/main, árbol limpio, 0 commits remotos por delante — comprobado con Git durante el pre-vuelo de Fase 6 | VERIFIED |
 
 ## Fases
 
 | Campo | Valor | Etiqueta |
 |---|---|---|
 | Última fase completada | **FASE 5 — Motion Engine 2.0 + Scroll Storytelling** (commits `3cdaa19..70606dd`, 7 commits) | VERIFIED |
-| Fase actual | **Ninguna en ejecución.** Definición de Fase 6 registrada y pendiente de confirmación final (ver DECISIONS.md → DF-006) | VERIFIED |
-| Siguiente fase propuesta | **FASE 6 — WORLD BUILDING** (evidencia unánime del repo + veredicto ChatGPT 2026-08-27; estructura ajustada en 5 bloques estratégicos) | PROPUESTA |
+| Fase actual | **FASE 6 — WORLD BUILDING** (DF-006 APROBADA, DECISIONS.md). Estado: pre-vuelo, lectura y mapa de vocabulario completados; PLAN OPERATIVO FINAL presentado, esperando aprobación para implementar (PROMPT MAESTRO FASE 6 §33) | VERIFIED |
+| Naturaleza de Fase 6 | 100% documental y estratégica: CERO código de páginas, CERO escenas 3D nuevas, CERO dependencias | VERIFIED (veredicto ChatGPT + PROMPT MAESTRO FASE 6) |
 | Fases 1–5 | Completadas y aprobadas por auditoría forense (veredicto ✅ C, AUDIT-LOG entrada 002) | VERIFIED |
 
 ## Gates (ejecutados 2026-08-27 sobre el estado de código `70606dd`; los commits posteriores son solo documentales y no modifican código)
@@ -47,9 +48,11 @@
 
 | ID | Asunto | Quién decide |
 |---|---|---|
-| DF-006 | Definición de Fase 6 (World Building vs migración) — evidencia del repo unánime hacia World Building; confirmación final | Sebastián |
-| DP-5 | ELITE "acceso de por vida" — decisión comercial/legal | Sebastián |
+| DP-5 | ELITE "acceso de por vida" — decisión comercial/legal (fuera de Fase 6, PROMPT MAESTRO FASE 6 §26) | Sebastián |
+| — | Aprobación del PLAN OPERATIVO FINAL de Fase 6 (presentado, pendiente de auditoría ChatGPT + OK) | Sebastián + ChatGPT |
 | — | Registro de GEMINI_API_KEY / GROQ_API_KEY (fuera del repo; las registra él vía setx) | Sebastián |
+
+> DF-006 quedó **APROBADA** el 2026-08-27 (FASE 6 = WORLD BUILDING); traza completa en DECISIONS.md.
 
 ## Riesgos conocidos (no bloqueantes)
 
@@ -66,7 +69,8 @@
 
 ## Prohibiciones activas
 
-- NO implementar Fase 6 hasta confirmación final de DF-006 (protocolo §14/§31).
+- Fase 6 = WORLD BUILDING (DF-006 APROBADA): PROHIBIDO implementar nada sin el PLAN OPERATIVO FINAL aprobado; prohibido rediseñar páginas públicas, crear escenas 3D, migrar código visual o añadir dependencias durante Fase 6.
+- NO redefinir Fase 6 como migración de páginas (eso es Fase 8).
 - NO tocar: precios, WhatsApp, catálogo, dominio, SEO global, sitemap, robots, rutas públicas, checkout, copy contractual — salvo fase explícita que lo requiera y lo señale antes.
 - NO resolver DP-5 por cuenta del agente.
 - NO añadir librerías de motion ni usar GSAP.

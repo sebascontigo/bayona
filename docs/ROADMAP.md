@@ -12,9 +12,9 @@
 | 4 | Arquitectura de experiencia | `c9448c4` | 2026-08-27 · navegación por grupos · breadcrumb · Configurador · DP-1…DP-4 cerradas |
 | 5 | Motion Engine 2.0 + Scroll Storytelling | `3cdaa19..70606dd` (7) | 2026-08-27 · tokens extendidos · scroll narrativo · componentes · 8 recetas · MotionDebug · aprobada forensemente (veredicto C) |
 
-## Fase 6 — definición vigente: WORLD BUILDING (estructura de 5 bloques aprobada provisionalmente; confirmación final pendiente — DF-006)
+## Fase 6 — WORLD BUILDING (DF-006 APROBADA 2026-08-27; plan operativo pendiente de aprobación)
 
-**Definición vigente (aprobada provisionalmente por ChatGPT 2026-08-27; evidencia unánime del repo): WORLD BUILDING.** La migración/rediseño de páginas NO pertenece a Fase 6; queda asignada a Fase 8.
+**Definición aprobada (confirmación explícita de Sebastián registrada en DECISIONS.md → DF-006): WORLD BUILDING.** La migración/rediseño de páginas NO pertenece a Fase 6; queda asignada a Fase 8.
 
 Estructura ajustada por ChatGPT (sustituye al plan de 175 tareas del informe de auditoría, que queda como insumo histórico):
 
@@ -46,4 +46,4 @@ Estructura ajustada por ChatGPT (sustituye al plan de 175 tareas del informe de 
 ## Reglas del roadmap
 
 - Una fase a la vez (PLAN MAESTRO + FASE ACTUAL); STOP al terminar cada fase; auditoría externa antes de la siguiente.
-- Ninguna fase arranca sin plan aprobado; ninguna decisión pendiente (DP-5, DF-006) se resuelve por el agente.
+- Ninguna fase arranca sin plan aprobado; ninguna decisión pendiente (DP-5) se resuelve por el agente. DF-006 quedó APROBADA (2026-08-27) y registrada en DECISIONS.md.

@@ -50,3 +50,14 @@
 - **Conclusión:** el sistema documental describe ahora el estado real del repo; ningún código funcional modificado (diff limitado a `docs/`).
 - **Commit:** el commit documental de sincronización que contiene esta entrada (inmediato posterior a `2de0a6c`, solo `docs/`); verificable con `git log`.
 - **Siguiente acción:** auditoría de ChatGPT sobre el repo actualizado → preparación del Prompt Maestro de Fase 6 si procede.
+
+## Entrada 005 — Registro de confirmación DF-006 + pre-vuelo de Fase 6
+- **Fecha:** 2026-08-27 · **Commit de partida:** `bfcf6b4` (= origin/main, árbol limpio, 0 commits por delante) · **Rama:** main
+- **Objetivo:** PASO A/B del PROMPT MAESTRO — FASE 6 · WORLD BUILDING V1.0 (§33): pre-auditoría real, verificación de la autorización de DF-006 (§25) y aplicación de la convención de referencias dictada por el auditor.
+- **Comprobaciones:** `git fetch` + `rev-parse HEAD`/`origin/main` = `bfcf6b4` idénticos, árbol limpio; D-004 (push directo) vigente en este documento; inventario real de rutas = 17 públicas + alias `/entrar` + 404 + interna `/design-system` (ROUTES.md coincide con `routeMeta.js`); lectura documental obligatoria completada (docs/ central + 10 docs de fase + fuentes de identidad BAYONA_CONTEXT_DOCUMENTS); mapa de vocabulario del engine verificado contra el código (intensidades quiet/balanced/immersive, 8 recetas, MOTION_BUDGETS hero/body/supporting/cta/background, SECTION_RANGES traverse/enter/pin/exit, tokens de duración/easing/distancia, escala `--ds-*`).
+- **DF-006:** existe confirmación explícita posterior de Sebastián — (1) su instrucción "dale, avancemos" citada en el veredicto del auditor; (2) veredicto de ChatGPT sobre `bfcf6b4`: "🟢 B — APROBADA PARA AVANZAR" y "Confirmamos DF-006 así: DF-006 APROBADA: FASE 6 = WORLD BUILDING" con regla absoluta documental; (3) entrega por Sebastián del PROMPT MAESTRO FASE 6 V1.0. Según protocolo §25, se registra: **DF-006 → APROBADA** en DECISIONS.md (traza completa allí).
+- **Convención de referencias aplicada (veredicto ChatGPT):** los documentos versionados ya no congelan el "HEAD actual"; registran commit auditado, último commit de código (`70606dd`), commits documentales y fecha. El estado vivo se comprueba con Git. PROJECT-STATE y HANDOFF actualizados a esta convención.
+- **Resultado:** DF-006 APROBADA y registrada; PROJECT-STATE (identificación, fases, pendientes, prohibiciones), ROADMAP (Fase 6, reglas) y HANDOFF actualizados; entradas anteriores intactas (append-only).
+- **Riesgos:** ninguno nuevo; sin cambios de código (diff limitado a `docs/`).
+- **Commit:** el commit documental que contiene esta entrada (inmediato posterior a `bfcf6b4`, solo `docs/`); verificable con `git log`.
+- **Siguiente acción:** PLAN OPERATIVO FINAL DE FASE 6 presentado para auditoría (ChatGPT) y aprobación (Sebastián) → PASO F: STOP hasta el OK.

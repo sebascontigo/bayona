@@ -42,8 +42,14 @@
 - **Opciones consideradas:** (a) mantener el claim, (b) reformularlo con límite temporal, (c) retirarlo.
 - **Regla:** NO convertir en decisión tomada; NO tocar hasta que Sebastián resuelva.
 
-## DF-006 · Definición de Fase 6 (contradicción registrada)
-- **Fecha:** 2026-08-27 · **Estado:** **PENDIENTE DE CONFIRMACIÓN FINAL** (Sebastián) · **Definición vigente mientras tanto:** FASE 6 = WORLD BUILDING, con la estructura de 5 bloques **aprobada provisionalmente** por ChatGPT (2026-08-27). La migración/rediseño de páginas NO pertenece a Fase 6; queda asignada a Fase 8. · **Quién:** Sebastián
+## DF-006 · Definición de Fase 6 (contradicción registrada → RESUELTA)
+- **Fecha:** 2026-08-27 · **Estado:** **APROBADA — FASE 6 = WORLD BUILDING** · **Quién:** Sebastián (confirmación explícita, ver traza abajo)
+- **Definición aprobada:** FASE 6 = WORLD BUILDING, con la estructura de 5 bloques de ChatGPT. La migración/rediseño de páginas NO pertenece a Fase 6; queda asignada a Fase 8.
+- **Traza de la confirmación explícita (2026-08-27):**
+  1. Dirección de Sebastián: "dale, avancemos" (citada en el veredicto de ChatGPT como su instrucción para avanzar).
+  2. Veredicto de ChatGPT (auditor del pipeline) sobre la sincronización `bfcf6b4`: "🟢 B — APROBADA PARA AVANZAR" y "Confirmamos DF-006 así: **DF-006 APROBADA: FASE 6 = WORLD BUILDING**", con la estructura de 5 bloques y la regla absoluta: "Fase 6 es documental y estratégica. No se rediseñan todavía las páginas públicas. No se implementan escenas 3D nuevas. No se migra código visual."
+  3. Sebastián entregó a continuación el PROMPT MAESTRO — FASE 6 · WORLD BUILDING V1.0 para su ejecución (orden §33: pre-auditoría → verificación de DF-006 → lectura → vocabulario → PLAN OPERATIVO → STOP antes de implementar).
+  4. Registrada en este documento por el agente según el protocolo de sincronización §25 ("Si existe confirmación explícita posterior: regístrala según el protocolo").
 - **Contradicción:** dos líneas de planificación definen Fase 6 de forma distinta:
   - (A) **WORLD BUILDING** — dirección espacial/narrativa/visual, mundos, gramática espacial, blueprints. Sin tocar páginas públicas.
   - (B) **Migración/rediseño de páginas** — aparecía solo en la plantilla del PROMPT MAESTRO de auditoría pegado el 2026-08-27.
@@ -51,9 +57,9 @@
   1. Documentos del repo (todos coinciden en A): CONTEXTO-MAESTRO-CONTINUIDAD.md:81 y §53 ("FASE 6 — World Building por página"), FASE3-VEREDICTO.md:131, SCROLL-STORY-MATRIX.md:5/43 (Fase 6 World Building, Fase 8 migración), PHASE5-MOTION-ENGINE.md §14 "Handoff exacto a Fase 6" (World Building).
   2. Veredicto de ChatGPT (auditor del pipeline, 2026-08-27): "🟢 FASE 5 APROBADA" → Fase 6 = WORLD BUILDING; y lectura posterior del mismo día: confirma World Building y ajusta la estructura a 5 bloques estratégicos (ADN visual → gramática espacial → mundos 00–08 → blueprints → matriz de decisión), con documentos BAYONA-WORLD-BIBLE.md / BAYONA-WORLD-FOUNDATION.md, SPATIAL-LANGUAGE.md, PAGE-BLUEPRINTS.md, WORLD-3D-STRATEGY.md y regla "EL 3D NO ES UN ESTILO".
   3. La definición (B) no aparece en ningún documento del repo; existe solo en la plantilla de auditoría.
-- **Resolución propuesta:** Fase 6 = **WORLD BUILDING** (opción A), con la estructura ajustada de ChatGPT. La migración de páginas es la Fase 8 del roadmap.
-- **Plan 175 tareas (informe de auditoría 2026-08-27):** queda como insumo HISTÓRICO; si se confirma World Building, el plan operativo se reescribe sobre la estructura de 5 bloques de ChatGPT.
-- **Regla vigente:** NO implementar Fase 6 hasta confirmación explícita de Sebastián (protocolo §14.8 y §31).
+- **Resolución aplicada:** Fase 6 = **WORLD BUILDING** (opción A), con la estructura ajustada de ChatGPT. La migración de páginas es la Fase 8 del roadmap.
+- **Plan 175 tareas (informe de auditoría 2026-08-27):** queda como insumo HISTÓRICO; el plan operativo de Fase 6 se reescribe sobre la estructura de 5 bloques (PROMPT MAESTRO FASE 6 V1.0).
+- **Regla vigente:** la IMPLEMENTACIÓN de Fase 6 requiere la aprobación previa del PLAN OPERATIVO FINAL (PROMPT MAESTRO FASE 6 §33 PASO F: STOP Y ESPERA APROBACIÓN). Fase 6 es 100% documental y estratégica.
 
 ## D-007 · Sistema documental central
 - **Fecha:** 2026-08-27 · **Estado:** APROBADA · **Quién:** Sebastián (vía PROMPT MAESTRO V1.0)
