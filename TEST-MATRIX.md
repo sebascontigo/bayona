@@ -1,4 +1,4 @@
-# TEST-MATRIX — Los 290 tests de BAYONA
+# TEST-MATRIX — Los 381 tests de BAYONA
 
 **Fase 1 (plan 1.5–1.6).** Estado en el commit BASELINE `8e67cd2`:
 **48 ficheros, 212 tests, 0 fallos, 0 saltados** (verificado con `vitest --run`,
@@ -28,10 +28,24 @@ conectado de punta a punta). `pages/criticalFlow.test.jsx` envuelve Checkout en
 `MemoryRouter` sin cambiar aserciones. Gate: 290/290 vitest, lint 0 errores/17
 warnings, build OK, 41/41 Playwright. Detalle en FASE4-ARQUITECTURA-EXPERIENCIA.md.
 
+**Actualización Fase 5 (2026-08-27):** **71 ficheros, 381 tests, 0 fallos, 0 saltados**
+(verificado con `vitest --reporter=json`). Nuevos (91 tests, 12 ficheros) por el Motion
+Engine 2.0 + Scroll Storytelling: en el engine `scroll/useSectionProgress.test.jsx` (8),
+`scroll/scrollHandoff.test.js` (8), `scroll/StickyStage.test.jsx` (10),
+`scroll/HorizontalPassage.test.jsx` (6), `providers/ExperienceProvider.scrollState.test.jsx` (5),
+`motion/Marquee.test.jsx` (7), `motion/TextMask.test.jsx` (6), `recipes/intensity.test.js` (6),
+`recipes/recipes.test.js` (5), `recipes/motionBudget.test.js` (8),
+`recipes/pageMotionContract.test.js` (11) y `debug/MotionDebug.test.jsx` (5).
+Ampliados: `config/motionTokens.test.js` (6 → 11: curvas exit/travel/transform + distancias)
+y `pages/DesignSystem.test.jsx` (4 → 5: bloques 10–16 del playground). Esta actualización
+también **resincroniza las cabeceras de sección** con el conteo real por fichero
+(verificado con el reporter JSON): Páginas 65, Componentes 59, engine 143, conversión 66,
+store/estilos 4. Detalle en PHASE5-MOTION-ENGINE.md.
+
 Regla de oro del proyecto: **prohibido saltar tests.** Cada fallo se clasifica y se
 resuelve por su causa raíz (taxonomía A–G del plan).
 
-## 1. Matriz por fichero (290 tests)
+## 1. Matriz por fichero (381 tests)
 
 ### Contratos globales (23)
 | Fichero | Tests | Qué vigila |
@@ -39,20 +53,20 @@ resuelve por su causa raíz (taxonomía A–G del plan).
 | src/test/baselineContract.test.js | 4 | 17 rutas públicas + internas inventariadas sin duplicados + 404, planes canónicos (id/nombre/precio COP), WhatsApp oficial, stack |
 | src/test/commercialSync.test.jsx | 5 | Fase 2: orden canónico ↔ catálogo ↔ rutas /plan/* ↔ presentaciones; 36 combinaciones del Inicio Guiado sin slugs fantasma; 4 PDFs existen y presentationUrl apunta al fichero; anclajes #plan-* del recomendador existen en PlanExplorer. Fase 4: la ficha enlaza PDF y `/checkout?plan=`, Programs enlaza `/checkout`, checkout valida `?plan=` y enlaza `/order-confirmation` |
 | src/test/conversionRegression.test.jsx | 6 | Gate acumulativo de conversión: hitos home, e2e con emulación/capturas/teclado, recorrido |
-| src/test/designSystemContract.test.js | 8 | Fase 3: familias de tokens completas, radio de marca 0, z-index creciente, espejo CSS↔motionTokens, aislamiento `.ds-*`, sin capas `v4-*`, playground noindex fuera del sitemap (14 URLs) |
+| src/test/designSystemContract.test.js | 8 | Fase 3: familias de tokens completas, radio de marca 0, z-index creciente, espejo CSS↔motionTokens, aislamiento `.ds-*`, sin capas `v4-*`, playground noindex fuera del sitemap (14 URLs). Fase 5: el espejo CSS↔JS vigila ya 6 easings y las distancias `--ds-dist-*` |
 
-### Páginas (59)
+### Páginas (65)
 | Fichero | Tests | Fichero | Tests |
 |---|---|---|---|
 | pages/Home.test.jsx | 12 | pages/FAQ.test.jsx | 4 |
 | pages/Home.contract.test.jsx | 6 | pages/Onboarding.test.jsx | 5 |
 | pages/AppExperience.test.jsx | 6 | pages/Shop.test.jsx | 4 |
-| pages/Checkout.test.jsx | 6 | pages/DesignSystem.test.jsx | 4 |
+| pages/Checkout.test.jsx | 6 | pages/DesignSystem.test.jsx | 5 |
 | pages/Resources.test.jsx | 5 | pages/criticalFlow.test.jsx | 3 |
 | pages/ParkourAcademy.test.jsx | 3 | pages/About.test.jsx | 3 |
 | pages/Programs.test.jsx | 3 | | |
 
-### Componentes (60)
+### Componentes (59)
 | Fichero | Tests | Fichero | Tests |
 |---|---|---|---|
 | components/ds/ds.test.jsx | 20 | components/conversion/RecommendationGuide.test.jsx | 5 |
@@ -72,13 +86,25 @@ resuelve por su causa raíz (taxonomía A–G del plan).
 | config/shopProducts.test.js | 2 | Productos y URLs de WhatsApp |
 | config/evidenceRegistry.test.js | 1 | Registro de evidencia |
 
-### Motor visual — engine (52)
+### Motor visual — engine (143)
 | Fichero | Tests | Tipo |
 |---|---|---|
 | engine/scene/LightingRig.test.js | 9 | unidad |
+| engine/config/motionTokens.test.js | 11 | unidad (tiers semánticos + easings exit/travel/transform + distancias) |
+| engine/recipes/pageMotionContract.test.js | 11 | unidad (contrato de página futura, Fase 5) |
+| engine/scroll/StickyStage.test.jsx | 10 | unidad (escenario sticky A/B/C, Fase 5) |
+| engine/scroll/useSectionProgress.test.jsx | 8 | unidad (progreso normalizado por sección, Fase 5) |
+| engine/scroll/scrollHandoff.test.js | 8 | unidad (handoff 3D para Fase 7) |
+| engine/recipes/motionBudget.test.js | 8 | unidad (presupuesto de movimiento por zona) |
 | engine/config/scenePresets.test.js | 7 | unidad (presets 3D del Design System) |
-| engine/config/motionTokens.test.js | 6 | unidad (tiers semánticos) |
+| engine/motion/Marquee.test.jsx | 7 | unidad (marquesina declarativa, Fase 5) |
+| engine/motion/TextMask.test.jsx | 6 | unidad (reveal de líneas con máscara, Fase 5) |
+| engine/scroll/HorizontalPassage.test.jsx | 6 | unidad (pasaje horizontal por scroll, Fase 5) |
+| engine/recipes/intensity.test.js | 6 | unidad (intensidades quiet/balanced/immersive) |
 | engine/config/sceneConfig.pbt.test.js | 5 | property-based (fast-check) |
+| engine/recipes/recipes.test.js | 5 | unidad (las 8 recetas + invariante de tokens) |
+| engine/providers/ExperienceProvider.scrollState.test.jsx | 5 | unidad (velocidad/dirección: Lenis + fallback nativo) |
+| engine/debug/MotionDebug.test.jsx | 5 | unidad (gating prod/dev/flag del overlay) |
 | engine/effects/CustomCursor.test.jsx | 4 | unidad (puerta de capacidades) |
 | engine/hooks/useDisposable.pbt.test.js | 4 | property-based |
 | engine/config/breakpoints.test.js | 4 | unidad (tokens responsivos) |
@@ -93,7 +119,7 @@ resuelve por su causa raíz (taxonomía A–G del plan).
 | engine/providers/ExperienceProvider.test.jsx | 1 | unidad |
 | engine/scene/SceneMount.test.jsx | 1 | unidad (capa de puntero R3F) |
 
-### Lógica de conversión y formularios (61)
+### Lógica de conversión y formularios (66)
 | Fichero | Tests | Qué vigila |
 |---|---|---|
 | lib/conversion/recommendation.test.js | 34 | Motor de recomendación (el más denso del repo) |
@@ -102,7 +128,7 @@ resuelve por su causa raíz (taxonomía A–G del plan).
 | lib/conversion/contentModel.test.js | 5 | Modelo de contenido |
 | lib/conversion/evidence.test.js | 5 | Evidencia social |
 
-### Store, estilos y entorno (6)
+### Store, estilos y entorno (4)
 | Fichero | Tests |
 |---|---|
 | store/cartStore.test.js | 2 |
