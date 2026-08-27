@@ -12,9 +12,9 @@
 | 4 | Arquitectura de experiencia | `c9448c4` | 2026-08-27 · navegación por grupos · breadcrumb · Configurador · DP-1…DP-4 cerradas |
 | 5 | Motion Engine 2.0 + Scroll Storytelling | `3cdaa19..70606dd` (7) | 2026-08-27 · tokens extendidos · scroll narrativo · componentes · 8 recetas · MotionDebug · aprobada forensemente (veredicto C) |
 
-## Fase 6 — pendiente de confirmación final (DF-006)
+## Fase 6 — definición vigente: WORLD BUILDING (estructura de 5 bloques aprobada provisionalmente; confirmación final pendiente — DF-006)
 
-**Definición propuesta (evidencia unánime del repo + veredicto ChatGPT 2026-08-27): WORLD BUILDING.**
+**Definición vigente (aprobada provisionalmente por ChatGPT 2026-08-27; evidencia unánime del repo): WORLD BUILDING.** La migración/rediseño de páginas NO pertenece a Fase 6; queda asignada a Fase 8.
 
 Estructura ajustada por ChatGPT (sustituye al plan de 175 tareas del informe de auditoría, que queda como insumo histórico):
 

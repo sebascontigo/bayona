@@ -39,3 +39,14 @@
 - **Riesgos:** sin nuevos riesgos; OBS-1/OBS-2 siguen en ROADMAP como endurecimiento.
 - **Conclusión:** estado documental autocontenido establecido; ningún código funcional modificado.
 - **Siguiente acción:** confirmación de DF-006 por Sebastián → plan operativo de Fase 6 sobre la estructura de 5 bloques de ChatGPT.
+
+## Entrada 004 — Sincronización final de referencias (post-auditoría independiente)
+- **Fecha:** 2026-08-27 · **Commit de partida:** `2de0a6c` (= origin/main, árbol limpio) · **Rama:** main
+- **Objetivo:** corrección de la inconsistencia detectada por la auditoría independiente de ChatGPT sobre GitHub: PROJECT-STATE/HANDOFF declaraban `70606dd` como HEAD actual cuando el HEAD real ya era `2de0a6c` (commit que creó el propio sistema documental).
+- **Comprobaciones:** `git fetch` + `rev-parse HEAD`/`origin/main` = `2de0a6c` idénticos; grep de todas las referencias a HEAD/70606dd/2de0a6c en `docs/`; clasificación de cada referencia en desactualizada vs. históricamente correcta.
+- **Resultado:** corregidas SOLO las referencias que declaraban estado actual (PROJECT-STATE identificación —ahora distingue último commit de código `70606dd` vs. último commit documental `2de0a6c` + esta sincronización— y HANDOFF). Las menciones de `70606dd` en AUDITORIA-FORENSE-FASES-1-5.md, AUDIT-LOG 002/003, ROADMAP (commits de Fase 5) y gates se conservan por ser históricamente exactas (commit auditado / rango de fase / estado de código sobre el que se ejecutaron los gates). Entradas anteriores intactas (append-only).
+- **DF-006:** definición vigente mantenida = FASE 6 WORLD BUILDING, estructura de 5 bloques aprobada provisionalmente; decisión sigue PENDIENTE de confirmación explícita de Sebastián (no cerrada por el agente).
+- **Riesgos:** ninguno nuevo.
+- **Conclusión:** el sistema documental describe ahora el estado real del repo; ningún código funcional modificado (diff limitado a `docs/`).
+- **Commit:** el commit documental de sincronización que contiene esta entrada (inmediato posterior a `2de0a6c`, solo `docs/`); verificable con `git log`.
+- **Siguiente acción:** auditoría de ChatGPT sobre el repo actualizado → preparación del Prompt Maestro de Fase 6 si procede.

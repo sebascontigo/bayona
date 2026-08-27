@@ -10,10 +10,11 @@
 |---|---|---|
 | Repositorio | github.com/sebascontigo/bayona | VERIFIED |
 | Rama | main | VERIFIED |
-| HEAD | `70606ddf6ac9ff375b5eecda302fa12acb4b9834` | VERIFIED (2026-08-27) |
-| HEAD = origin/main | Sí, idénticos | VERIFIED (2026-08-27) |
-| Último commit | `70606dd` "Fase 5 (7/7): documentacion del Motion Engine 2.0 + Scroll Storytelling" | VERIFIED |
-| Working tree | Limpio (antes del commit documental de esta sincronización) | VERIFIED |
+| HEAD | `2de0a6c19c87e796ec5dbb68a8e488bd5807a37b` (commit documental del sistema central V1.0). El commit de sincronización final que actualiza estas referencias (solo `docs/`, ver AUDIT-LOG entrada 004) lo sucede inmediatamente. | VERIFIED (2026-08-27) |
+| HEAD = origin/main | Sí, idénticos en `2de0a6c` antes de esta sincronización | VERIFIED (2026-08-27) |
+| Último commit de código | `70606dd` "Fase 5 (7/7): documentacion del Motion Engine 2.0 + Scroll Storytelling" — el código no ha cambiado desde entonces; los commits posteriores son exclusivamente documentales | VERIFIED |
+| Último commit documental | `2de0a6c` (sistema central docs/) + commit de sincronización final (AUDIT-LOG entrada 004) | VERIFIED |
+| Working tree | Limpio | VERIFIED |
 
 ## Fases
 
@@ -24,7 +25,7 @@
 | Siguiente fase propuesta | **FASE 6 — WORLD BUILDING** (evidencia unánime del repo + veredicto ChatGPT 2026-08-27; estructura ajustada en 5 bloques estratégicos) | PROPUESTA |
 | Fases 1–5 | Completadas y aprobadas por auditoría forense (veredicto ✅ C, AUDIT-LOG entrada 002) | VERIFIED |
 
-## Gates (ejecutados 2026-08-27 sobre HEAD 70606dd)
+## Gates (ejecutados 2026-08-27 sobre el estado de código `70606dd`; los commits posteriores son solo documentales y no modifican código)
 
 | Gate | Resultado | Etiqueta |
 |---|---|---|

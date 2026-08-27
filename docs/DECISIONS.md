@@ -43,7 +43,7 @@
 - **Regla:** NO convertir en decisión tomada; NO tocar hasta que Sebastián resuelva.
 
 ## DF-006 · Definición de Fase 6 (contradicción registrada)
-- **Fecha:** 2026-08-27 · **Estado:** **PENDIENTE DE CONFIRMACIÓN FINAL** · **Quién:** Sebastián
+- **Fecha:** 2026-08-27 · **Estado:** **PENDIENTE DE CONFIRMACIÓN FINAL** (Sebastián) · **Definición vigente mientras tanto:** FASE 6 = WORLD BUILDING, con la estructura de 5 bloques **aprobada provisionalmente** por ChatGPT (2026-08-27). La migración/rediseño de páginas NO pertenece a Fase 6; queda asignada a Fase 8. · **Quién:** Sebastián
 - **Contradicción:** dos líneas de planificación definen Fase 6 de forma distinta:
   - (A) **WORLD BUILDING** — dirección espacial/narrativa/visual, mundos, gramática espacial, blueprints. Sin tocar páginas públicas.
   - (B) **Migración/rediseño de páginas** — aparecía solo en la plantilla del PROMPT MAESTRO de auditoría pegado el 2026-08-27.
