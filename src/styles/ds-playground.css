@@ -143,3 +143,87 @@
     transition: none !important;
   }
 }
+
+/* ---------------------------------------------------------------------
+   BLOQUES 10-16 · MOTION ENGINE 2.0 (Fase 5)
+   Demos de scroll storytelling: marquee, TextMask, StickyStage,
+   HorizontalPassage, handoff 3D y recetas. Solo existen en esta ruta.
+   --------------------------------------------------------------------- */
+
+/* 11 · Marquee: lineas editoriales compactas. */
+.dsp-marquee-item {
+  padding: var(--ds-space-2) var(--ds-space-4);
+  border: var(--ds-border-hairline);
+  color: var(--ds-color-muted);
+  font-family: var(--ds-font-mono);
+  font-size: var(--ds-fs-body-small);
+  letter-spacing: var(--ds-ls-eyebrow);
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+/* 12 · TextMask: lineas pequenas y legibles. */
+.dsp-mask-demo {
+  padding: var(--ds-space-6);
+  border: var(--ds-border-hairline);
+  background: var(--ds-surface-deep);
+  color: var(--ds-color-ink);
+  font-size: var(--ds-fs-body);
+  line-height: 1.6;
+}
+
+/* 13 · StickyStage: estados A/B/C del escenario. */
+.dsp-stage-state {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ds-space-3);
+  padding: var(--ds-space-6);
+  border: var(--ds-border-hairline);
+  background: var(--ds-surface-deep);
+}
+
+.dsp-stage-index {
+  color: var(--ds-color-accent);
+  font-family: var(--ds-font-mono);
+  font-size: var(--ds-fs-body-small);
+  letter-spacing: var(--ds-ls-eyebrow);
+  text-transform: uppercase;
+}
+
+.dsp-stage-copy {
+  color: var(--ds-color-muted);
+  font-size: var(--ds-fs-body);
+}
+
+/* 14 · HorizontalPassage: vagones compactos del rail. */
+.dsp-wagon {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ds-space-3);
+  width: min(320px, 72vw);
+  padding: var(--ds-space-6);
+  border: var(--ds-border-hairline);
+  background: var(--ds-surface-deep);
+  flex-shrink: 0;
+}
+
+.dsp-wagon-tag {
+  color: var(--ds-color-accent);
+  font-family: var(--ds-font-mono);
+  font-size: var(--ds-fs-body-small);
+  letter-spacing: var(--ds-ls-eyebrow);
+}
+
+.dsp-wagon-copy {
+  color: var(--ds-color-muted);
+  font-size: var(--ds-fs-body);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dsp-mask-demo *,
+  .dsp-stage-state *,
+  .dsp-wagon * {
+    animation: none !important;
+    transition: none !important;
+  }
+}

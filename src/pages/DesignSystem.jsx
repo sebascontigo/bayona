@@ -13,13 +13,21 @@ import {
   BREAKPOINTS,
   cameraPresets,
   depthLayers,
+  HorizontalPassage,
+  Marquee,
   materialPresets,
+  MOTION_INTENSITIES,
   motionTokens,
+  RECIPE_LIST,
   Reveal,
   sceneMotion,
+  SECTION_RANGES,
+  StickyStage,
+  TextMask,
   TextReveal,
   theme,
 } from '../engine'
+import { useScrollHandoff } from '../engine/scroll/scrollHandoff.js'
 import {
   Button,
   CardBase,
@@ -75,6 +83,82 @@ const MOTION_TIERS = [
 ]
 
 const SPACE_SCALE = [4, 8, 12, 16, 24, 32, 48, 64, 96, 128, 192]
+
+/** Lineas editoriales de la marquesina de demostracion. */
+const MARQUEE_LINES = ['BAYONA', 'MÉTODO', 'MOVIMIENTO', 'DISCIPLINA', 'CALMA', 'PROGRESO']
+
+/** Descripcion breve de cada rango declarativo de progreso. */
+const RANGE_USE = {
+  traverse: 'Recorrido completo de la seccion por el viewport',
+  enter: 'Entrada: desde que asoma hasta ocupar el viewport',
+  pin: 'Seccion fijada: base del sticky storytelling',
+  exit: 'Salida de la seccion hacia la parte superior',
+}
+
+/** Estados del escenario sticky de demostracion. */
+const STAGE_STATES = [
+  { label: 'A', copy: 'El scroll entra en la seccion.' },
+  { label: 'B', copy: 'La informacion se transforma en su lugar.' },
+  { label: 'C', copy: 'La historia continua sin cortes.' },
+]
+
+/** Vagones del pasaje horizontal de demostracion. */
+const PASSAGE_WAGONS = [
+  { tag: '01', copy: 'Relacion espacial' },
+  { tag: '02', copy: 'Cambio de escala' },
+  { tag: '03', copy: 'Desplazamiento' },
+  { tag: '04', copy: 'Continuidad' },
+]
+
+/** Lectura del handoff scroll -> 3D (Fase 7 lo consumira desde las escenas). */
+function HandoffDemo() {
+  const handoff = useScrollHandoff()
+  const snapshot = handoff.snapshot()
+
+  return (
+    <table className="dsp-table">
+      <thead>
+        <tr>
+          <th>Campo</th>
+          <th>Valor ahora</th>
+          <th>Uso en Fase 7</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>progress</td>
+          <td>{snapshot.progress.toFixed(2)}</td>
+          <td>Progreso de escena / camara</td>
+        </tr>
+        <tr>
+          <td>velocity</td>
+          <td>{snapshot.velocity.toFixed(1)}</td>
+          <td>Inercia sutil de objetos</td>
+        </tr>
+        <tr>
+          <td>direction</td>
+          <td>{snapshot.direction}</td>
+          <td>Sentido de la transicion</td>
+        </tr>
+        <tr>
+          <td>viewport</td>
+          <td>{`${snapshot.viewport.width}×${snapshot.viewport.height}`}</td>
+          <td>Encuadre y calidad</td>
+        </tr>
+        <tr>
+          <td>reducedMotion</td>
+          <td>{snapshot.reducedMotion ? 'sí' : 'no'}</td>
+          <td>Modo estatico de la escena</td>
+        </tr>
+        <tr>
+          <td>mode / dprLimit</td>
+          <td>{`${snapshot.mode} / ${snapshot.dprLimit}`}</td>
+          <td>Nivel de detalle (R22.3)</td>
+        </tr>
+      </tbody>
+    </table>
+  )
+}
 
 export default function DesignSystem() {
   return (
@@ -312,6 +396,155 @@ export default function DesignSystem() {
                 <tr key={name}>
                   <td>{name}</td>
                   <td>{`${width}px`}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+
+        {/* --------------------------------------------- SCROLL STORYTELLING */}
+        <div className="dsp-block">
+          <SectionLabel>10 · Scroll storytelling</SectionLabel>
+          <p className="ds-body-small">
+            Rangos declarativos de progreso por sección (vocabulario useScroll
+            de Framer Motion) e intensidades disponibles del Motion Engine.
+          </p>
+          <table className="dsp-table">
+            <thead>
+              <tr>
+                <th>Rango</th>
+                <th>offset</th>
+                <th>Uso</th>
+              </tr>
+            </thead>
+            <tbody>
+              {Object.entries(SECTION_RANGES).map(([name, offset]) => (
+                <tr key={name}>
+                  <td>{name}</td>
+                  <td>{offset.join(' → ')}</td>
+                  <td>{RANGE_USE[name]}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          <table className="dsp-table">
+            <thead>
+              <tr>
+                <th>Intensidad</th>
+                <th>Amplitud</th>
+                <th>Velocidad</th>
+                <th>Simultaneidad</th>
+              </tr>
+            </thead>
+            <tbody>
+              {Object.entries(MOTION_INTENSITIES).map(([name, preset]) => (
+                <tr key={name}>
+                  <td>{name}</td>
+                  <td>{preset.amplitude}</td>
+                  <td>{preset.speed}</td>
+                  <td>{preset.simultaneity}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+
+        {/* -------------------------------------------------------- MARQUEE */}
+        <div className="dsp-block">
+          <SectionLabel>11 · Marquee</SectionLabel>
+          <p className="ds-body-small">
+            Marquesina declarativa: velocidad, dirección, pausa en hover y
+            fallback estático con reduced motion.
+          </p>
+          <Marquee ariaLabel="Líneas editoriales" duration={30} pauseOnHover>
+            {MARQUEE_LINES.map((line) => (
+              <span className="dsp-marquee-item" key={line}>{line}</span>
+            ))}
+          </Marquee>
+        </div>
+
+        {/* ------------------------------------------------------- TEXTMASK */}
+        <div className="dsp-block">
+          <SectionLabel>12 · TextMask</SectionLabel>
+          <p className="ds-body-small">
+            Revelado de líneas con máscara: tipografía compacta que entra sin
+            rebotes ni overshoot.
+          </p>
+          <TextMask
+            className="dsp-mask-demo"
+            lines={[
+              'El movimiento es información.',
+              'El scroll es una interfaz narrativa.',
+              'La calma también se diseña.',
+            ]}
+          />
+        </div>
+
+        {/* ---------------------------------------------------- STICKYSTAGE */}
+        <div className="dsp-block">
+          <SectionLabel>13 · StickyStage</SectionLabel>
+          <p className="ds-body-small">
+            Escenario fijo con estados A/B/C por progreso. En móvil o con
+            reduced motion se apila como secuencia estática.
+          </p>
+        </div>
+        <StickyStage length="150vh" states={STAGE_STATES.length} className="dsp-stage">
+          {({ index }) => (
+            <div className="dsp-stage-state">
+              <span className="dsp-stage-index">{`Estado ${STAGE_STATES[index].label}`}</span>
+              <p className="dsp-stage-copy">{STAGE_STATES[index].copy}</p>
+            </div>
+          )}
+        </StickyStage>
+
+        {/* ----------------------------------------------- HORIZONTALPASSAGE */}
+        <div className="dsp-block">
+          <SectionLabel>14 · HorizontalPassage</SectionLabel>
+          <p className="ds-body-small">
+            Bloque horizontal controlado por scroll: solo narrativo. En móvil o
+            con reduced motion se convierte en pila vertical.
+          </p>
+        </div>
+        <HorizontalPassage length="200vh" className="dsp-passage">
+          {PASSAGE_WAGONS.map((wagon) => (
+            <div className="dsp-wagon" key={wagon.tag}>
+              <span className="dsp-wagon-tag">{wagon.tag}</span>
+              <p className="dsp-wagon-copy">{wagon.copy}</p>
+            </div>
+          ))}
+        </HorizontalPassage>
+
+        {/* ------------------------------------------------------ HANDOFF 3D */}
+        <div className="dsp-block">
+          <SectionLabel>15 · Handoff 3D</SectionLabel>
+          <p className="ds-body-small">
+            API de entrega del scroll al motor 3D (Fase 7): progreso,
+            velocidad, dirección, viewport y capacidades.
+          </p>
+          <HandoffDemo />
+        </div>
+
+        {/* -------------------------------------------------------- RECETAS */}
+        <div className="dsp-block">
+          <SectionLabel>16 · Recetas de movimiento</SectionLabel>
+          <table className="dsp-table">
+            <thead>
+              <tr>
+                <th>Receta</th>
+                <th>Intensidad</th>
+                <th>Nivel</th>
+                <th>Componentes</th>
+                <th>Propósito</th>
+              </tr>
+            </thead>
+            <tbody>
+              {RECIPE_LIST.map((recipe) => (
+                <tr key={recipe.id}>
+                  <td>{recipe.name}</td>
+                  <td>{recipe.intensity}</td>
+                  <td>{recipe.tier}</td>
+                  <td>{recipe.components.join(', ')}</td>
+                  <td>{recipe.purpose}</td>
                 </tr>
               ))}
             </tbody>

@@ -3,6 +3,7 @@ import { Route, Routes } from 'react-router-dom'
 import { Footer, Navbar, WhatsAppButton } from './components/Layout'
 import { ScrollProgress } from './components/Experience'
 import { PageTransition, CustomCursor } from './engine'
+import { MotionDebug } from './engine/debug/MotionDebug.jsx'
 import PremiumRouteChrome from './components/PremiumRouteChrome'
 import RouteSeo from './components/seo/RouteSeo.jsx'
 import RouteEffects from './components/RouteEffects.jsx'
@@ -61,6 +62,11 @@ function Site() {
       <RouteSeo />
       <RouteEffects />
       <ScrollProgress />
+      {/*
+        Debug del Motion Engine (Fase 5): solo existe en desarrollo y con el
+        flag ?motionDebug=1. En produccion la rama se elimina del bundle.
+      */}
+      <MotionDebug />
       <CustomCursor />
       <Navbar />
       <PageTransition>

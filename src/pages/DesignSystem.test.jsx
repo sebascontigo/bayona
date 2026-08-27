@@ -28,10 +28,23 @@ vi.mock('framer-motion', () => {
       : component(tag)),
   })
 
+  // MotionValue minimo para los hooks de scroll del Motion Engine (Fase 5):
+  // el playground demuestra StickyStage/HorizontalPassage, que leen progreso
+  // normalizado sin re-render por fotograma.
+  const motionValue = (initial = 0) => ({
+    get: () => initial,
+    set: () => {},
+    on: () => () => {},
+  })
+
   return {
     AnimatePresence: ({ children }) => children,
     motion,
     useReducedMotion: () => false,
+    useMotionValue: (initial) => motionValue(initial),
+    useScroll: () => ({ scrollYProgress: motionValue(0) }),
+    useTransform: () => motionValue(0),
+    useMotionValueEvent: () => {},
   }
 })
 
@@ -53,7 +66,7 @@ describe('página DesignSystem (playground interno)', () => {
     ).toBeInTheDocument()
   })
 
-  it('muestra las nueve secciones del sistema', () => {
+  it('muestra las dieciséis secciones del sistema', () => {
     renderPage()
 
     for (const label of [
@@ -66,6 +79,13 @@ describe('página DesignSystem (playground interno)', () => {
       '07 · Presets 3D',
       '08 · Escala z-index',
       '09 · Breakpoints',
+      '10 · Scroll storytelling',
+      '11 · Marquee',
+      '12 · TextMask',
+      '13 · StickyStage',
+      '14 · HorizontalPassage',
+      '15 · Handoff 3D',
+      '16 · Recetas de movimiento',
     ]) {
       expect(screen.getByText(label), label).toBeInTheDocument()
     }
@@ -94,5 +114,30 @@ describe('página DesignSystem (playground interno)', () => {
     // Niveles de movimiento de motionTokens.js.
     expect(screen.getByText('micro')).toBeInTheDocument()
     expect(screen.getByText('cinematic')).toBeInTheDocument()
+  })
+
+  it('demuestra las piezas del Motion Engine 2.0 (Fase 5)', () => {
+    renderPage()
+
+    // Marquesina declarativa con lineas editoriales.
+    expect(screen.getByRole('region', { name: 'Líneas editoriales' })).toBeInTheDocument()
+    expect(screen.getAllByText('BAYONA').length).toBeGreaterThanOrEqual(1)
+
+    // TextMask: las tres lineas de la demo, accesibles por su texto completo.
+    expect(screen.getByText('El movimiento es información.')).toBeInTheDocument()
+
+    // StickyStage: en jsdom (modo mobile) se apilan los tres estados.
+    expect(screen.getByText('Estado A')).toBeInTheDocument()
+    expect(screen.getByText('Estado B')).toBeInTheDocument()
+    expect(screen.getByText('Estado C')).toBeInTheDocument()
+
+    // HorizontalPassage: los cuatro vagones visibles en el fallback estatico.
+    expect(screen.getByText('Relacion espacial')).toBeInTheDocument()
+    expect(screen.getByText('Continuidad')).toBeInTheDocument()
+
+    // Recetas: las ocho declaradas en recipes/index.js.
+    expect(screen.getByText('Editorial Reveal')).toBeInTheDocument()
+    expect(screen.getByText('Horizontal Passage')).toBeInTheDocument()
+    expect(screen.getByText('Quiet Transition')).toBeInTheDocument()
   })
 })
