@@ -803,3 +803,16 @@
     transform: none !important;
   }
 }
+
+/* Fase 4 (DP-3): puerta de entrada al configurador completo (/checkout). */
+.programs-calculator-open {
+  margin-top: 34px;
+}
+
+.programs-calculator-open-note {
+  margin: 14px 0 0;
+  color: var(--bayona-muted);
+  font: 500 10px/1.6 'DM Mono', monospace;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}

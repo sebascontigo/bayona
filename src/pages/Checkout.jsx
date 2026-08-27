@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react'
 import { AlertTriangle, ArrowRight, Check, Copy, MessageCircle } from 'lucide-react'
+import { Link, useSearchParams } from 'react-router-dom'
 import { SectionLabel } from '../components/Layout'
 import {
   buildExperienceWhatsAppUrl,
@@ -19,9 +20,22 @@ const INITIAL_CONTACT = {
   whatsapp: '',
 }
 
+/**
+ * Fase 4: el configurador acepta ?plan=<id> para llegar con el plan base ya
+ * marcado desde las fichas de plan y los programas. Fail-closed: si el valor
+ * no existe en el catálogo canónico se ignora y se usa el primer plan, igual
+ * que antes. Nunca se inventa un plan a partir del query string.
+ */
+function resolveInitialPlanId(searchParams) {
+  const requested = searchParams.get('plan')
+  if (requested && membershipPlans.some((plan) => plan.id === requested)) return requested
+  return membershipPlans[0].id
+}
+
 export default function Checkout() {
+  const [searchParams] = useSearchParams()
   const [contact, setContact] = useState(INITIAL_CONTACT)
-  const [planId, setPlanId] = useState(membershipPlans[0].id)
+  const [planId, setPlanId] = useState(() => resolveInitialPlanId(searchParams))
   const [serviceQuantities, setServiceQuantities] = useState({})
   const [extraIds, setExtraIds] = useState([])
   /**
@@ -95,8 +109,8 @@ export default function Checkout() {
   return (
     <>
       <section className="checkout-hero section-shell">
-        <SectionLabel>SOLICITUD / WHATSAPP</SectionLabel>
-        <h1>CONFIGURA TU SOLICITUD.</h1>
+        <SectionLabel>CONFIGURADOR BAYONA / SIN PAGO</SectionLabel>
+        <h1>CONFIGURA TU EXPERIENCIA.</h1>
         <p className="checkout-subtitle">
           Elige un plan y los servicios que quieras consultar. Aquí no se procesa ningún pago.
         </p>
@@ -105,8 +119,113 @@ export default function Checkout() {
       <section className="checkout-page section-shell" aria-labelledby="checkout-form-title">
         <div className="checkout-layout">
           <form onSubmit={handleSubmit} className="checkout-form" aria-describedby="checkout-data-note">
+            {/*
+              Fase 4: el orden sigue la decisión real del visitante — primero
+              qué camino quiere (plan), después qué añade (clases y extras) y
+              solo al final sus datos. Antes los datos iban primero y la
+              elección después, lo que invertía el embudo de decisión.
+            */}
             <fieldset className="checkout-fieldset">
-              <legend id="checkout-form-title">1. Datos mínimos de contacto</legend>
+              <legend id="checkout-form-title">1. Elige tu plan base</legend>
+              <div className="checkout-plans">
+                {membershipPlans.map((plan) => (
+                  <label key={plan.id} className={planId === plan.id ? 'selected' : ''}>
+                    <input
+                      type="radio"
+                      name="checkout-plan"
+                      value={plan.id}
+                      checked={planId === plan.id}
+                      onChange={(event) => {
+                        setPlanId(event.target.value)
+                        trackEvent('plan_selected', {
+                          source: 'checkout',
+                          plan: plan.name,
+                          value: plan.priceCop,
+                        })
+                      }}
+                    />
+                    <span>
+                      <b>{plan.name}</b>
+                      <small className="checkout-plan-tag">{plan.tag}</small>
+                      <small>{plan.description}</small>
+                    </span>
+                    <span className="checkout-plan-price">
+                      <strong>{plan.priceDisplay}</strong>
+                      <small>
+                        <span>{plan.currency}</span>
+                        <span aria-hidden="true"> · </span>
+                        <span>{plan.eur}</span>
+                        <span aria-hidden="true"> · </span>
+                        <span>{plan.usdDisplay}</span>
+                      </small>
+                    </span>
+                  </label>
+                ))}
+              </div>
+            </fieldset>
+
+            <fieldset className="checkout-fieldset">
+              <legend>2. Añade clases por cantidad</legend>
+              <div className="checkout-service-list">
+                {sessionServices.map((service) => (
+                  <label
+                    key={service.id}
+                    htmlFor={`checkout-quantity-${service.id}`}
+                    className="checkout-service-option"
+                  >
+                    <span>
+                      <strong>{service.label}</strong>
+                      <small>
+                        {service.priceDisplay} COP por clase
+                        {service.presencial ? ' · sujeto a ubicación y disponibilidad' : ''}
+                      </small>
+                    </span>
+                    <span className="checkout-quantity-control">
+                      Cantidad
+                      <select
+                        id={`checkout-quantity-${service.id}`}
+                        value={serviceQuantities[service.id] ?? 0}
+                        onChange={(event) => updateQuantity(service.id, event.target.value)}
+                      >
+                        {service.quantities.map((quantity) => (
+                          <option key={quantity} value={quantity}>{quantity}</option>
+                        ))}
+                      </select>
+                    </span>
+                  </label>
+                ))}
+              </div>
+            </fieldset>
+
+            <fieldset className="checkout-fieldset">
+              <legend>3. Elige servicios extra</legend>
+              <div className="checkout-extra-list">
+                {extraServices.map((service) => {
+                  const isSelected = extraIds.includes(service.id)
+                  return (
+                    <label key={service.id} className={isSelected ? 'selected' : ''}>
+                      <input
+                        type="checkbox"
+                        checked={isSelected}
+                        onChange={(event) => toggleExtra(service.id, event.target.checked)}
+                      />
+                      <span>
+                        <strong>{service.label}</strong>
+                        <small>{service.description}</small>
+                        <small className="checkout-extra-scope">
+                          {service.priceDisplay} COP
+                          {service.presencial ? ' · sujeto a ubicación y disponibilidad' : ''}
+                          {service.healthScope ? ' · sin diagnóstico, cura ni promesas médicas' : ''}
+                        </small>
+                      </span>
+                    </label>
+                  )
+                })}
+              </div>
+            </fieldset>
+
+            <fieldset className="checkout-fieldset">
+              <legend>4. Datos mínimos de contacto</legend>
               <p id="checkout-data-note" className="checkout-help">
                 Usaremos estos datos únicamente para detallar la solicitud que abrirás en WhatsApp.
               </p>
@@ -156,105 +275,6 @@ export default function Checkout() {
               </div>
             </fieldset>
 
-            <fieldset className="checkout-fieldset">
-              <legend>2. Selecciona tu plan base</legend>
-              <div className="checkout-plans">
-                {membershipPlans.map((plan) => (
-                  <label key={plan.id} className={planId === plan.id ? 'selected' : ''}>
-                    <input
-                      type="radio"
-                      name="checkout-plan"
-                      value={plan.id}
-                      checked={planId === plan.id}
-                      onChange={(event) => {
-                        setPlanId(event.target.value)
-                        trackEvent('plan_selected', {
-                          source: 'checkout',
-                          plan: plan.name,
-                          value: plan.priceCop,
-                        })
-                      }}
-                    />
-                    <span>
-                      <b>{plan.name}</b>
-                      <small className="checkout-plan-tag">{plan.tag}</small>
-                      <small>{plan.description}</small>
-                    </span>
-                    <span className="checkout-plan-price">
-                      <strong>{plan.priceDisplay}</strong>
-                      <small>
-                        <span>{plan.currency}</span>
-                        <span aria-hidden="true"> · </span>
-                        <span>{plan.eur}</span>
-                        <span aria-hidden="true"> · </span>
-                        <span>{plan.usdDisplay}</span>
-                      </small>
-                    </span>
-                  </label>
-                ))}
-              </div>
-            </fieldset>
-
-            <fieldset className="checkout-fieldset">
-              <legend>3. Añade clases por cantidad</legend>
-              <div className="checkout-service-list">
-                {sessionServices.map((service) => (
-                  <label
-                    key={service.id}
-                    htmlFor={`checkout-quantity-${service.id}`}
-                    className="checkout-service-option"
-                  >
-                    <span>
-                      <strong>{service.label}</strong>
-                      <small>
-                        {service.priceDisplay} COP por clase
-                        {service.presencial ? ' · sujeto a ubicación y disponibilidad' : ''}
-                      </small>
-                    </span>
-                    <span className="checkout-quantity-control">
-                      Cantidad
-                      <select
-                        id={`checkout-quantity-${service.id}`}
-                        value={serviceQuantities[service.id] ?? 0}
-                        onChange={(event) => updateQuantity(service.id, event.target.value)}
-                      >
-                        {service.quantities.map((quantity) => (
-                          <option key={quantity} value={quantity}>{quantity}</option>
-                        ))}
-                      </select>
-                    </span>
-                  </label>
-                ))}
-              </div>
-            </fieldset>
-
-            <fieldset className="checkout-fieldset">
-              <legend>4. Elige servicios extra</legend>
-              <div className="checkout-extra-list">
-                {extraServices.map((service) => {
-                  const isSelected = extraIds.includes(service.id)
-                  return (
-                    <label key={service.id} className={isSelected ? 'selected' : ''}>
-                      <input
-                        type="checkbox"
-                        checked={isSelected}
-                        onChange={(event) => toggleExtra(service.id, event.target.checked)}
-                      />
-                      <span>
-                        <strong>{service.label}</strong>
-                        <small>{service.description}</small>
-                        <small className="checkout-extra-scope">
-                          {service.priceDisplay} COP
-                          {service.presencial ? ' · sujeto a ubicación y disponibilidad' : ''}
-                          {service.healthScope ? ' · sin diagnóstico, cura ni promesas médicas' : ''}
-                        </small>
-                      </span>
-                    </label>
-                  )
-                })}
-              </div>
-            </fieldset>
-
             <p className="checkout-scope-notice">{COMMERCIAL_SCOPE_NOTICE}</p>
 
             <button type="submit" className="complete-button">
@@ -284,6 +304,14 @@ export default function Checkout() {
                         abrir la conversación
                       </a>
                       .
+                    </p>
+                    {/*
+                      Fase 4: /order-confirmation era una ruta huérfana (sin
+                      ninguna entrada). Ahora se ofrece como siguiente paso
+                      natural tras abrir la solicitud: qué ocurre ahora.
+                    */}
+                    <p>
+                      <Link to="/order-confirmation">Ver qué ocurre después de tu solicitud</Link>
                     </p>
                   </div>
                 </div>

@@ -27,9 +27,9 @@ una fase termine.
 | 11 | `/community` | ✅ | lazy | index | Unirse por WhatsApp (gratis) | No | sin test dedicado (cubierta por baseline/e2e) |
 | 12 | `/resources` | ✅ | lazy | index | Recursos gratis → WhatsApp con contexto | No | Resources.test (5) |
 | 13 | `/faq` | ✅ | lazy | index | Videollamada / pregunta rápida (WhatsApp) | No | FAQ.test (4) |
-| 14 | `/checkout` | ✅ | lazy | **noindex** (embudo) | Configurar solicitud → enviar por WhatsApp | No | Checkout.test (2), criticalFlow (3) |
+| 14 | `/checkout` | ✅ | lazy | **noindex** (embudo) | CONFIGURADOR BAYONA: configurar solicitud → enviar por WhatsApp | No | Checkout.test (6), criticalFlow (3), commercialSync |
 | 15 | `/order-confirmation` | ✅ | lazy | **noindex** (embudo) | Confirmación de siguientes pasos | No | criticalFlow (3) |
-| 16 | `/onboarding` | ✅ | lazy | index | Recepción: recorrido guiado → ruta sugerida | No | Onboarding.test (4), e2e home-preview |
+| 16 | `/onboarding` | ✅ | lazy | index | Recepción: recorrido guiado → ficha del plan recomendado | No | Onboarding.test (5), e2e home-preview |
 | 17 | `/entrar` | ✅ (alias) | lazy | canonical → `/onboarding` | misma recepción | No | contrato de alias en routeMeta |
 | — | `*` (404) | ✅ | lazy | **noindex**, 404 real | Accesos principales | No | baselineContract (404 declarado) |
 
@@ -55,5 +55,25 @@ una fase termine.
 
 - `/community` no tiene test dedicado de página.
 - Ninguna ruta monta todavía una escena SceneMount (Fase 7).
-- No existen breadcrumbs renderizados (el dato `breadcrumb` sí existe en routeMeta y lo
-  consume el structured data; falta el componente visible) → Fase 4 (navegación).
+- ~~No existen breadcrumbs renderizados (el dato `breadcrumb` sí existe en routeMeta y lo
+  consume el structured data; falta el componente visible) → Fase 4 (navegación).~~
+  **RESUELTO en Fase 4 (2026-08-27):** `src/components/navigation/Breadcrumb.jsx`
+  renderiza el mismo dato `breadcrumb` de routeMeta; montado una vez en `App.jsx`,
+  con visibilidad por ruta (no pinta en home, recepción/alias, interna ni 404).
+  Contrato en `Breadcrumb.test.jsx` (6 tests).
+
+## Actualización Fase 4 (2026-08-27)
+
+La matriz de rutas no cambia (17 públicas + alias + 404 + interna), pero sí la
+experiencia de navegación alrededor de ella:
+
+- **Navbar y footer agrupados** por intención: ENTRENAR / EXPERIENCIAS / CONOCER /
+  APRENDER + bloque ENTRAR (`src/components/Layout.jsx`). El CTA de barra lleva a
+  recepción (`/onboarding`), no a comprar.
+- **Breadcrumb visible** (sistema de posición) en rutas de contenido y embudo.
+- **Cierre de página unificado:** `ROUTE_CONTINUATIONS` retirado de
+  `PremiumRouteChrome.jsx`; NextChapter (chapters.js) es el único "qué viene después".
+- **Embudo conectado:** `/checkout` (CONFIGURADOR BAYONA) recibe entradas desde las
+  fichas de plan (`?plan=<id>`) y desde `/programs`; su handoff de éxito enlaza a
+  `/order-confirmation`, que deja de ser huérfana. Detalle en
+  FASE4-ARQUITECTURA-EXPERIENCIA.md, ROUTE-JOURNEYS.md y PAGE-EXPERIENCE-MATRIX.md.

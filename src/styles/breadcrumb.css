@@ -1,0 +1,59 @@
+/**
+ * BAYONA · MIGA DE PAN (FASE 4)
+ * ---------------------------------------------------------------------------
+ * Barra de posición: discreta, monoespaciada, siempre debajo de la barra fija.
+ * No compite con los héroes: orienta y desaparece.
+ */
+
+.breadcrumb {
+  position: relative;
+  z-index: 2;
+  padding: 86px max(24px, calc((100vw - 1240px) / 2)) 0;
+}
+
+.breadcrumb-trail {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.breadcrumb-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: #8d8880;
+  font: 600 8px/1.4 'DM Mono', monospace;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.breadcrumb-item + .breadcrumb-item::before {
+  content: '/';
+  color: rgba(244, 162, 97, 0.55);
+}
+
+.breadcrumb-item a {
+  min-height: 24px;
+  display: inline-flex;
+  align-items: center;
+  color: inherit;
+}
+
+.breadcrumb-item a:hover,
+.breadcrumb-item a:focus-visible {
+  color: var(--bayona-orange);
+}
+
+.breadcrumb-item [aria-current='page'] {
+  color: var(--bayona-white);
+}
+
+@media (max-width: 800px) {
+  .breadcrumb {
+    padding-top: 78px;
+  }
+}

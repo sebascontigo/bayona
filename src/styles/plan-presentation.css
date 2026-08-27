@@ -1794,3 +1794,54 @@
     transition: none;
   }
 }
+
+/* ------------------------------------------------------------------------
+   Fase 4: caminos secundarios de la ficha de plan — configurador y PDF.
+   Mismo lenguaje que los enlaces mono de la casa; nunca compiten con el
+   CTA principal (QUIERO EMPEZAR), solo ofrecen otra puerta de salida.
+   ------------------------------------------------------------------------ */
+
+.plan-presentation-hero-secondary {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 26px;
+  margin-top: 18px;
+}
+
+.plan-presentation-secondary-link {
+  min-height: 32px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: #aaa59e;
+  font: 500 9px/1 'DM Mono', monospace;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  border-bottom: 1px solid rgba(244, 162, 97, 0.25);
+  padding-bottom: 4px;
+  transition: color 0.25s ease, border-color 0.25s ease;
+}
+
+.plan-presentation-secondary-link:hover,
+.plan-presentation-secondary-link:focus-visible {
+  color: var(--bayona-orange);
+  border-color: var(--bayona-orange);
+}
+
+.plan-presentation-checkout-alt {
+  min-height: 32px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 12px;
+  color: #aaa59e;
+  font: 500 9px/1.5 'DM Mono', monospace;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  transition: color 0.25s ease;
+}
+
+.plan-presentation-checkout-alt:hover,
+.plan-presentation-checkout-alt:focus-visible {
+  color: var(--bayona-orange);
+}

@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { Fragment, useEffect, useMemo, useRef, useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { ArrowUpRight, Menu, MessageCircle, ShoppingCart, X } from 'lucide-react'
 import { Link, NavLink } from 'react-router-dom'
@@ -17,10 +17,66 @@ import { useMagnetic } from '../engine/hooks/useMagnetic.js'
 
 const MotionLink = motion.create(Link)
 
-const links = [
-  ['Inicio', '/'], ['Nosotros', '/about'], ['Programas', '/programs'], ['Academia Parkour', '/parkour-academy'],
-  ['Tienda', '/shop'], ['App', '/app'], ['Comunidad', '/community'], ['Recursos', '/resources'],
-  ['ENTRAR A BAYONA', '/onboarding'],
+/**
+ * Arquitectura de navegación (Fase 4).
+ *
+ * La barra anterior listaba 10 destinos planos con un `slice` frágil y un CTA
+ * que llevaba a comprar (/programs). Ahora la navegación declara la estructura
+ * real del sitio: cuatro grupos por intención + una sola entrada a recepción.
+ *
+ * · ENTRENAR    — la oferta de entrenamiento (programas y academia).
+ * · EXPERIENCIAS— lo que se vive sin membresía (tienda, app, comunidad).
+ * · CONOCER     — la marca (nosotros).
+ * · APRENDER    — lo gratuito (recursos, faq).
+ * · ENTRAR      — recepción (/onboarding): orienta antes de decidir.
+ *
+ * Inicio no se repite como enlace de escritorio: la marca ya es el enlace al
+ * inicio. En móvil sí aparece explícito y numerado.
+ */
+const NAV_GROUPS = [
+  {
+    id: 'entrenar',
+    label: 'ENTRENAR',
+    links: [
+      ['Programas', '/programs'],
+      ['Academia Parkour', '/parkour-academy'],
+    ],
+  },
+  {
+    id: 'experiencias',
+    label: 'EXPERIENCIAS',
+    links: [
+      ['Tienda', '/shop'],
+      ['BAYONA+', '/app'],
+      ['Comunidad', '/community'],
+    ],
+  },
+  {
+    id: 'conocer',
+    label: 'CONOCER',
+    links: [
+      ['Nosotros', '/about'],
+    ],
+  },
+  {
+    id: 'aprender',
+    label: 'APRENDER',
+    links: [
+      ['Recursos', '/resources'],
+      ['FAQ', '/faq'],
+    ],
+  },
+]
+
+/** Lista plana del menú móvil: inicio + grupos + entrada, siempre numerada. */
+const MOBILE_NAV_ITEMS = [
+  { label: 'Inicio', href: '/' },
+  ...NAV_GROUPS.flatMap((group) => group.links.map(([label, href]) => ({
+    label,
+    href,
+    groupLabel: group.label,
+  }))),
+  { label: 'ENTRAR A BAYONA', href: '/onboarding', entry: true },
 ]
 
 export function Navbar() {
@@ -77,9 +133,12 @@ export function Navbar() {
         <span aria-hidden="true">B.</span><strong>BAYONA</strong>
       </Link>
       <nav className="desktop-nav" aria-label="Navegación principal">
-        {links.slice(0, -1).map(([label, href]) => <NavLink key={href} to={href}>{label}</NavLink>)}
-        <NavLink to="/faq">FAQ</NavLink>
-        {links.slice(-1).map(([label, href]) => <NavLink key={href} to={href}>{label}</NavLink>)}
+        {NAV_GROUPS.map((group) => (
+          <div className="nav-group" role="group" aria-label={group.label} key={group.id}>
+            <span className="nav-group-label" aria-hidden="true">{group.label}</span>
+            {group.links.map(([label, href]) => <NavLink key={href} to={href}>{label}</NavLink>)}
+          </div>
+        ))}
       </nav>
       <button
         className="nav-cart-button"
@@ -91,7 +150,14 @@ export function Navbar() {
         <span className="nav-cart-label">Carrito</span>
         <span className="nav-cart-count" aria-hidden="true">{cartCount}</span>
       </button>
-      <Link className="nav-cta" to="/programs">Tu camino <ArrowUpRight size={15} strokeWidth={1} /></Link>
+      {/*
+        El CTA de la barra lleva a recepción, no a comprar: quien entra desde
+        cualquier página primero orienta su camino (tres preguntas, sin cuenta)
+        y después decide. La compra directa ya vive en Programas y en los planes.
+      */}
+      <Link className="nav-cta" to="/onboarding" aria-label="Entrar a BAYONA: recepción y orientación">
+        Entrar <ArrowUpRight size={15} strokeWidth={1} />
+      </Link>
       <button
         ref={menuButtonRef}
         className="menu-button"
@@ -117,22 +183,27 @@ export function Navbar() {
           >
             <p>BAYONA / NAVEGACIÓN</p>
             <div>
-              {links.map(([label, href], index) => (
-                <NavLink key={href} to={href} onClick={close}>
-                  <span aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>{label}
-                </NavLink>
+              {MOBILE_NAV_ITEMS.map((item, index) => (
+                <Fragment key={item.href}>
+                  {item.groupLabel && item.groupLabel !== MOBILE_NAV_ITEMS[index - 1]?.groupLabel && (
+                    <p className="mobile-nav-group-label">{item.groupLabel}</p>
+                  )}
+                  <NavLink
+                    to={item.href}
+                    onClick={close}
+                    className={item.entry ? 'mobile-nav-entry' : undefined}
+                  >
+                    <span aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>{item.label}
+                  </NavLink>
+                </Fragment>
               ))}
-              <Link to="/faq" onClick={close}>
-                <span aria-hidden="true">{String(links.length + 1).padStart(2, '0')}</span>
-                Preguntas frecuentes
-              </Link>
               <button
                 className="mobile-cart-action"
                 type="button"
                 onClick={openCart}
                 aria-label={`Abrir carrito${cartCount > 0 ? `, ${cartCount} ${cartCount === 1 ? 'artículo' : 'artículos'}` : ', vacío'}`}
               >
-                <span aria-hidden="true">{String(links.length + 2).padStart(2, '0')}</span>
+                <span aria-hidden="true">{String(MOBILE_NAV_ITEMS.length + 1).padStart(2, '0')}</span>
                 <span className="mobile-cart-copy">
                   <strong>Carrito</strong>
                   <small>{cartCount > 0 ? `${cartCount} ${cartCount === 1 ? 'artículo' : 'artículos'}` : 'Vacío'}</small>
@@ -158,13 +229,30 @@ export function Footer() {
         <Link className="footer-mark" to="/" aria-label="BAYONA, ir al inicio">BAYONA</Link>
         <p>Movimiento, ciencia y propósito humano.</p>
       </div>
-      <nav className="footer-links" aria-label="Enlaces del pie de página">
-        <Link to="/about">Nosotros</Link>
-        <Link to="/programs">Programas</Link>
-        <Link to="/shop">Tienda</Link>
-        <Link to="/resources">Recursos</Link>
-        <Link to="/faq">FAQ</Link>
-      </nav>
+      {/*
+        El pie repite la arquitectura de la barra (Fase 4): los cuatro grupos
+        por intención más el bloque de entrada. El pie anterior solo ofrecía
+        cinco enlaces y dejaba fuera la recepción y el canal humano.
+      */}
+      <div className="footer-columns">
+        {NAV_GROUPS.map((group) => (
+          <nav className="footer-column" aria-label={`Pie de página: ${group.label}`} key={group.id}>
+            <p>{group.label}</p>
+            {group.links.map(([label, href]) => <Link key={href} to={href}>{label}</Link>)}
+          </nav>
+        ))}
+        <div className="footer-column footer-entry">
+          <p>ENTRAR</p>
+          <Link to="/onboarding">ENTRAR A BAYONA</Link>
+          <a
+            href={whatsAppLink('Hola BAYONA, quiero conocer el camino que mejor encaja conmigo.')}
+            target="_blank"
+            rel="noreferrer"
+          >
+            HABLAR POR WHATSAPP
+          </a>
+        </div>
+      </div>
       {profiles.length > 0 && (
         <div className="footer-social" aria-label="Redes BAYONA">
           {profiles.map((profile) => (

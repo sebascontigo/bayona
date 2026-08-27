@@ -1,0 +1,110 @@
+/**
+ * BAYONA · ARQUITECTURA DE NAVEGACIÓN (FASE 4)
+ * ---------------------------------------------------------------------------
+ * Barra agrupada por intención, menú móvil agrupado y pie con entrada.
+ * Va después de overrides.css en la cascada (ver main.jsx): matiza las reglas
+ * existentes de .desktop-nav, .mobile-nav y .footer sin reescribirlas.
+ */
+
+/* --- Barra de escritorio: grupos por intención ---------------------------- */
+
+.desktop-nav {
+  gap: clamp(14px, 1.7vw, 28px);
+}
+
+.nav-group {
+  min-width: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: clamp(10px, 1vw, 16px);
+}
+
+.nav-group + .nav-group {
+  padding-left: clamp(14px, 1.7vw, 28px);
+  border-left: 1px solid rgba(244, 162, 97, 0.18);
+}
+
+.nav-group-label {
+  color: rgba(167, 162, 155, 0.52);
+  font: 600 7px/1 'DM Mono', monospace;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  user-select: none;
+}
+
+/* --- Menú móvil: etiquetas de grupo y entrada destacada ------------------- */
+
+.mobile-nav-group-label {
+  margin: 0;
+  padding: 22px 0 4px 44px;
+  color: var(--bayona-muted);
+  font: 600 9px/1.5 'DM Mono', monospace;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.mobile-nav a.mobile-nav-entry {
+  color: var(--bayona-orange);
+}
+
+/* --- Pie de página: columnas por grupo + bloque de entrada ---------------- */
+
+.footer {
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 2fr);
+}
+
+.footer-columns {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(136px, 1fr));
+  gap: 24px;
+  align-self: start;
+}
+
+.footer-column {
+  display: grid;
+  gap: 0;
+  align-content: start;
+}
+
+.footer-column > p {
+  margin: 0 0 10px;
+  color: #6f6b65;
+  font: 600 8px/1 'DM Mono', monospace;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.footer-column a {
+  width: fit-content;
+  min-height: 30px;
+  display: inline-flex;
+  align-items: center;
+  color: #aaa59e;
+  font: 600 9px/1 'DM Mono', monospace;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.footer-column a:hover {
+  padding-left: 8px;
+  color: var(--bayona-orange);
+}
+
+.footer-entry a {
+  color: var(--bayona-orange);
+}
+
+.footer-entry a:hover {
+  color: var(--bayona-white);
+}
+
+@media (max-width: 900px) {
+  .footer {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 36px;
+  }
+
+  .footer-columns {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}

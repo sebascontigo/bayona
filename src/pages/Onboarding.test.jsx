@@ -87,4 +87,22 @@ describe('/onboarding — EL UMBRAL BAYONA', () => {
     expect(whatsappLink).toHaveAttribute('href', expect.stringContaining('https://wa.me/34614988006'))
     expect(screen.getByText(/Preparar no envía datos\./i)).toBeInTheDocument()
   })
+
+  it('el paso final lleva a la ficha del plan recomendado y deja comparar planes como alternativa (Fase 4)', async () => {
+    renderOnboarding()
+    await startFunnel()
+
+    await answerQuestion('¿QUÉ QUIERES CONSTRUIR?', /Comparar planes/i)
+    await answerQuestion('¿DÓNDE ESTÁS HOY?', /Ya entreno/i)
+    await answerQuestion('¿CUÁNTO TIEMPO TIENES?', /3 días/i)
+    fireEvent.click(await screen.findByRole('button', { name: /VER MI SIGUIENTE PASO/i }, { timeout: 4000 }))
+
+    await screen.findByRole('heading', { level: 1, name: '¿EMPEZAMOS?' }, { timeout: 4000 })
+
+    // Matriz de rutas: comparar-planes + constante + 3 días → ELITE.
+    const primary = screen.getByRole('link', { name: /EMPIEZA TU CAMINO/i })
+    expect(primary).toHaveAttribute('href', '/plan/elite')
+    expect(screen.getByRole('link', { name: /COMPARAR TODOS LOS PLANES/i })).toHaveAttribute('href', '/programs')
+    expect(screen.getByRole('link', { name: /EXPLORAR RECURSOS GRATIS/i })).toHaveAttribute('href', '/resources')
+  })
 })

@@ -1,75 +1,17 @@
 import { useEffect } from 'react'
-import { ArrowUpRight } from 'lucide-react'
-import { Link, useLocation } from 'react-router-dom'
+import { useLocation } from 'react-router-dom'
 
 const BRAND_TAGLINE = 'BAYONA · NO ES FITNESS · ES TRANSFORMACIÓN'
 
-const ROUTE_CONTINUATIONS = Object.freeze({
-  '/': Object.freeze({
-    marker: '01 — 02',
-    eyebrow: 'AHORA, ELIGE ESTRUCTURA',
-    title: 'COMPARA EL ACOMPAÑAMIENTO.',
-    body: 'Revisa sesiones, seguimiento, alcance y precio antes de decidir.',
-    action: 'VER PROGRAMAS',
-    to: '/programs',
-  }),
-  '/about': Object.freeze({
-    marker: '02 — 03',
-    eyebrow: 'DEL ORIGEN A LA PRÁCTICA',
-    title: 'CONOCE LOS PROGRAMAS.',
-    body: 'Convierte la filosofía BAYONA en una estructura de entrenamiento revisable.',
-    action: 'EXPLORAR PROGRAMAS',
-    to: '/programs',
-  }),
-  '/programs': Object.freeze({
-    marker: '03 — 04',
-    eyebrow: 'OTRA FORMA DE ENTRENAR',
-    title: 'DESCUBRE PARKOUR ACADEMY.',
-    body: 'Técnica, fuerza y adaptación para aprender a leer cada obstáculo.',
-    action: 'ENTRAR EN LA ACADEMIA',
-    to: '/parkour-academy',
-  }),
-  '/parkour-academy': Object.freeze({
-    marker: '04 — 05',
-    eyebrow: 'EQUIPA LA PRÁCTICA',
-    title: 'OBJETOS HECHOS PARA MOVERTE.',
-    body: 'Explora prendas, material y recuperación para tu práctica real.',
-    action: 'ABRIR LA TIENDA',
-    to: '/shop',
-  }),
-  '/app': Object.freeze({
-    marker: '06 — 07',
-    eyebrow: 'MIENTRAS BAYONA+ EVOLUCIONA',
-    title: 'EMPIEZA CON ALGO ÚTIL HOY.',
-    body: 'Rutinas, guías y recursos que puedes consultar sin esperar al producto digital.',
-    action: 'VER RECURSOS',
-    to: '/resources',
-  }),
-  '/community': Object.freeze({
-    marker: '07 — 05',
-    eyebrow: 'DE LA CONVERSACIÓN A LA ACCIÓN',
-    title: 'LLEVA EL MOVIMIENTO CONTIGO.',
-    body: 'Explora el equipamiento y los objetos que acompañan la práctica BAYONA.',
-    action: 'VISITAR LA TIENDA',
-    to: '/shop',
-  }),
-  '/resources': Object.freeze({
-    marker: '08 — 09',
-    eyebrow: 'ANTES DE ELEGIR',
-    title: 'RESUELVE LO QUE FALTA.',
-    body: 'Consulta alcance, precios, condiciones y estado real de cada servicio.',
-    action: 'ABRIR PREGUNTAS',
-    to: '/faq',
-  }),
-  '/faq': Object.freeze({
-    marker: '09 — 01',
-    eyebrow: 'YA TIENES LA INFORMACIÓN',
-    title: 'ENCUENTRA TU PUNTO DE PARTIDA.',
-    body: 'Tres decisiones breves para orientar la primera ruta sin compromiso.',
-    action: 'ENTRAR A BAYONA',
-    to: '/onboarding',
-  }),
-})
+/*
+ * Fase 4: aquí vivía ROUTE_CONTINUATIONS, un segundo sistema de cierre de
+ * página que competía con NextChapter (chapters.js). Duplicaba la función de
+ * "qué viene después" con datos incompletos (sin /shop) y numeración
+ * incoherente con el itinerario. Se retira: NextChapter es desde Fase 4 el
+ * único sistema de continuidad entre páginas. Este componente conserva sus
+ * otras dos funciones: los efectos DOM por ruta (reveal/spotlight/tilt) y la
+ * marquesina de marca.
+ */
 
 const ROUTE_CONFIG = Object.freeze({
   '/': Object.freeze({
@@ -286,41 +228,12 @@ function BrandMarquee() {
   )
 }
 
-function RouteContinuation({ continuation, routeKey }) {
-  if (!continuation) return null
-
-  const headingId = `premium-continuation-${routeKey}`
-
-  return (
-    <section className="premium-continuation" aria-labelledby={headingId}>
-      <div className="premium-continuation-inner">
-        <span className="premium-continuation-marker" aria-hidden="true">{continuation.marker}</span>
-        <div className="premium-continuation-copy">
-          <p>{continuation.eyebrow}</p>
-          <h2 id={headingId}>{continuation.title}</h2>
-          <span>{continuation.body}</span>
-        </div>
-        <Link className="premium-continuation-action" to={continuation.to}>
-          {continuation.action}
-          <ArrowUpRight size={18} strokeWidth={1.2} aria-hidden="true" />
-        </Link>
-      </div>
-    </section>
-  )
-}
-
 export default function PremiumRouteChrome() {
   const { pathname } = useLocation()
   const config = ROUTE_CONFIG[pathname]
-  const continuation = ROUTE_CONTINUATIONS[pathname]
   usePremiumRouteEnhancements(config)
 
   if (!config) return null
 
-  return (
-    <>
-      <BrandMarquee />
-      <RouteContinuation continuation={continuation} routeKey={config.key} />
-    </>
-  )
+  return <BrandMarquee />
 }

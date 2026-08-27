@@ -514,12 +514,19 @@ export default function Onboarding() {
                 Ya no estás eligiendo a ciegas. Tu primera ruta es <strong>{route?.plan}</strong>. Ahora solo necesitas dar un paso.
               </p>
 
+              {/*
+                Fase 4 (D9): la recepción ya calculó una ruta (routeMap). El
+                paso principal lleva a esa ficha de plan concreta en vez de
+                devolver a la persona al catálogo general; comparar todos los
+                planes queda como opción explícita, no como destino único.
+                Fail-closed: sin ruta resuelta, vuelve a /programs.
+              */}
               <div className="funnel-final__primary">
-                <Link className="funnel-button funnel-button--primary" to="/programs">
+                <Link className="funnel-button funnel-button--primary" to={route?.planHref ?? '/programs'}>
                   EMPIEZA TU CAMINO
                   <ArrowUpRight size={18} strokeWidth={1.25} aria-hidden="true" />
                 </Link>
-                <small>COMPARA LOS PLANES · DECIDE SIN PRISA</small>
+                <small>TU PRIMERA RUTA · DECIDE SIN PRISA</small>
               </div>
 
               <div className="funnel-final__secondary" aria-label="Otras formas de continuar">
@@ -533,6 +540,10 @@ export default function Onboarding() {
                   HABLAR POR WHATSAPP
                   <MessageCircle size={17} strokeWidth={1.25} aria-hidden="true" />
                 </button>
+                <Link className="funnel-button funnel-button--ghost" to="/programs">
+                  COMPARAR TODOS LOS PLANES
+                  <ArrowUpRight size={17} strokeWidth={1.25} aria-hidden="true" />
+                </Link>
                 <Link className="funnel-button funnel-button--ghost" to="/resources">
                   EXPLORAR RECURSOS GRATIS
                   <ArrowUpRight size={17} strokeWidth={1.25} aria-hidden="true" />

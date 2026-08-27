@@ -12,6 +12,7 @@ import {
   CirclePlay,
   ClipboardCheck,
   Crown,
+  Download,
   Dumbbell,
   FlaskConical,
   HeartPulse,
@@ -260,6 +261,26 @@ export default function PlanPresentation({ planId }) {
                 <MagneticAnchor href={plan.cta} target="_blank" rel="noreferrer">
                   QUIERO EMPEZAR <ArrowUpRight size={19} aria-hidden="true" />
                 </MagneticAnchor>
+              </div>
+
+              {/*
+                Fase 4 (DP-2 y DP-3): la ficha del plan no llevaba ni al
+                configurador (/checkout) ni al PDF de presentación, así que
+                ambos activos estaban huérfanos de entrada. Se añaden como
+                caminos secundarios, sin desplazar el CTA principal.
+              */}
+              <div className="plan-presentation-hero-secondary">
+                <Link className="plan-presentation-secondary-link" to={`/checkout?plan=${plan.id}`}>
+                  CONFIGURAR EN EL CONFIGURADOR BAYONA <ArrowRight size={16} aria-hidden="true" />
+                </Link>
+                <a
+                  className="plan-presentation-secondary-link"
+                  href={plan.presentationUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  DESCARGAR PRESENTACIÓN (PDF) <Download size={16} aria-hidden="true" />
+                </a>
               </div>
             </motion.div>
 
@@ -536,6 +557,9 @@ export default function PlanPresentation({ planId }) {
               <MagneticAnchor href={plan.cta} target="_blank" rel="noreferrer">
                 QUIERO EMPEZAR AHORA <ArrowUpRight size={20} aria-hidden="true" />
               </MagneticAnchor>
+              <Link className="plan-presentation-checkout-alt" to={`/checkout?plan=${plan.id}`}>
+                O CONFIGÚRALO PASO A PASO EN EL CONFIGURADOR BAYONA
+              </Link>
               <a href={questionsUrl} target="_blank" rel="noreferrer" className="plan-presentation-question-link">
                 ¿Tienes dudas? Habla con Sebastián <MessageCircle size={16} aria-hidden="true" />
               </a>

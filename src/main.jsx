@@ -19,6 +19,14 @@ import './styles/home.css'
 import './styles/home-scroll-animations.css'
 import './styles/media-scenes.css'
 import './overrides.css'
+/*
+ * Arquitectura de experiencia (Fase 4): navegación agrupada + miga de pan.
+ * Van tras overrides.css porque matizan .desktop-nav, .mobile-nav y .footer,
+ * y antes de las capas de acabado (v2/v3) para que estas sigan pudiendo
+ * matizarlas a su vez.
+ */
+import './styles/nav-architecture.css'
+import './styles/breadcrumb.css'
 import './styles/premium-route-chrome.css'
 import './styles/luxury-system.css'
 /*

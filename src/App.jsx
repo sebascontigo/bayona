@@ -9,6 +9,7 @@ import RouteEffects from './components/RouteEffects.jsx'
 import ConsentBanner from './components/consent/ConsentBanner.jsx'
 import JourneyRibbon from './components/onboarding/JourneyRibbon.jsx'
 import NextChapter from './components/NextChapter.jsx'
+import Breadcrumb from './components/navigation/Breadcrumb.jsx'
 import TranslateOffer from './components/TranslateOffer.jsx'
 import ShareInvite from './components/ShareInvite.jsx'
 import Home from './pages/Home'
@@ -64,6 +65,12 @@ function Site() {
       <Navbar />
       <PageTransition>
         <main id="main-content">
+          {/*
+            Sistema de POSICIÓN (Fase 4): miga de pan visible derivada del
+            mismo dato que el JSON-LD (routeMeta). Decide por ruta: no pinta
+            en home, recepción ni internas. Ver Breadcrumb.jsx.
+          */}
+          <Breadcrumb />
           <Suspense fallback={<RouteFallback />}>
             <Routes>
               <Route path="/" element={<Home />} />

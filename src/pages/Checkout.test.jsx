@@ -1,7 +1,21 @@
 import { fireEvent, render, screen, within } from '@testing-library/react'
+import { MemoryRouter } from 'react-router-dom'
 import { afterEach, describe, expect, it, vi } from 'vitest'
 import Checkout from './Checkout.jsx'
 import { extraServices, membershipPlans, sessionServices } from '../config/offerings.js'
+
+/**
+ * Fase 4: Checkout ahora usa useSearchParams (?plan=) y enlaza a
+ * /order-confirmation, así que necesita contexto de router. Las aserciones
+ * existentes no cambian; solo se añade el envoltorio.
+ */
+function renderCheckout(initialEntry = '/checkout') {
+  return render(
+    <MemoryRouter initialEntries={[initialEntry]}>
+      <Checkout />
+    </MemoryRouter>,
+  )
+}
 
 describe('Checkout', () => {
   afterEach(() => {
@@ -9,7 +23,7 @@ describe('Checkout', () => {
   })
 
   it('deriva planes, cantidades y extras de Commercial_Config y actualiza el total', async () => {
-    render(<Checkout />)
+    renderCheckout()
 
     expect(screen.getAllByRole('radio')).toHaveLength(membershipPlans.length)
     expect(screen.getAllByRole('checkbox')).toHaveLength(extraServices.length)
@@ -31,7 +45,7 @@ describe('Checkout', () => {
 
   it('abre una solicitud detallada al WhatsApp oficial sin afirmar transacción ni acceso', () => {
     const openSpy = vi.spyOn(window, 'open').mockImplementation(() => null)
-    render(<Checkout />)
+    renderCheckout()
 
     fireEvent.change(screen.getByRole('textbox', { name: /^nombre$/i }), {
       target: { value: 'Ada Lovelace' },
@@ -75,7 +89,7 @@ describe('Checkout', () => {
 
     membershipPlans.forEach((plan) => {
       openSpy.mockClear()
-      const { unmount } = render(<Checkout />)
+      const { unmount } = renderCheckout()
 
       fireEvent.click(screen.getByRole('radio', { name: new RegExp(plan.name, 'i') }))
 
@@ -107,5 +121,45 @@ describe('Checkout', () => {
 
       unmount()
     })
+  })
+
+  it('llega con el plan base ya marcado cuando se entra por ?plan=<id> canónico (Fase 4)', () => {
+    renderCheckout('/checkout?plan=FUERZA')
+
+    const fuerza = screen.getByRole('radio', { name: /fuerza/i })
+    expect(fuerza).toBeChecked()
+    // Solo un plan puede estar marcado a la vez.
+    expect(screen.getAllByRole('radio').filter((radio) => radio.checked)).toHaveLength(1)
+
+    const summary = document.querySelector('.order-summary')
+    expect(within(summary).getByText('BAYONA FUERZA')).toBeInTheDocument()
+  })
+
+  it('ignora un ?plan= desconocido y mantiene el primer plan canónico (fail-closed, Fase 4)', () => {
+    renderCheckout('/checkout?plan=INVENTADO')
+
+    const raiz = screen.getByRole('radio', { name: /raíz/i })
+    expect(raiz).toBeChecked()
+    expect(screen.getAllByRole('radio').filter((radio) => radio.checked)).toHaveLength(1)
+  })
+
+  it('ofrece la ruta /order-confirmation como siguiente paso cuando la solicitud se abre (Fase 4)', () => {
+    // window.open devuelve handle: el panel de entrega exitosa queda visible.
+    vi.spyOn(window, 'open').mockImplementation(() => ({}))
+    renderCheckout()
+
+    fireEvent.change(screen.getByRole('textbox', { name: /^nombre$/i }), {
+      target: { value: 'Persona Test' },
+    })
+    fireEvent.change(screen.getByRole('textbox', { name: /^email$/i }), {
+      target: { value: 'persona@example.com' },
+    })
+    fireEvent.change(screen.getByRole('textbox', { name: /^whatsapp$/i }), {
+      target: { value: '+34 600 123 456' },
+    })
+    fireEvent.click(screen.getByRole('button', { name: /solicitar detalles por whatsapp/i }))
+
+    const nextStep = screen.getByRole('link', { name: /ver qué ocurre después de tu solicitud/i })
+    expect(nextStep).toHaveAttribute('href', '/order-confirmation')
   })
 })

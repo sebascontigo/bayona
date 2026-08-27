@@ -15,7 +15,8 @@ afterEach(() => {
 
 describe('flujo de solicitud por WhatsApp', () => {
   it('Checkout solicita únicamente los datos de contacto y el plan, sin campos de tarjeta', () => {
-    render(<Checkout />)
+    // Fase 4: Checkout usa useSearchParams (?plan=) y necesita contexto de router.
+    render(<MemoryRouter><Checkout /></MemoryRouter>)
 
     expect(screen.getByRole('textbox', { name: 'Nombre' })).toBeInTheDocument()
     expect(screen.getByRole('textbox', { name: 'Email' })).toBeInTheDocument()
@@ -26,7 +27,7 @@ describe('flujo de solicitud por WhatsApp', () => {
 
   it('Checkout finaliza abriendo WhatsApp con los datos introducidos y sin efectuar cobros', () => {
     const open = vi.spyOn(window, 'open').mockImplementation(() => null)
-    render(<Checkout />)
+    render(<MemoryRouter><Checkout /></MemoryRouter>)
 
     fireEvent.change(screen.getByRole('textbox', { name: 'Nombre' }), { target: { value: 'Ana Pérez' } })
     fireEvent.change(screen.getByRole('textbox', { name: 'Email' }), { target: { value: 'ana@example.com' } })

@@ -828,6 +828,17 @@ export default function Programs() {
           <h2>ELIGE PLAN Y<br /><span>SERVICIOS.</span></h2>
           <p className="programs-calculator-intro">Revisa el total mensual y el detalle de la solicitud antes de enviarla.</p>
           <PlanCalculator />
+          {/*
+            Fase 4 (DP-3): /checkout no tenía ninguna entrada en el sitio.
+            La calculadora de esta página es el paso natural hacia el
+            configurador completo, donde se prepara la solicitud de WhatsApp.
+          */}
+          <GoldButton to="/checkout" className="programs-calculator-open">
+            ABRIR EL CONFIGURADOR BAYONA COMPLETO
+          </GoldButton>
+          <p className="programs-calculator-open-note">
+            Sin pago: configuras tu solicitud y la envías por WhatsApp.
+          </p>
         </div>
       </section>
 

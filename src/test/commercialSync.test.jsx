@@ -5,6 +5,9 @@ import { render } from '@testing-library/react'
 import { MemoryRouter } from 'react-router-dom'
 import { describe, expect, it } from 'vitest'
 import appSource from '../App.jsx?raw'
+import checkoutSource from '../pages/Checkout.jsx?raw'
+import planPresentationSource from '../pages/PlanPresentation.jsx?raw'
+import programsSource from '../pages/Programs.jsx?raw'
 import { membershipPlans } from '../config/offerings.js'
 import { planPresentations } from '../config/planPresentations.js'
 import PlanExplorer from '../components/conversion/PlanExplorer.jsx'
@@ -89,5 +92,17 @@ describe('sincronización comercial: catálogo → rutas → recomendador → PD
     }
 
     unmount()
+  })
+
+  // Fase 4 (DP-2 y DP-3): los activos comerciales dejan de estar huérfanos.
+  it('la ficha de plan enlaza el PDF de presentación y el configurador, y el embudo queda conectado de punta a punta', () => {
+    // DP-2: el PDF ya no es un activo muerto — la ficha lo expone.
+    expect(planPresentationSource).toContain('plan.presentationUrl')
+    // DP-3: la ficha y los programas llevan al configurador con el plan precargado.
+    expect(planPresentationSource).toContain('/checkout?plan=')
+    expect(programsSource).toContain('to="/checkout"')
+    // El configurador acepta la precarga y ofrece el siguiente paso del embudo.
+    expect(checkoutSource).toContain("searchParams.get('plan')")
+    expect(checkoutSource).toContain('to="/order-confirmation"')
   })
 })

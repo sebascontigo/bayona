@@ -1,4 +1,4 @@
-# TEST-MATRIX — Los 273 tests de BAYONA
+# TEST-MATRIX — Los 290 tests de BAYONA
 
 **Fase 1 (plan 1.5–1.6).** Estado en el commit BASELINE `8e67cd2`:
 **48 ficheros, 212 tests, 0 fallos, 0 saltados** (verificado con `vitest --run`,
@@ -17,34 +17,46 @@ playground `pages/DesignSystem.test.jsx` (4), contrato del sistema
 `CustomCursor.test.jsx` (4). Los contratos de rutas ahora inventarían rutas públicas
 e internas (`/design-system`) por separado. Detalle en DESIGN-SYSTEM.md.
 
+**Actualización Fase 4 (2026-08-27):** **59 ficheros, 290 tests, 0 fallos, 0 saltados.**
+Nuevos (17): `components/navigation/Breadcrumb.test.jsx` (6, sistema de posición) y
+`components/Layout.nav.test.jsx` (6, arquitectura de navbar/footer por grupos);
+ampliados `pages/Checkout.test.jsx` (+3: precarga `?plan=`, fail-closed, salida a
+`/order-confirmation`; pasa a renderizar dentro de `MemoryRouter`),
+`pages/Onboarding.test.jsx` (+1: el paso final lleva a la ficha del plan recomendado)
+y `test/commercialSync.test.jsx` (+1: ficha de plan enlaza PDF y configurador; embudo
+conectado de punta a punta). `pages/criticalFlow.test.jsx` envuelve Checkout en
+`MemoryRouter` sin cambiar aserciones. Gate: 290/290 vitest, lint 0 errores/17
+warnings, build OK, 41/41 Playwright. Detalle en FASE4-ARQUITECTURA-EXPERIENCIA.md.
+
 Regla de oro del proyecto: **prohibido saltar tests.** Cada fallo se clasifica y se
 resuelve por su causa raíz (taxonomía A–G del plan).
 
-## 1. Matriz por fichero (273 tests)
+## 1. Matriz por fichero (290 tests)
 
-### Contratos globales (22)
+### Contratos globales (23)
 | Fichero | Tests | Qué vigila |
 |---|---|---|
 | src/test/baselineContract.test.js | 4 | 17 rutas públicas + internas inventariadas sin duplicados + 404, planes canónicos (id/nombre/precio COP), WhatsApp oficial, stack |
-| src/test/commercialSync.test.jsx | 4 | Fase 2: orden canónico ↔ catálogo ↔ rutas /plan/* ↔ presentaciones; 36 combinaciones del Inicio Guiado sin slugs fantasma; 4 PDFs existen y presentationUrl apunta al fichero; anclajes #plan-* del recomendador existen en PlanExplorer |
+| src/test/commercialSync.test.jsx | 5 | Fase 2: orden canónico ↔ catálogo ↔ rutas /plan/* ↔ presentaciones; 36 combinaciones del Inicio Guiado sin slugs fantasma; 4 PDFs existen y presentationUrl apunta al fichero; anclajes #plan-* del recomendador existen en PlanExplorer. Fase 4: la ficha enlaza PDF y `/checkout?plan=`, Programs enlaza `/checkout`, checkout valida `?plan=` y enlaza `/order-confirmation` |
 | src/test/conversionRegression.test.jsx | 6 | Gate acumulativo de conversión: hitos home, e2e con emulación/capturas/teclado, recorrido |
 | src/test/designSystemContract.test.js | 8 | Fase 3: familias de tokens completas, radio de marca 0, z-index creciente, espejo CSS↔motionTokens, aislamiento `.ds-*`, sin capas `v4-*`, playground noindex fuera del sitemap (14 URLs) |
 
-### Páginas (57)
+### Páginas (59)
 | Fichero | Tests | Fichero | Tests |
 |---|---|---|---|
 | pages/Home.test.jsx | 12 | pages/FAQ.test.jsx | 4 |
-| pages/Home.contract.test.jsx | 6 | pages/Onboarding.test.jsx | 4 |
+| pages/Home.contract.test.jsx | 6 | pages/Onboarding.test.jsx | 5 |
 | pages/AppExperience.test.jsx | 6 | pages/Shop.test.jsx | 4 |
-| pages/Resources.test.jsx | 5 | pages/DesignSystem.test.jsx | 4 |
-| pages/criticalFlow.test.jsx | 3 | pages/About.test.jsx | 3 |
-| pages/ParkourAcademy.test.jsx | 3 | pages/Programs.test.jsx | 3 |
-| pages/Checkout.test.jsx | 3 | | |
+| pages/Checkout.test.jsx | 6 | pages/DesignSystem.test.jsx | 4 |
+| pages/Resources.test.jsx | 5 | pages/criticalFlow.test.jsx | 3 |
+| pages/ParkourAcademy.test.jsx | 3 | pages/About.test.jsx | 3 |
+| pages/Programs.test.jsx | 3 | | |
 
-### Componentes (48)
+### Componentes (60)
 | Fichero | Tests | Fichero | Tests |
 |---|---|---|---|
 | components/ds/ds.test.jsx | 20 | components/conversion/RecommendationGuide.test.jsx | 5 |
+| components/navigation/Breadcrumb.test.jsx | 6 | components/Layout.nav.test.jsx | 6 |
 | components/Globe3D.test.jsx | 5 | components/conversion/PlanExplorer.test.jsx | 3 |
 | components/conversion/ExtrasExplorer.test.jsx | 3 | components/Layout.test.jsx | 3 |
 | components/conversion/PersistentSummary.test.jsx | 2 | components/conversion/RequestPreview.test.jsx | 2 |
