@@ -6,7 +6,7 @@
 1. Auditoría forense de Fases 1–5 sobre `70606dd`: veredicto **✅ C APROBADA** (29/30 CONFIRMADO, 1 PARCIALMENTE CONFIRMADO, 0 CONTRADICHO). Gates ejecutados de verdad: 381/381 tests, lint 0/16, build OK, 41/41 Playwright. Producción = build de HEAD.
 2. Primera sincronización documental V1.0: creado `docs/` con el sistema central (commit `2de0a6c`); documentación de fase intacta en raíz.
 3. Sincronización final post-auditoría independiente de ChatGPT: referencias actualizadas (commit `bfcf6b4`, AUDIT-LOG entrada 004). ChatGPT: "🟢 B — APROBADA PARA AVANZAR".
-4. **DF-006 APROBADA** (confirmación explícita de Sebastián vía veredicto ChatGPT + entrega del PROMPT MAESTRO FASE 6): FASE 6 = WORLD BUILDING. Pre-vuelo de Fase 6 ejecutado (HEAD = origin/main, árbol limpio); PLAN OPERATIVO FINAL presentado, esperando aprobación (AUDIT-LOG entrada 005).
+4. **DF-006 APROBADA** (confirmación explícita de Sebastián vía veredicto ChatGPT + entrega del PROMPT MAESTRO FASE 6): FASE 6 = WORLD BUILDING. Pre-vuelo de Fase 6 ejecutado (HEAD = origin/main, árbol limpio); PLAN OPERATIVO FINAL presentado y subido al repo como `PLAN-FASE-6-WORLD-BUILDING.md` (raíz), esperando aprobación (AUDIT-LOG entradas 005 y 006).
 
 ## ¿Qué está confirmado?
 - Último commit de código `70606dd` (Fase 5); commits posteriores solo documentales (`2de0a6c`, `bfcf6b4`, registro DF-006). Estado vivo: comprobar con `git rev-parse HEAD` (convención: no congelar HEAD vivo en docs).

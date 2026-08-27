@@ -61,3 +61,11 @@
 - **Riesgos:** ninguno nuevo; sin cambios de código (diff limitado a `docs/`).
 - **Commit:** el commit documental que contiene esta entrada (inmediato posterior a `bfcf6b4`, solo `docs/`); verificable con `git log`.
 - **Siguiente acción:** PLAN OPERATIVO FINAL DE FASE 6 presentado para auditoría (ChatGPT) y aprobación (Sebastián) → PASO F: STOP hasta el OK.
+
+## Entrada 006 — Plan operativo de Fase 6 subido al repo
+- **Fecha:** 2026-08-27 · **Commit de partida:** `d8fd587` (= origin/main, árbol limpio) · **Rama:** main
+- **Objetivo:** instrucción explícita de Sebastián: "TODOS LOS DOCUMENTOS QUE HAGAS TAMBIÉN SUBELOS A GIT" → el plan operativo no podía vivir solo fuera del repo.
+- **Resultado:** creado `PLAN-FASE-6-WORLD-BUILDING.md` en la raíz (ubicación canónica; misma convención que la documentación de fase). PROJECT-STATE (documentos principales) y HANDOFF lo referencian. La copia de trabajo en la carpeta del grupo queda como redundante (solo para pegar en el chat de auditoría). Entradas anteriores intactas (append-only).
+- **Regla permanente registrada:** todo documento que cree el agente se versiona en Git.
+- **Riesgos:** ninguno; sin cambios de código (diff = 1 .md nuevo + referencias en docs/).
+- **Siguiente acción:** sin cambios — auditoría de ChatGPT del plan + aprobación de Sebastián → implementación por bloques (commits 1–5 del plan).
