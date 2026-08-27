@@ -58,6 +58,24 @@ export {
 } from './scroll/StickyStage.jsx'
 export { HorizontalPassage, PASSAGE_DEFAULT_LENGTH } from './scroll/HorizontalPassage.jsx'
 
+// --- Recipes: intensidad, recetario y contrato de pagina (Fase 5) ---
+export {
+  MOTION_INTENSITIES,
+  DEFAULT_INTENSITY,
+  resolveIntensity,
+  scaleDistance,
+  scaleDuration,
+} from './recipes/intensity.js'
+export { MOTION_RECIPES, RECIPE_LIST, resolveRecipe, recipesUseKnownTokens } from './recipes/index.js'
+export { MOTION_BUDGETS, resolveBudget, checkBudget } from './recipes/motionBudget.js'
+export {
+  DEFAULT_PAGE_MOTION,
+  TEXT_MOTION_MODES,
+  resolvePageMotionContract,
+  validatePageMotionContract,
+  describeMotionOffer,
+} from './recipes/pageMotionContract.js'
+
 // --- Escena 3D (Tareas 7-12) ---
 export { Scene3D } from './scene/Scene3D.jsx'
 export { SceneMount } from './scene/SceneMount.jsx'
