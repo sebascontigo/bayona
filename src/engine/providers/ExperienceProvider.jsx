@@ -146,10 +146,10 @@ function EngineRoot({ children }) {
     return () => {
       window.removeEventListener('scroll', handleWindowScroll)
     }
-    // `scrollProgress`/`scrollVelocity`/`scrollDirection` son MotionValues
-    // estables (identidad persistente entre renders), por eso se omiten de
-    // las dependencias intencionadamente.
-  }, [lenisRef, caps.reducedMotion])
+    // Los tres MotionValues son estables (identidad persistente entre
+    // renders): se incluyen para satisfacer exhaustive-deps sin que el
+    // efecto se re-ejecute de mas.
+  }, [lenisRef, caps.reducedMotion, scrollProgress, scrollVelocity, scrollDirection])
 
   // Identidad estable del valor del contexto: los MotionValues no cambian.
   const scrollState = useMemo(

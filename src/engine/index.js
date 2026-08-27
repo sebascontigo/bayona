@@ -50,6 +50,13 @@ export {
   createHandoffSnapshot,
   readViewport,
 } from './scroll/scrollHandoff.js'
+export {
+  StickyStage,
+  resolveStageLength,
+  resolveStageIndex,
+  STAGE_DEFAULT_LENGTH,
+} from './scroll/StickyStage.jsx'
+export { HorizontalPassage, PASSAGE_DEFAULT_LENGTH } from './scroll/HorizontalPassage.jsx'
 
 // --- Escena 3D (Tareas 7-12) ---
 export { Scene3D } from './scene/Scene3D.jsx'
