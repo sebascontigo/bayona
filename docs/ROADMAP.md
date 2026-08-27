@@ -12,7 +12,7 @@
 | 4 | Arquitectura de experiencia | `c9448c4` | 2026-08-27 · navegación por grupos · breadcrumb · Configurador · DP-1…DP-4 cerradas |
 | 5 | Motion Engine 2.0 + Scroll Storytelling | `3cdaa19..70606dd` (7) | 2026-08-27 · tokens extendidos · scroll narrativo · componentes · 8 recetas · MotionDebug · aprobada forensemente (veredicto C) |
 
-## Fase 6 — WORLD BUILDING (DF-006 APROBADA 2026-08-27; plan operativo pendiente de aprobación)
+## Fase 6 — WORLD BUILDING (DF-006 APROBADA 2026-08-27; plan operativo AUDITADO Y APROBADO CON CORRECCIONES — D-008; prompt rector: PROMPT MAESTRO V2.0; STOP antes del BLOQUE 1 hasta revisión del auditor)
 
 **Definición aprobada (confirmación explícita de Sebastián registrada en DECISIONS.md → DF-006): WORLD BUILDING.** La migración/rediseño de páginas NO pertenece a Fase 6; queda asignada a Fase 8.
 

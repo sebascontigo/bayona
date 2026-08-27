@@ -65,3 +65,14 @@
 - **Fecha:** 2026-08-27 · **Estado:** APROBADA · **Quién:** Sebastián (vía PROMPT MAESTRO V1.0)
 - **Decisión:** el repo es la fuente operativa central; docs centrales en `docs/` (PROJECT-STATE, ROADMAP, DECISIONS, ARCHITECTURE, AUDIT-LOG, HANDOFF); documentación de fase existente se queda en la raíz (centralizar sin romper); sin duplicados; historial append-only.
 - **Impacto:** este documento y el resto de `docs/`; dinámica futura = leer PROJECT-STATE → HANDOFF → ROADMAP → DECISIONS → docs de fase → Git.
+
+## D-008 · Plan operativo de Fase 6 aprobado con correcciones (auditoría ChatGPT)
+- **Fecha:** 2026-08-27 · **Estado:** APROBADA · **Quién:** ChatGPT (auditor del pipeline, veredicto sobre `046a37c`) + Sebastián (entrega del PROMPT MAESTRO V2.0 como norma de ejecución)
+- **Decisión:** el PLAN OPERATIVO FINAL DE FASE 6 (`PLAN-FASE-6-WORLD-BUILDING.md`, commit `046a37c`) queda **APROBADO PARA AVANZAR con correcciones obligatorias**, ya incorporadas en el plan:
+  1. Los números de gate (381/381 · 0/16 · 41/41) son HISTÓRICOS: todo gate se re-ejecuta de verdad en su momento; prohibido copiarlos sin ejecución actual.
+  2. El agente re-lee los archivos fuente exactos en el momento de implementar (no trabaja de memoria).
+  3. Contrato de alcance exacto: "Fase 6 puede añadir código de test exclusivamente para validar documentación, pero no puede modificar código de producción" (0 cambios de producción; tests documentales sin runtime/bundle/deps/skip/only).
+  4. Inventario de rutas normalizado por categorías antes de D-01 (A. 16 públicas canónicas / B. 1 alias / C. fallback 404 / D. 1 interna) — resuelve la ambigüedad del doble "17".
+- **Prompt rector:** PROMPT MAESTRO V2.0 (sustituye a V1.0 como norma de ejecución; V1.0 queda como origen del plan).
+- **Checkpoint de verificación (PASOS 1–3 de V2.0):** ejecutado de verdad el 2026-08-27 sobre `046a37c` — HEAD = origin/main confirmado, gates re-ejecutados (381/381 · 0 errores/16 warnings · build OK vendor-three 826.94 kB · 41/41 E2E), inventario normalizado documentado en el plan §0.2. Sin contradicciones materiales.
+- **Regla vigente:** STOP antes del BLOQUE 1 hasta que el auditor revise el informe de verificación con Sebastián. Después: implementación por bloques según V2.0 §32, con condiciones de parada BLOQUEADO—DECISIÓN REQUERIDA (V2.0 §33).

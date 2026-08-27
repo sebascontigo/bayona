@@ -13,20 +13,21 @@
 | Repositorio | github.com/sebascontigo/bayona | VERIFIED |
 | Rama | main | VERIFIED |
 | Último commit de código | `70606dd` "Fase 5 (7/7): documentacion del Motion Engine 2.0 + Scroll Storytelling" — el código no ha cambiado desde entonces; los commits posteriores son exclusivamente documentales | VERIFIED |
-| Commits documentales | `2de0a6c` (sistema central docs/) → `bfcf6b4` (sincronización final de referencias, AUDIT-LOG 004) → registro de confirmación DF-006 (AUDIT-LOG 005) | VERIFIED |
+| Commits documentales | `2de0a6c` (sistema central docs/) → `bfcf6b4` (sincronización final de referencias, AUDIT-LOG 004) → `d8fd587` (registro DF-006 APROBADA, AUDIT-LOG 005) → `046a37c` (plan operativo en repo, AUDIT-LOG 006) → checkpoint de verificación V2.0 + plan corregido (AUDIT-LOG 007) | VERIFIED |
 | Commit auditado (forense Fases 1–5) | `70606dd` (2026-08-27) | VERIFIED |
-| Estado vivo a 2026-08-27 | HEAD = origin/main, árbol limpio, 0 commits remotos por delante — comprobado con Git durante el pre-vuelo de Fase 6 | VERIFIED |
+| Commit auditado (plan de Fase 6) | `046a37c` (veredicto ChatGPT 2026-08-27: APROBADO PARA AVANZAR con correcciones) | VERIFIED |
+| Estado vivo a 2026-08-27 | HEAD = origin/main, árbol limpio, 0 commits remotos por delante — comprobado con Git durante el checkpoint V2.0 (post-auditoría del plan) | VERIFIED |
 
 ## Fases
 
 | Campo | Valor | Etiqueta |
 |---|---|---|
 | Última fase completada | **FASE 5 — Motion Engine 2.0 + Scroll Storytelling** (commits `3cdaa19..70606dd`, 7 commits) | VERIFIED |
-| Fase actual | **FASE 6 — WORLD BUILDING** (DF-006 APROBADA, DECISIONS.md). Estado: pre-vuelo, lectura y mapa de vocabulario completados; PLAN OPERATIVO FINAL presentado, esperando aprobación para implementar (PROMPT MAESTRO FASE 6 §33) | VERIFIED |
-| Naturaleza de Fase 6 | 100% documental y estratégica: CERO código de páginas, CERO escenas 3D nuevas, CERO dependencias | VERIFIED (veredicto ChatGPT + PROMPT MAESTRO FASE 6) |
+| Fase actual | **FASE 6 — WORLD BUILDING** (DF-006 APROBADA, DECISIONS.md). Estado: plan operativo **AUDITADO Y APROBADO CON CORRECCIONES** (veredicto ChatGPT sobre `046a37c`, D-008); PROMPT MAESTRO V2.0 = prompt rector; checkpoint de verificación (PASOS 1–3 de V2.0) ejecutado de verdad; **STOP antes del BLOQUE 1** hasta que el auditor revise el informe de verificación con Sebastián | VERIFIED |
+| Naturaleza de Fase 6 | 100% documental y estratégica: 0 cambios de código de producción; único código nuevo permitido = tests documentales (sin runtime/bundle/deps/skip/only) | VERIFIED (veredicto ChatGPT + PROMPT MAESTRO V2.0 §5) |
 | Fases 1–5 | Completadas y aprobadas por auditoría forense (veredicto ✅ C, AUDIT-LOG entrada 002) | VERIFIED |
 
-## Gates (ejecutados 2026-08-27 sobre el estado de código `70606dd`; los commits posteriores son solo documentales y no modifican código)
+## Gates (re-ejecutados de verdad 2026-08-27 sobre `046a37c` durante el checkpoint V2.0; el código no cambia desde `70606dd`, los commits intermedios son documentales)
 
 | Gate | Resultado | Etiqueta |
 |---|---|---|
@@ -48,11 +49,12 @@
 
 | ID | Asunto | Quién decide |
 |---|---|---|
-| DP-5 | ELITE "acceso de por vida" — decisión comercial/legal (fuera de Fase 6, PROMPT MAESTRO FASE 6 §26) | Sebastián |
-| — | Aprobación del PLAN OPERATIVO FINAL de Fase 6 (presentado, pendiente de auditoría ChatGPT + OK) | Sebastián + ChatGPT |
+| DP-5 | ELITE "acceso de por vida" — decisión comercial/legal (fuera de Fase 6, PROMPT MAESTRO V2.0 §27) | Sebastián |
+| — | Revisión del auditor (ChatGPT) del informe de verificación del checkpoint V2.0, con Sebastián, antes de empezar el BLOQUE 1 | Sebastián + ChatGPT |
 | — | Registro de GEMINI_API_KEY / GROQ_API_KEY (fuera del repo; las registra él vía setx) | Sebastián |
 
 > DF-006 quedó **APROBADA** el 2026-08-27 (FASE 6 = WORLD BUILDING); traza completa en DECISIONS.md.
+> D-008 (2026-08-27): plan operativo de Fase 6 APROBADO CON CORRECCIONES por el auditor; V2.0 es el prompt rector.
 
 ## Riesgos conocidos (no bloqueantes)
 
@@ -64,12 +66,12 @@
 ## Documentos principales
 
 - **Sistema central:** `docs/PROJECT-STATE.md` (este), `docs/ROADMAP.md`, `docs/DECISIONS.md`, `docs/ARCHITECTURE.md`, `docs/AUDIT-LOG.md`, `docs/HANDOFF.md`, `docs/AUDITORIA-FORENSE-FASES-1-5.md`.
-- **Documentación de fase (convención consolidada: raíz del repo, no mover):** BASELINE.md, ROUTES.md, TEST-MATRIX.md, DESIGN-AUDIT.md, ASSETS-INVENTORY.md, PERFORMANCE-BASELINE.md, SEO-BASELINE.md, ACCESSIBILITY-BASELINE.md (F1) · FASE2-CIERRE.md (F2) · DESIGN-SYSTEM.md, FASE3-VEREDICTO.md (F3) · FASE4-ARQUITECTURA-EXPERIENCIA.md, ROUTE-JOURNEYS.md, PAGE-EXPERIENCE-MATRIX.md (F4) · PHASE5-MOTION-ENGINE.md, MOTION-MAP.md, SCROLL-STORY-MATRIX.md (F5) · CONTEXTO-MAESTRO-CONTINUIDAD.md (contexto permanente) · PLAN-FASE-6-WORLD-BUILDING.md (plan operativo de la fase actual, pendiente de auditoría/aprobación).
+- **Documentación de fase (convención consolidada: raíz del repo, no mover):** BASELINE.md, ROUTES.md, TEST-MATRIX.md, DESIGN-AUDIT.md, ASSETS-INVENTORY.md, PERFORMANCE-BASELINE.md, SEO-BASELINE.md, ACCESSIBILITY-BASELINE.md (F1) · FASE2-CIERRE.md (F2) · DESIGN-SYSTEM.md, FASE3-VEREDICTO.md (F3) · FASE4-ARQUITECTURA-EXPERIENCIA.md, ROUTE-JOURNEYS.md, PAGE-EXPERIENCE-MATRIX.md (F4) · PHASE5-MOTION-ENGINE.md, MOTION-MAP.md, SCROLL-STORY-MATRIX.md (F5) · CONTEXTO-MAESTRO-CONTINUIDAD.md (contexto permanente) · PLAN-FASE-6-WORLD-BUILDING.md (plan operativo de la fase actual, AUDITADO Y APROBADO CON CORRECCIONES — D-008; incluye checkpoint de verificación V2.0 §0.1 e inventario de rutas normalizado §0.2).
 - **Históricos:** AUDITORIA_2026-08-25.md (auditoría pre-Fase 1, commit 8f14698, suite roja 84 fallos — punto de partida).
 
 ## Prohibiciones activas
 
-- Fase 6 = WORLD BUILDING (DF-006 APROBADA): PROHIBIDO implementar nada sin el PLAN OPERATIVO FINAL aprobado; prohibido rediseñar páginas públicas, crear escenas 3D, migrar código visual o añadir dependencias durante Fase 6.
+- Fase 6 = WORLD BUILDING (DF-006 APROBADA, plan APROBADO CON CORRECCIONES — D-008): prohibido empezar el BLOQUE 1 antes de que el auditor revise el informe de verificación con Sebastián; prohibido rediseñar páginas públicas, crear escenas 3D, migrar código visual o añadir dependencias durante Fase 6; prohibido modificar código de producción (solo tests documentales nuevos, sin runtime/bundle/deps/skip/only).
 - NO redefinir Fase 6 como migración de páginas (eso es Fase 8).
 - NO tocar: precios, WhatsApp, catálogo, dominio, SEO global, sitemap, robots, rutas públicas, checkout, copy contractual — salvo fase explícita que lo requiera y lo señale antes.
 - NO resolver DP-5 por cuenta del agente.
