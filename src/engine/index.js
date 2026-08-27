@@ -8,7 +8,7 @@
 // se descomenta cada linea al crear su modulo.
 
 // --- Provider raiz (Tarea 16) ---
-export { ExperienceProvider, useEngineScroll } from './providers/ExperienceProvider.jsx'
+export { ExperienceProvider, useEngineScroll, useScrollState } from './providers/ExperienceProvider.jsx'
 
 // --- Capability_Manager (Tarea 3) ---
 export {
@@ -42,6 +42,14 @@ export { useLenis } from './hooks/useLenis.js'
 export { useScrollProgress } from './hooks/useScrollProgress.js'
 export { useSticky } from './hooks/useSticky.js'
 export { useDisposable, createDisposableRegistry } from './hooks/useDisposable.js'
+
+// --- Scroll Storytelling (Fase 5) ---
+export { useSectionProgress, resolveRange, SECTION_RANGES } from './scroll/useSectionProgress.js'
+export {
+  useScrollHandoff,
+  createHandoffSnapshot,
+  readViewport,
+} from './scroll/scrollHandoff.js'
 
 // --- Escena 3D (Tareas 7-12) ---
 export { Scene3D } from './scene/Scene3D.jsx'

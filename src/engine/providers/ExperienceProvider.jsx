@@ -14,7 +14,7 @@
 // lo leen con `.get()` dentro de un `useFrame`/render loop o se suscriben a el
 // sin provocar renders del arbol.
 
-import { createContext, useContext, useEffect } from 'react'
+import { createContext, useContext, useEffect, useMemo } from 'react'
 import { useMotionValue } from 'framer-motion'
 import { CapabilityProvider } from './CapabilityProvider.jsx'
 import { useCapabilities } from '../hooks/useCapabilities.js'
@@ -32,6 +32,23 @@ import { GrainOverlay } from '../effects/GrainOverlay.jsx'
  * @type {import('react').Context<import('framer-motion').MotionValue<number>|null>}
  */
 export const ScrollContext = createContext(null)
+
+/**
+ * Contexto con el ESTADO dinamico del scroll del engine (Fase 5): velocidad y
+ * direccion como `MotionValue<number>`. Se actualiza en la MISMA suscripcion
+ * que publica el progreso (Lenis o fallback nativo): no anade listeners ni
+ * re-renders. Es `null` fuera del `ExperienceProvider`; usa `useScrollState()`.
+ *
+ * Semantica:
+ *  - `velocity`: desplazamiento por evento de scroll (px). En Lenis es la
+ *    velocidad interna del smooth scroll; en el fallback nativo es el delta
+ *    de `scrollTop` entre eventos. El consumidor que necesite suavizado debe
+ *    aplicarlo (p. ej. `useSpring`); el engine no acumula inercia propia.
+ *  - `direction`: 1 bajando, -1 subiendo, 0 en reposo inicial.
+ *
+ * @type {import('react').Context<{velocity: import('framer-motion').MotionValue<number>, direction: import('framer-motion').MotionValue<number>}|null>}
+ */
+export const ScrollStateContext = createContext(null)
 
 /**
  * Acota un numero al rango [0, 1]. Valores no finitos se tratan como 0 para
@@ -76,15 +93,23 @@ function EngineRoot({ children }) {
   // Progreso de scroll 0..1 como MotionValue: sin estado, sin re-render por
   // fotograma. Es la fuente unica que consumen escena/parallax/etc. (R19.2).
   const scrollProgress = useMotionValue(0)
+  // Fase 5: velocidad y direccion del scroll como MotionValues. Se actualizan
+  // en la misma suscripcion que el progreso: ni un listener extra ni un
+  // re-render. Los consume el handoff 3D (Fase 7) y el debug de movimiento.
+  const scrollVelocity = useMotionValue(0)
+  const scrollDirection = useMotionValue(0)
 
   useEffect(() => {
     const lenis = lenisRef.current
 
     // --- Camino Lenis (movimiento normal) ---
-    // Lenis emite `scroll` con un `progress` ya normalizado 0..1.
+    // Lenis emite `scroll` con `progress` normalizado 0..1, mas su velocidad
+    // y direccion internas (1 bajando, -1 subiendo).
     if (lenis) {
-      const handleLenisScroll = ({ progress }) => {
+      const handleLenisScroll = ({ progress, velocity, direction }) => {
         scrollProgress.set(clamp01(progress))
+        if (Number.isFinite(velocity)) scrollVelocity.set(velocity)
+        if (Number.isFinite(direction)) scrollDirection.set(direction)
       }
       lenis.on('scroll', handleLenisScroll)
       return () => {
@@ -95,12 +120,23 @@ function EngineRoot({ children }) {
     // --- Camino nativo (movimiento reducido, R19.3) ---
     // Sin Lenis: el progreso se deriva del scroll del documento. Si el
     // contenido no desborda el viewport (divisor <= 0) el progreso es 0.
+    // La velocidad es el delta de scrollTop entre eventos y la direccion su
+    // signo; con movimiento reducido estos valores son informativos (el
+    // sistema no debe derivar animacion de ellos).
+    let lastTop = typeof window !== 'undefined' ? window.scrollY || 0 : 0
     const handleWindowScroll = () => {
       const doc = document.documentElement
       const scrollTop = doc.scrollTop || window.scrollY || 0
       const max = doc.scrollHeight - doc.clientHeight
       const progress = max > 0 ? scrollTop / max : 0
       scrollProgress.set(clamp01(progress))
+
+      const delta = scrollTop - lastTop
+      lastTop = scrollTop
+      if (Number.isFinite(delta) && delta !== 0) {
+        scrollVelocity.set(delta)
+        scrollDirection.set(delta > 0 ? 1 : -1)
+      }
     }
 
     window.addEventListener('scroll', handleWindowScroll, { passive: true })
@@ -110,16 +146,25 @@ function EngineRoot({ children }) {
     return () => {
       window.removeEventListener('scroll', handleWindowScroll)
     }
-    // `scrollProgress` es un MotionValue estable (identidad persistente entre
-    // renders), por eso se omite de las dependencias intencionadamente.
+    // `scrollProgress`/`scrollVelocity`/`scrollDirection` son MotionValues
+    // estables (identidad persistente entre renders), por eso se omiten de
+    // las dependencias intencionadamente.
   }, [lenisRef, caps.reducedMotion])
+
+  // Identidad estable del valor del contexto: los MotionValues no cambian.
+  const scrollState = useMemo(
+    () => ({ velocity: scrollVelocity, direction: scrollDirection }),
+    [scrollVelocity, scrollDirection],
+  )
 
   return (
     <ScrollContext.Provider value={scrollProgress}>
-      {/* Loader de marca y efectos globales consistentes en todas las rutas (R24.3). */}
-      <Loader />
-      <GrainOverlay opacity={0.02} />
-      {children}
+      <ScrollStateContext.Provider value={scrollState}>
+        {/* Loader de marca y efectos globales consistentes en todas las rutas (R24.3). */}
+        <Loader />
+        <GrainOverlay opacity={0.02} />
+        {children}
+      </ScrollStateContext.Provider>
     </ScrollContext.Provider>
   )
 }
@@ -155,4 +200,19 @@ export function ExperienceProvider({ children }) {
  */
 export function useEngineScroll() {
   return useContext(ScrollContext)
+}
+
+/**
+ * Hook de consumo del estado dinamico del scroll del engine (Fase 5).
+ *
+ * Devuelve `{ velocity, direction }` como `MotionValue<number>` publicados por
+ * `ExperienceProvider` (misma suscripcion que el progreso: sin listeners extra
+ * y sin re-render). `velocity` es el desplazamiento por evento (px) y
+ * `direction` vale 1 bajando, -1 subiendo, 0 en reposo inicial. Devuelve
+ * `null` si se usa fuera del provider.
+ *
+ * @returns {{velocity: import('framer-motion').MotionValue<number>, direction: import('framer-motion').MotionValue<number>}|null}
+ */
+export function useScrollState() {
+  return useContext(ScrollStateContext)
 }
