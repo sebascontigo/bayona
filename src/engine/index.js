@@ -65,6 +65,10 @@ export { useMagnetic, magneticOffset } from './hooks/useMagnetic.js'
 export { RippleButton } from './motion/RippleButton.jsx'
 export { useTilt, tiltAngles } from './hooks/useTilt.js'
 
+// --- Tipografia cinetica (Fase 5) ---
+export { Marquee, MARQUEE_BASE_DURATION } from './motion/Marquee.jsx'
+export { TextMask } from './motion/TextMask.jsx'
+
 // --- Efectos globales (Tarea 15) ---
 export { CustomCursor } from './effects/CustomCursor.jsx'
 export { GrainOverlay } from './effects/GrainOverlay.jsx'
