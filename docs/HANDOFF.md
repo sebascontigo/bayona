@@ -7,17 +7,19 @@
 2. Primera sincronización documental V1.0: creado `docs/` con el sistema central (commit `2de0a6c`); documentación de fase intacta en raíz.
 3. Sincronización final post-auditoría independiente de ChatGPT: referencias actualizadas (commit `bfcf6b4`, AUDIT-LOG entrada 004). ChatGPT: "🟢 B — APROBADA PARA AVANZAR".
 4. **DF-006 APROBADA** (confirmación explícita de Sebastián vía veredicto ChatGPT + entrega del PROMPT MAESTRO FASE 6): FASE 6 = WORLD BUILDING. Pre-vuelo de Fase 6 ejecutado (HEAD = origin/main, árbol limpio); PLAN OPERATIVO FINAL presentado y subido al repo como `PLAN-FASE-6-WORLD-BUILDING.md` (raíz), esperando aprobación (AUDIT-LOG entradas 005 y 006).
-5. **Auditoría del plan (ChatGPT sobre `046a37c`): "🟢 APROBADO PARA AVANZAR, con correcciones obligatorias"** → registradas como D-008. Sebastián entregó el PROMPT MAESTRO V2.0 (nuevo prompt rector). El agente ejecutó de verdad el checkpoint de verificación (PASOS 1–3 de V2.0): HEAD = origin/main = `046a37c` confirmado; gates re-ejecutados (381/381 · 0 errores/16 warnings · build OK vendor-three 826.94 kB · 41/41 E2E); inventario de rutas normalizado por categorías (16 canónicas + 1 alias + 404 + 1 interna) documentado en el plan §0.2; las 4 correcciones obligatorias aplicadas al plan en el repo (AUDIT-LOG entrada 007).
+5. **Auditoría del plan (ChatGPT sobre `046a37c`): "🟢 APROBADO PARA AVANZAR, con correcciones obligatorias"** → registradas como D-008. Sebastián entregó el PROMPT MAESTRO V2.0 (nuevo prompt rector). El agente ejecutó de verdad el checkpoint de verificación (PASOS 1–3 de V2.0): HEAD = origin/main = `046a37c` confirmado; gates re-ejecutados (381/381 · 0 errores/16 warnings · build OK vendor-three 826.94 kB · 41/41 E2E); inventario de rutas normalizado por categorías (16 canónicas + 1 alias + 404 + 1 interna) documentado en el plan §0.2; las 4 correcciones obligatorias aplicadas al plan en el repo (AUDIT-LOG entrada 007). Commit `a808e5e`.
+6. **BLOQUE 1 EJECUTADO (2026-08-28)** — autorización del auditor: "🟢 AUTORIZADO: INICIAR ÚNICAMENTE EL BLOQUE 1 DE FASE 6". Pre-flight real (HEAD = origin/main = `a808e5e`, árbol limpio); relectura completa de fuentes; verificación crítica de los 10 principios (sin problema material: se mantienen los 10, análisis de solapamientos documentado en el documento §D.11); creado `BAYONA-WORLD-BIBLE.md` PARTE I (ADN VISUAL) en la raíz: qué es/no es BAYONA, 10 principios operativos con 10 campos cada uno, curva emocional derivada de J1–J10, materialidad (literal/sugerida/prohibida), luz (6 tipos sobre tokens existentes), profundidad (4 tipos, 3D como excepción), densidad/ritmo compatibles con el engine, autoauditoría K.1–K.4. Gates re-ejecutados de verdad: 381/381 (35.95 s) · 0/16 · build 16.11 s · 41 visual (4.0 min). 0 archivos de producción tocados (AUDIT-LOG entrada 008).
 
 ## ¿Qué está confirmado?
 - Último commit de código `70606dd` (Fase 5); commits posteriores solo documentales (`2de0a6c`, `bfcf6b4`, `d8fd587`, `046a37c`, checkpoint V2.0). Estado vivo: comprobar con `git rev-parse HEAD` (convención: no congelar HEAD vivo en docs).
 - Fases 1–5 reales y aprobadas; ninguna página pública rediseñada en Fase 5.
 - Contratos comerciales y SEO vivos en producción (precios, WhatsApp, canonical, sitemap 14, robots).
 - **FASE 6 = WORLD BUILDING** (DF-006 APROBADA; plan APROBADO CON CORRECCIONES — D-008; V2.0 rige la ejecución; 0 código de producción, tests documentales permitidos).
-- Baseline re-ejecutada de verdad sobre `046a37c`: 381/381 · 0/16 · build OK (vendor-three 826.94 kB) · 41/41.
+- **BLOQUE 1 terminado:** `BAYONA-WORLD-BIBLE.md` PARTE I (ADN VISUAL) en la raíz — propuesta documental vinculante para Bloques 2–5 y Fases 7–8; no implementa nada.
+- Baseline re-ejecutada de verdad durante el BLOQUE 1 (2026-08-28): 381/381 (35.95 s) · 0/16 · build OK 16.11 s (vendor-three 826.94 kB) · 41 visual (4.0 min).
 
 ## ¿Qué está pendiente?
-- **Revisión del auditor (ChatGPT), con Sebastián, del informe de verificación del checkpoint V2.0** → tras el OK, empezar el BLOQUE 1.
+- **Auditoría de ChatGPT del BLOQUE 1** (BAYONA-WORLD-BIBLE.md PARTE I) → solo tras su OK explícito, iniciar el BLOQUE 2.
 - **DP-5:** ELITE "acceso de por vida" (comercial/legal, solo Sebastián; fuera de Fase 6).
 - Endurecimientos OBS-1/OBS-2 y deuda muerta (ROADMAP, programados para su fase).
 
@@ -31,10 +33,10 @@
 `git status` + `git rev-parse HEAD` vs origin/main → este HANDOFF → PROJECT-STATE → DECISIONS (DF-006 APROBADA, DP-5) → ROADMAP.
 
 ## ¿Cuál es el siguiente paso?
-Esperar la revisión del auditor (ChatGPT) del informe de verificación del checkpoint V2.0, con Sebastián. Tras el OK: implementar los 5 bloques (ADN visual → gramática espacial → mundos 00–08 → blueprints → matriz de decisión + WORLD-3D-STRATEGY) según el orden de ejecución de V2.0 §32, en commits atómicos, con tests documentales D-01…D-07 y gates re-ejecutados de verdad como no-regresión (nunca copiar números históricos); informe final A–R y STOP ABSOLUTO para auditoría de ChatGPT antes de Fase 7.
+**STOP ABSOLUTO.** Esperar la auditoría de ChatGPT del BLOQUE 1 (informe A–R entregado). Prohibido iniciar el BLOQUE 2 (gramática espacial), los mundos, blueprints, matriz, WORLD-3D-STRATEGY o los tests D-01…D-07 sin autorización explícita del auditor. Modelo de trabajo vigente: BLOQUE N → AUDITORÍA → BLOQUE N+1, nunca auto-continuar.
 
 ## ¿Qué tests debo ejecutar?
-`npm test` · `npm run lint` · `npm run build` · `npm run test:visual` — re-ejecutados de verdad sobre `046a37c` (2026-08-27): 381/381 · 0 errores/16 warnings · build OK (vendor-three 826.94 kB) · 41/41. Regla V2.0 §23: nunca copiar estos números sin ejecución actual.
+`npm test` · `npm run lint` · `npm run build` · `npm run test:visual` — re-ejecutados de verdad durante el BLOQUE 1 (2026-08-28): 381/381 (35.95 s) · 0 errores/16 warnings · build OK 16.11 s (vendor-three 826.94 kB) · 41 visual passed (4.0 min). Regla V2.0 §23: nunca copiar estos números sin ejecución actual.
 
 ## ¿Dónde está la documentación?
 - Central: `docs/` (este directorio).
