@@ -13,7 +13,7 @@
 | Repositorio | github.com/sebascontigo/bayona | VERIFIED |
 | Rama | main | VERIFIED |
 | Último commit de código | `70606dd` "Fase 5 (7/7): documentacion del Motion Engine 2.0 + Scroll Storytelling" — el código no ha cambiado desde entonces; los commits posteriores son exclusivamente documentales | VERIFIED |
-| Commits documentales | `2de0a6c` (sistema central docs/) → `bfcf6b4` (sincronización final de referencias, AUDIT-LOG 004) → `d8fd587` (registro DF-006 APROBADA, AUDIT-LOG 005) → `046a37c` (plan operativo en repo, AUDIT-LOG 006) → `a808e5e` (checkpoint de verificación V2.0 + plan corregido, AUDIT-LOG 007) → BLOQUE 1: `BAYONA-WORLD-BIBLE.md` PARTE I + docs mínimos (este commit, AUDIT-LOG 008) | VERIFIED |
+| Commits documentales | `2de0a6c` (sistema central docs/) → `bfcf6b4` (sincronización final de referencias, AUDIT-LOG 004) → `d8fd587` (registro DF-006 APROBADA, AUDIT-LOG 005) → `046a37c` (plan operativo en repo, AUDIT-LOG 006) → `a808e5e` (checkpoint de verificación V2.0 + plan corregido, AUDIT-LOG 007) → `3a9f511` (BLOQUE 1: BAYONA-WORLD-BIBLE.md PARTE I, AUDIT-LOG 008) → BLOQUE 2: `SPATIAL-LANGUAGE.md` + DF-009…DF-012 + docs mínimos (este commit, AUDIT-LOG 009) | VERIFIED |
 | Commit auditado (forense Fases 1–5) | `70606dd` (2026-08-27) | VERIFIED |
 | Commit auditado (plan de Fase 6) | `046a37c` (veredicto ChatGPT 2026-08-27: APROBADO PARA AVANZAR con correcciones) | VERIFIED |
 | Estado vivo a 2026-08-27 | HEAD = origin/main, árbol limpio, 0 commits remotos por delante — comprobado con Git durante el checkpoint V2.0 (post-auditoría del plan) | VERIFIED |
@@ -23,18 +23,18 @@
 | Campo | Valor | Etiqueta |
 |---|---|---|
 | Última fase completada | **FASE 5 — Motion Engine 2.0 + Scroll Storytelling** (commits `3cdaa19..70606dd`, 7 commits) | VERIFIED |
-| Fase actual | **FASE 6 — WORLD BUILDING** (DF-006 APROBADA, DECISIONS.md; plan AUDITADO Y APROBADO CON CORRECCIONES — D-008; PROMPT MAESTRO V2.0 = prompt rector). **BLOQUE 1 EJECUTADO** (2026-08-28): `BAYONA-WORLD-BIBLE.md` PARTE I (ADN VISUAL) creada en la raíz — identidad qué es/no es, 10 principios operativos verificados críticamente (sin problema material, se mantienen los 10), curva emocional J1–J10, materialidad, luz (6 tipos), profundidad (4 tipos), densidad/ritmo compatibles con el engine, autoauditoría K.1–K.4. **STOP ABSOLUTO antes del BLOQUE 2** hasta la auditoría de ChatGPT | VERIFIED |
+| Fase actual | **FASE 6 — WORLD BUILDING** (DF-006 APROBADA; plan AUDITADO — D-008; V2.0 rector). **BLOQUE 1 APROBADO** por el auditor (veredicto sobre `3a9f511`; condiciones DF-009…DF-012 registradas). **BLOQUE 2 EJECUTADO** (2026-08-28): `SPATIAL-LANGUAGE.md` (gramática espacial) en la raíz — 7 estados (entrada/aproximación/tensión/inmersión/descubrimiento/decisión/salida), transiciones permitidas/prohibidas, 5 clases de página con estados prohibidos, mobile, reduced motion, regla de claridad, autoauditoría; relaciones con el engine conceptuales (no APIs). **STOP ABSOLUTO antes del BLOQUE 3** hasta la auditoría de ChatGPT | VERIFIED |
 | Naturaleza de Fase 6 | 100% documental y estratégica: 0 cambios de código de producción; único código nuevo permitido = tests documentales (sin runtime/bundle/deps/skip/only) | VERIFIED (veredicto ChatGPT + PROMPT MAESTRO V2.0 §5) |
 | Fases 1–5 | Completadas y aprobadas por auditoría forense (veredicto ✅ C, AUDIT-LOG entrada 002) | VERIFIED |
 
-## Gates (re-ejecutados de verdad 2026-08-28 durante el BLOQUE 1, sobre HEAD = `a808e5e`; el código no cambia desde `70606dd`, los commits intermedios son documentales)
+## Gates (re-ejecutados de verdad 2026-08-28 durante el BLOQUE 2, sobre HEAD = `3a9f511`; el código no cambia desde `70606dd`, los commits intermedios son documentales)
 
 | Gate | Resultado | Etiqueta |
 |---|---|---|
-| `npm test` (vitest) | 381/381 tests · 71 ficheros · 0 skips · 0 fallos (35.95 s) | VERIFIED |
+| `npm test` (vitest) | 381/381 tests · 71 ficheros · 0 skips · 0 fallos (37.93 s) | VERIFIED |
 | `npm run lint` (eslint) | 0 errores / 16 warnings | VERIFIED |
-| `npm run build` (vite) | OK, built in 16.11 s (vendor-three 826.94 kB, gzip 222.32 kB; warning de chunk preexistente) | VERIFIED |
-| `npm run test:visual` (Playwright) | 41 passed (4.0 min) | VERIFIED |
+| `npm run build` (vite) | OK, built in 13.49 s (vendor-three 826.94 kB, gzip 222.32 kB; warning de chunk preexistente) | VERIFIED |
+| `npm run test:visual` (Playwright) | 41 passed (3.7 min) | VERIFIED |
 
 ## Producción
 
@@ -50,7 +50,7 @@
 | ID | Asunto | Quién decide |
 |---|---|---|
 | DP-5 | ELITE "acceso de por vida" — decisión comercial/legal (fuera de Fase 6, PROMPT MAESTRO V2.0 §27) | Sebastián |
-| — | **Auditoría de ChatGPT del BLOQUE 1** (BAYONA-WORLD-BIBLE.md PARTE I) antes de iniciar el BLOQUE 2 | Sebastián + ChatGPT |
+| — | **Auditoría de ChatGPT del BLOQUE 2** (SPATIAL-LANGUAGE.md) antes de iniciar el BLOQUE 3 (mundos 00–08, gobernado por DF-011) | Sebastián + ChatGPT |
 | — | Registro de GEMINI_API_KEY / GROQ_API_KEY (fuera del repo; las registra él vía setx) | Sebastián |
 
 > DF-006 quedó **APROBADA** el 2026-08-27 (FASE 6 = WORLD BUILDING); traza completa en DECISIONS.md.
@@ -66,12 +66,12 @@
 ## Documentos principales
 
 - **Sistema central:** `docs/PROJECT-STATE.md` (este), `docs/ROADMAP.md`, `docs/DECISIONS.md`, `docs/ARCHITECTURE.md`, `docs/AUDIT-LOG.md`, `docs/HANDOFF.md`, `docs/AUDITORIA-FORENSE-FASES-1-5.md`.
-- **Documentación de fase (convención consolidada: raíz del repo, no mover):** BASELINE.md, ROUTES.md, TEST-MATRIX.md, DESIGN-AUDIT.md, ASSETS-INVENTORY.md, PERFORMANCE-BASELINE.md, SEO-BASELINE.md, ACCESSIBILITY-BASELINE.md (F1) · FASE2-CIERRE.md (F2) · DESIGN-SYSTEM.md, FASE3-VEREDICTO.md (F3) · FASE4-ARQUITECTURA-EXPERIENCIA.md, ROUTE-JOURNEYS.md, PAGE-EXPERIENCE-MATRIX.md (F4) · PHASE5-MOTION-ENGINE.md, MOTION-MAP.md, SCROLL-STORY-MATRIX.md (F5) · CONTEXTO-MAESTRO-CONTINUIDAD.md (contexto permanente) · PLAN-FASE-6-WORLD-BUILDING.md (plan operativo de la fase actual, AUDITADO Y APROBADO CON CORRECCIONES — D-008; incluye checkpoint de verificación V2.0 §0.1 e inventario de rutas normalizado §0.2) · BAYONA-WORLD-BIBLE.md (PARTE I — ADN VISUAL, BLOQUE 1 ejecutado; la Parte II mundos 00–08 llegará en el Bloque 3).
+- **Documentación de fase (convención consolidada: raíz del repo, no mover):** BASELINE.md, ROUTES.md, TEST-MATRIX.md, DESIGN-AUDIT.md, ASSETS-INVENTORY.md, PERFORMANCE-BASELINE.md, SEO-BASELINE.md, ACCESSIBILITY-BASELINE.md (F1) · FASE2-CIERRE.md (F2) · DESIGN-SYSTEM.md, FASE3-VEREDICTO.md (F3) · FASE4-ARQUITECTURA-EXPERIENCIA.md, ROUTE-JOURNEYS.md, PAGE-EXPERIENCE-MATRIX.md (F4) · PHASE5-MOTION-ENGINE.md, MOTION-MAP.md, SCROLL-STORY-MATRIX.md (F5) · CONTEXTO-MAESTRO-CONTINUIDAD.md (contexto permanente) · PLAN-FASE-6-WORLD-BUILDING.md (plan operativo de la fase actual, AUDITADO Y APROBADO CON CORRECCIONES — D-008; incluye checkpoint de verificación V2.0 §0.1 e inventario de rutas normalizado §0.2) · BAYONA-WORLD-BIBLE.md (PARTE I — ADN VISUAL, BLOQUE 1 aprobado) · SPATIAL-LANGUAGE.md (gramática espacial, BLOQUE 2 ejecutado; la Parte II mundos 00–08 llegará en el Bloque 3).
 - **Históricos:** AUDITORIA_2026-08-25.md (auditoría pre-Fase 1, commit 8f14698, suite roja 84 fallos — punto de partida).
 
 ## Prohibiciones activas
 
-- Fase 6 = WORLD BUILDING (DF-006 APROBADA, plan APROBADO CON CORRECCIONES — D-008): **BLOQUE 1 terminado — prohibido iniciar el BLOQUE 2** (ni mundos, ni blueprints, ni matriz, ni WORLD-3D-STRATEGY, ni tests D-01…D-07) antes de la auditoría de ChatGPT; prohibido rediseñar páginas públicas, crear escenas 3D, migrar código visual o añadir dependencias durante Fase 6; prohibido modificar código de producción (solo tests documentales nuevos, sin runtime/bundle/deps/skip/only).
+- Fase 6 = WORLD BUILDING (DF-006 APROBADA, plan APROBADO CON CORRECCIONES — D-008): **BLOQUE 2 terminado — prohibido iniciar el BLOQUE 3** (mundos 00–08), blueprints, matriz, WORLD-3D-STRATEGY o tests D-01…D-07 antes de la auditoría de ChatGPT; condiciones DF-009…DF-012 vinculantes; prohibido rediseñar páginas públicas, crear escenas 3D, migrar código visual o añadir dependencias durante Fase 6; prohibido modificar código de producción (solo tests documentales nuevos, sin runtime/bundle/deps/skip/only).
 - NO redefinir Fase 6 como migración de páginas (eso es Fase 8).
 - NO tocar: precios, WhatsApp, catálogo, dominio, SEO global, sitemap, robots, rutas públicas, checkout, copy contractual — salvo fase explícita que lo requiera y lo señale antes.
 - NO resolver DP-5 por cuenta del agente.

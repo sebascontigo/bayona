@@ -76,3 +76,23 @@
 - **Prompt rector:** PROMPT MAESTRO V2.0 (sustituye a V1.0 como norma de ejecución; V1.0 queda como origen del plan).
 - **Checkpoint de verificación (PASOS 1–3 de V2.0):** ejecutado de verdad el 2026-08-27 sobre `046a37c` — HEAD = origin/main confirmado, gates re-ejecutados (381/381 · 0 errores/16 warnings · build OK vendor-three 826.94 kB · 41/41 E2E), inventario normalizado documentado en el plan §0.2. Sin contradicciones materiales.
 - **Regla vigente:** STOP antes del BLOQUE 1 hasta que el auditor revise el informe de verificación con Sebastián. Después: implementación por bloques según V2.0 §32, con condiciones de parada BLOQUEADO—DECISIÓN REQUERIDA (V2.0 §33).
+- **Actualización 2026-08-28:** BLOQUE 1 APROBADO por el auditor (veredicto sobre `3a9f511`); autorizado únicamente el BLOQUE 2 (SPATIAL-LANGUAGE.md).
+
+## DF-009 · Disciplina de evidencia del World Building
+- **Fecha:** 2026-08-28 · **Estado:** VINCULANTE · **Quién:** ChatGPT (auditor, veredicto del BLOQUE 1)
+- **Decisión:** etiquetas estrictas en toda la documentación de Fase 6: **CONFIRMADO** solo con evidencia real verificable (código, documentación aprobada, decisión registrada, contenido comercial vivo); **DERIVADO** = inferencia que responde "¿de qué evidencia concreta sale esto?"; **PROPUESTO** = decisión nueva de Fase 6, nunca presentada como si ya existiera en la web; **HISTÓRICO** = registro del pasado.
+- **Regla:** nunca convertir una interpretación en un hecho confirmado. La World Bible describe la marca real; no inventa una marca.
+
+## DF-010 · Territorio no es folclore visual
+- **Fecha:** 2026-08-28 · **Estado:** VINCULANTE · **Quién:** ChatGPT (auditor, veredicto del BLOQUE 1)
+- **Decisión:** TERRITORIO (principio con menor densidad de evidencia) significa por ahora: presencia real, contexto físico, presencialidad, personas, comunidad y lugares reales; España como contexto operativo.
+- **Prohibido** sin evidencia concreta: estética española inventada, paisajes, símbolos culturales, arquitectura regional, paletas geográficas, mapas decorativos.
+
+## DF-011 · Diferenciación real de los mundos
+- **Fecha:** 2026-08-28 · **Estado:** VINCULANTE (gobierna el BLOQUE 3) · **Quién:** ChatGPT (auditor, veredicto del BLOQUE 1)
+- **Decisión:** cada mundo deberá justificar: (1) función humana o de negocio que representa, (2) por qué necesita composición espacial diferente, (3) su antiuso, (4) qué principio del ADN expresa prioritariamente, (5) qué evidencia real justifica su existencia.
+- **Regla:** dos mundos intercambiables se fusionan o redefinen. Prohibidas nueve variantes de "negro + naranja + foto + receta distinta".
+
+## DF-012 · Anti-burocracia en Fase 6
+- **Fecha:** 2026-08-28 · **Estado:** VINCULANTE · **Quién:** ChatGPT (auditor, veredicto del BLOQUE 1)
+- **Decisión:** documentación necesaria sí; burocracia por burocracia no. El objetivo es el sistema visual y narrativo de BAYONA, no más logs, checkpoints, SHAs o documentos que documentan documentos.
