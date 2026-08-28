@@ -1199,6 +1199,311 @@ Al leer dos blueprints diferentes se siente que: las personas llegan con pregunt
 
 El resultado queda **a la espera de la auditoría de ChatGPT** (revisión del informe + coherencia con el repo), tal como ordena el auditor: tú eres el puente; no me das el siguiente bloque sin auditoría.
 
+---
+
+# MATRIZ FINAL DE DECISIÓN — BLOQUE 5 (FASE 6 · GOBIERNO DE IMPLEMENTACIÓN)
+
+> **FASE 6 · BLOQUE 5.** Partida: `aaf1543` (cierre del Bloque 4, verificado local + remoto). Autorización del auditor: **BLOQUE 5 ÚNICAMENTE**.
+> **Decisión de formato (verificada, no asumida):** `PLAN-FASE-6-WORLD-BUILDING.md` líneas 138–141 manda que la matriz sea **sección final de `PAGE-BLUEPRINTS.md`**, "no `WORLD-DECISION-MATRIX.md` separado". Los dos prompts del auditor difieren en este punto (el segundo sugería `FINAL-DECISION-MATRIX.md`); por la jerarquía de fuentes (M.0, nivel 3: restricciones aprobadas de arquitectura), **gana el plan**: la matriz vive aquí. No se crea documento paralelo (además, DF-012).
+> **PROHIBICIÓN CRÍTICA:** esta matriz decide, documenta, restringe, prioriza y detecta contradicciones, pero **NO implementa** `resolvePageMotionContract()`: no modifica APIs, firmas, tokens, recetas, componentes ni runtime. La conversión a contratos pertenece a Fase 8. Las referencias al engine son de GOBIERNO, no de código.
+> **Idioma:** todo el contenido nuevo está en español; los identificadores técnicos reales se conservan tal cual.
+> Esta sección **actualiza los stops previos del Bloque 4** (líneas 1146 y 1191–1200), que quedaban subordinados a la autorización del Bloque 5: autorizada y ejecutada, su STOP vigente es el de M.16.
+
+## M.0 JERARQUÍA DE AUTORIDAD Y PROTOCOLO DE CONFLICTOS
+
+Fase 7/8 nunca debe adivinar qué fuente gana. Precedencia derivada del repo real (no del ejemplo del auditor):
+
+| Nivel | Fuente | Gobierna | No puede overridear |
+|---|---|---|---|
+| 1 | **Código vivo confirmado** (engine, `routeMeta.js`, `Globe3D.jsx`, gates) | qué existe realmente; límites físicos del engine y del presupuesto | nada lo supera en cuestiones de hecho |
+| 2 | **`docs/DECISIONS.md`** (D-001…D-008, DP-5) | decisiones explícitas registradas | el código vivo solo si hay decisión formal de cambio (nuevo D-xx) |
+| 3 | **Restricciones aprobadas de arquitectura** (plan Fase 6, contratos de baseline, DF-009…DF-012) | formato, alcance, vocabulario y disciplina de los documentos | niveles 1–2 |
+| 4 | **Inventario normalizado de rutas** (plan §0.2) | qué rutas existen y cómo se categorizan | nada dentro de Fase 6 |
+| 5 | **Los blueprints de este documento** (§1–18) | la experiencia objetivo por ruta | niveles 1–4 |
+| 6 | **`BAYONA-WORLD-BIBLE.md`** | identidad, mundos, ADN visual | la función real de la ruta (nivel 5) cuando choquen |
+| 7 | **`SPATIAL-LANGUAGE.md`** | gramática espacial de los 7 estados | los niveles anteriores |
+| 8 | **`SCROLL-STORY-MATRIX.md` / matrices Fase 4–5** | PROPUESTA HEREDADA: punto de partida, no ley | cualquier nivel superior; se corrige solo con nota explícita |
+| 9 | **Inferencia nueva del Bloque 5** (esta matriz) | consolida y restringe | nada: se etiqueta siempre como PROPUESTO/DERIVADO y nunca se presenta como CONFIRMADO |
+
+**Protocolo de resolución de conflictos (sin armonización silenciosa):**
+1. Identificar las dos fuentes y sus niveles. Gana el nivel más bajo (más autoritario).
+2. Si el conflicto es entre función de ruta (nivel 5) e identidad de mundo (nivel 6): **gana la función** — el mundo expresa, no decide el propósito (regla de oro del plan §14; TEST 4 del Bloque 4).
+3. Si una herencia de Fase 4/5 (nivel 8) choca con un blueprint: se aplica el blueprint y **la corrección queda registrada en M.7** con nota explícita (exigencia D-07a).
+4. Si el código vivo contradice una decisión de Fase 6: **NO es automáticamente un mandato de cambiar producción**. Se registra en M.7; el cambio de producción se planifica en Fase 7/8.
+5. Si la evidencia es insuficiente: Fase 7 **no inventa**. La celda queda `ABIERTA CON CONDICIÓN` y se resuelve con evidencia o se escala.
+6. Se escala a `docs/DECISIONS.md` solo cuando la resolución afecte a varias rutas/mundos, toque un HARD CONSTRAINT o cree una restricción nueva permanente. Conflictos locales se resuelven aquí, documentados.
+
+## M.1 TAXONOMÍA DE DECISIONES (obligatoria en toda la matriz)
+
+- **HARD CONSTRAINT** — no se viola sin aprobación explícita del auditor + nuevo D-xx. Ej.: 3D en `/checkout` PROHIBIDO; DP-5 intacto; CTA nunca retrasado por movimiento; solo las 8 recetas reales.
+- **STRONG DEFAULT** — se implementa salvo evidencia real que exija desviación (y entonces se registra). Ej.: intensidades por ruta; recetas primarias CONFIRMADAS.
+- **CONDITIONAL DECISION** — permitida solo si se cumple su condición declarada. Ej.: 3D en `/parkour-academy` (condición: WORLD-3D-STRATEGY + presupuesto vendor-three + fallback previo); `editorial-reveal` en `/` (condición: no competir con el escenario).
+- **OPEN QUESTION** — no decidido; prohibido fingir que lo está. Ej.: existencia futura de escenas 3D (→ WORLD-3D-STRATEGY), cualquier copy nuevo.
+
+## M.2 MATRIZ CENTRAL POR RUTA (tabla única de decisión → contratos en Fase 8)
+
+Cubre el inventario normalizado completo: 16 canónicas + 1 alias + 1 fallback + nota interna (19 filas). Valores de zona = receta dominante conceptual en esa zona. Convención de celdas: **`NO`** = decisión negativa explícita documentada en el blueprint; **`NO APLICA`** = sin necesidad documentada (la ausencia también es decisión → M.3); **`—`** = celda sin sentido para esa fila.
+
+| Ruta | Categoría | Mundo | Clase espacial | Intensidad | Receta primaria | Receta secundaria | Hero | Body | Supporting | CTA | Background | Sticky | Horizontal | Parallax | Text motion | 3D | Momento irreductible | Riesgo principal | Evidencia |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| `/` | A · narrativa | 00+02 | narrativa | `immersive` | `cinematic-stage` | `image-drift` | cinematic-stage | cinematic-stage | image-drift | CTA seco, sin retraso | image-drift | NO APLICA | NO APLICA | NO APLICA | `mask` (titulares) | PROHIBIDO | El reparto de puertas | Que el momento narrativo retrase el ancla de oferta | CONFIRMADO · DECIDIDO |
+| `/about` | A · marca | 00+05 | narrativa-editorial | `balanced` | `editorial-reveal` | `image-drift` | editorial-reveal | editorial-reveal | image-drift · Globe3D | sin retraso | Globe3D (existente) | NO APLICA | NO APLICA | NO APLICA | NO APLICA | EXISTENTE/EXCEPCIONAL | El globo de voces reales | Multiplicar escenas (excepción→licencia) | CONFIRMADO · DECIDIDO |
+| `/onboarding` | A · recepción | 00+07 | recepción guiada | `balanced` | `editorial-slide` | `quiet-transition` | editorial-slide | editorial-slide | NO APLICA | quiet-transition | NO APLICA | NO APLICA | NO APLICA | NO APLICA | NO APLICA | PROHIBIDO | Recepción sin chrome que devuelve ruta | Convertirse en formulario de venta | CONFIRMADO · DECIDIDO |
+| `/programs` | A · comparación | 07+02 | comparativa | `balanced` | `data-cascade` | `editorial-slide` | editorial-slide | data-cascade | editorial-slide | sin retraso | NO APLICA | **NO** | **NO** | NO APLICA | NO APLICA | PROHIBIDO | El precio que se construye delante | Ruido que emborrona la comparación | CONFIRMADO · DECIDIDO |
+| `/plan/raiz` | A · decisión | 07+01 | lineal-progresiva | `quiet` | `editorial-reveal` | `quiet-transition` | editorial-reveal | editorial-reveal | NO APLICA | quiet-transition | NO APLICA | NO | NO | NO | `none` | PROHIBIDO | "Tu primer paso" | Avergonzar al que vuelve | CONFIRMADO · DECIDIDO |
+| `/plan/fuerza` | A · decisión | 07+01+02 | progresiva-escalada | `quiet` | `editorial-reveal` | `quiet-transition` | editorial-reveal | editorial-reveal | NO APLICA | quiet-transition | NO APLICA | NO | NO | NO | `none` | PROHIBIDO | "Dejas de dudar si lo haces bien" | Venderlo como relleno intermedio | CONFIRMADO · DECIDIDO |
+| `/plan/rendimiento` | A · decisión | 07+02 | progresiva-técnica | `quiet` | `editorial-reveal` | `quiet-transition` | editorial-reveal | editorial-reveal | NO APLICA | quiet-transition | NO APLICA | NO | NO | NO | `none` | PROHIBIDO | La evaluación biomecánica | Teatro visual en "resultados" | CONFIRMADO · DECIDIDO |
+| `/plan/elite` | A · decisión | 07+08 | progresiva-relacional | `quiet` | `editorial-reveal` | `quiet-transition` | editorial-reveal | editorial-reveal | NO APLICA | quiet-transition | NO APLICA | NO | NO | NO | `none` | PROHIBIDO | WhatsApp directo + 10 cupos | Tocar/ampliar DP-5; urgencia fabricada | CONFIRMADO · DECIDIDO (DP-5 HARD) |
+| `/parkour-academy` | A · academia | 03+05 | progresiva por niveles | `immersive` | `cinematic-stage` | NO APLICA | cinematic-stage | cinematic-stage | NO APLICA | sin retraso | NO APLICA | NO APLICA | NO APLICA | NO APLICA | NO APLICA | POSIBLE CON JUSTIFICACIÓN | La escalera primer salto→control | Parkour como adrenalina de marketing | CONFIRMADO · 3D CONDICIONAL |
+
+| `/shop` | A · compra paralela | 04+08 | exploratoria-utilitaria | `balanced` | `data-cascade` | `compact-rail` | editorial-slide* | data-cascade | compact-rail | sin retraso | NO APLICA | NO APLICA | NO APLICA | NO APLICA | NO APLICA | PROHIBIDO | El carrito que termina en conversación | Inventar checkout online | CONFIRMADO · DECIDIDO |
+| `/app` | A · concepto | 02+06 | exploratoria-conceptual | `balanced` | `editorial-slide` | `compact-rail` | editorial-slide | editorial-slide | compact-rail | sin retraso | NO APLICA | NO APLICA | NO APLICA | NO APLICA | NO APLICA | PROHIBIDO | La no-promesa de producto en desarrollo | Vender app que no existe | CONFIRMADO · DECIDIDO |
+| `/community` | A · puerta lateral | 05+08 | exploratoria-cálida | `balanced` | `compact-rail` | `editorial-reveal` | compact-rail | editorial-reveal | compact-rail | sin retraso | NO APLICA | NO APLICA | NO APLICA | NO APLICA | NO APLICA | PROHIBIDO | El acceso gratuito y sin plan | Copiar el globo de `/about` | CONFIRMADO · DECIDIDO |
+| `/resources` | A · puerta gratuita | 06+00 | utilitaria-biblioteca | `quiet` | `editorial-reveal` | `data-cascade` | editorial-reveal | editorial-reveal | data-cascade | sin retraso | NO APLICA | NO APLICA | NO APLICA | NO APLICA | NO APLICA | PROHIBIDO | El recurso gratis real y usable | Pedir datos o convertirla en cebo | CONFIRMADO · DECIDIDO |
+| `/faq` | A · pre-decisión | 07+06 | utilitaria P-R | `quiet` | `editorial-reveal` | NO APLICA | editorial-reveal | editorial-reveal | NO APLICA | sin retraso | NO APLICA | NO APLICA | NO APLICA | NO APLICA | NO APLICA | PROHIBIDO | Las respuestas que no venden | Convertirla en cinematográfica | CONFIRMADO · DECIDIDO |
+| `/checkout` | A · embudo (noindex) | 07 | guiada-lineal estricta | `quiet` | `quiet-transition` | NO APLICA | quiet-transition | — | — | CTA único, sin movimiento | NO APLICA | **NO** | **NO** | **NO** | `none` | PROHIBIDO ABSOLUTO | Envío desglosado + disclaimer | Cualquier atisbo de espectáculo | CONFIRMADO · HARD CONSTRAINT |
+| `/order-confirmation` | A · embudo (noindex) | 08 | lineal-cerrada | `quiet` | `quiet-transition` | NO APLICA | quiet-transition | — | — | continuidad (no venta) | NO APLICA | NO | NO | NO | `none` | PROHIBIDO | El "qué ocurre ahora" humano | Vender después de la solicitud | CONFIRMADO · DECIDIDO |
+| `/entrar` | B · alias | 00 | (hereda de `/onboarding`) | hereda `balanced` (lectura directa `quiet`) | (remite) | (remite) | (remite) | (remite) | (remite) | (remite) | (remite) | NO APLICA | NO APLICA | NO APLICA | NO APLICA | PROHIBIDO | — (el de su canónica) | Ganar identidad propia | CONFIRMADO · DECIDIDO |
+| `*` (404) | C · fallback | — | recuperación | `quiet` | `quiet-transition` | NO APLICA | quiet-transition | — | — | recolocación | NO APLICA | NO | NO | NO | `none` | PROHIBIDO | Las 4 tarjetas de recolocación | Vender en el error | CONFIRMADO · DECIDIDO |
+| `/design-system` | D · interna | — | — | — | — | — | — | — | — | — | — | — | — | — | — | — | — | Nota D: exclusión obligatoria (sin blueprint público) | CONFIRMADO · EXCLUIDA |
+
+*\*Nota `/shop`: el blueprint declara `data-cascade` + `compact-rail` como par CONFIRMADO de la matriz Fase 5; la zona hero se sirve con la entrada serena del catálogo (mismo vocabulario, sin receta nueva).*
+
+**Reglas de la tabla (gobierno, no API):**
+1. **Intensidad = STRONG DEFAULT**: solo se desvía con evidencia real, registrada en M.7.
+2. **Recetas**: solo los 8 ids del engine (`src/engine/recipes/index.js:33–124`). `horizontal-passage` existe pero **ninguna ruta lo necesita hoy** — su ausencia es decisión, no olvido (M.3).
+3. **Estado de implementación por fila**: CONFIRMADO → **DECIDIDO** (HARD CONSTRAINT o STRONG DEFAULT); PROPUESTO → **GUIADO**; con condición → **CONDICIONAL**; clasificado PROHIBIDO → **PROHIBIDO**. No hay filas ABIERTAS: toda ambigüedad se cerró en el blueprint o queda registrada en M.7/M.9.
+4. Las zonas (`hero/body/supporting/cta/background`), rangos (`traverse/enter/pin/exit`), duraciones (`fast/base/slow/curtain`) y distancias (`near/medium/far`) se citan con su vocabulario exacto; **el reparto fino de rangos/duraciones/distancias NO se decide aquí** (es contrato de Fase 8 sobre `resolvePageMotionContract()`), solo se prohíbe lo que M.3 prohíbe.
+
+## M.3 DECISIONES NEGATIVAS (qué NO hacer — la ausencia también es decisión)
+
+Una matriz de élite no solo fija qué hacer. Capa "DO NOT ADD" consolidada de los 18 blueprints:
+
+| Ámbito | Decisión negativa | Tipo |
+|---|---|---|
+| 3D | PROHIBIDO en 15 de 18 entradas. **`/checkout`: PROHIBIDO ABSOLUTO** (HARD). `/design-system`: excluida. | HARD |
+| 3D | Prohibido multiplicar escenas en `/about` porque "ya tiene una" (Globe3D es excepción, no licencia — ADN H, F6-04). | HARD |
+| 3D | Prohibido usar el globo en `/community` (F6-05: su voz visual es el rail, no el globo). | HARD |
+| Movimiento | **CTA nunca retrasado por movimiento** en ninguna ruta; en decisión/embudo: CTA sin animación propia. | HARD |
+| Movimiento | `/programs`: sin sticky ni horizontal (documentado) — la comparación no compite con scroll trick. | STRONG |
+| Embudo | `/checkout`: sin narrativa, sin inmersión, sin parallax, sin sticky, sin urgencia fabricada. | HARD |
+| Confirmación | `/order-confirmation`: prohibido vender después de la solicitud (CONTINUIDAD, no segunda venta). | HARD |
+| Elite | Prohibida urgencia fabricada en `/plan/elite`; prohibido tocar/ampliar DP-5. | HARD |
+| Claridad | `/faq`: prohibido tratamiento cinematográfico; nada compite con la lectura de la respuesta. | HARD |
+| 404 | Prohibido vender en el error; horizontal NO APLICA. | HARD |
+| Alias | `/entrar`: prohibido darle experiencia/movimiento/3D propios. | HARD |
+| Recetas | `horizontal-passage`: disponible en el engine pero **sin uso en ninguna ruta hoy** — no se introduce "porque exista". | STRONG |
+| Text motion | `none` en las 4 fichas de plan, `/checkout`, `/order-confirmation`, 404 — la tipografía no actúa donde se decide. | STRONG |
+| Vocabulario | Prohibido resolver "mundo distinto = color distinto" o crear recetas/tokens nuevos (solo 8 ids, solo 3 intensidades). | HARD |
+| Contenido | Prohibido inventar métricas de resultado (las voces son "experiencias publicadas"); prohibido pedir datos en `/resources`. | HARD |
+| Idioma | Prohibido que Fase 7 sustituya headings/CTAs/copy público por placeholders en inglés. LA WEB ES ESPAÑOLA. | HARD |
+
+**Triggers anti-sobre-diseño para Fase 7 (disparador → corrección preferida):** sección vacía → NO animar, mejorar geometría de información · ruta "importante" → NO añadir 3D · jerarquía débil → NO glow/gradientes, usar densidad y calma · página informativa → NO tratamiento cinematográfico · naranja como diferenciación → NO (la diferenciación es funcional, TEST 4) · patrón nuevo → NO, usar los 8 ids · mobile → NO comprimir desktop, simplificar la gramática (SPATIAL-LANGUAGE §mobile) · narrativa donde el usuario necesita decidir → NO.
+
+## M.4 PRESUPUESTO DE ATENCIÓN (funcional, no decorativo)
+
+Lo más valioso que el visitante gasta en cada categoría, y aquello con lo que la implementación **no puede competir**:
+
+| Categoría (rutas) | Atención dominante | No competir con |
+|---|---|---|
+| Narrativa (`/`, `/about`) | comprensión + emoción (quién es BAYONA) | el momento immersive no compite con el ancla de oferta; el globo no compite con la lectura |
+| Recepción (`/onboarding`, alias) | orientación (¿cuál es mi camino?) | la recepción no compite con venta ni con el chrome |
+| Comparación (`/programs`, `/shop`, `/app`) | comparación/evaluación | data-cascade no emborrona precio ni jerarquía; el rail es ambiente, nunca información crítica |
+| Decisión (`/plan/*`) | decisión (elegir acompañamiento) | nada retraza el CTA; el movimiento no teatraliza resultados ni avergüenza |
+| Academia (`/parkour-academy`) | emoción controlada + progresión | el momento immersive no degenera en espectáculo de adrenalina |
+| Comunidad (`/community`) | pertenencia | el acceso gratuito no se esconde tras marketing |
+| Lectura (`/resources`, `/faq`) | comprensión / recuperación de respuesta | nada compite con leer y guardar; cero captura agresiva |
+| Embudo (`/checkout`) | **confianza en la compra** | absolutamente nada: claridad primero |
+| Embudo (`/order-confirmation`) | confirmación + recuperación | la venta posterior |
+| Error (404) | recuperación | la venta |
+
+## M.5 AUDITORÍA DE SOBRECOREOGRAFÍA (riesgo documental BAJO/CONTROLADO/ALTO)
+
+> Pregunta: si TODAS las decisiones se implementaran literalmente, ¿qué rutas se volverían "demasiado"? (Clasificación documental de riesgo, no vocabulario del engine.)
+
+| Ruta | Riesgo | Qué sobraría / qué degradar / qué mantener |
+|---|---|---|
+| `/` | **ALTO** | Demasiado: cinematic-stage + image-drift + editorial-reveal + `mask` a la vez en todo el recorrido. Degradar: `editorial-reveal` es CONDICIONAL — solo si no compite con el escenario; image-drift solo en supporting/background. Mantener: UN único momento immersive (el escenario) y el CTA seco. Si hay que recortar, se recorta la receta propuesta, nunca el momento irreductible. |
+| `/parkour-academy` | **ALTO** | Demasiado: cinematic-stage immersive + una escena 3D nueva encima. Degradar: el 3D es CONDICIONAL — solo entra si WORLD-3D-STRATEGY lo admite, cabe en el presupuesto (vendor-three 826.94 kB, gzip 222.32 kB) y define el fallback ANTES de la escena; si no cabe, el momento immersive vive sin 3D. Mantener: la escalera primer salto→control. |
+| `/about` | CONTROLADO | El globo ya gasta la profundidad de la página. Degradar: image-drift al mínimo en supporting. Mantener: editorial-reveal como ritmo de lectura y el globo como única escena. |
+| `/programs`, `/shop`, `/app`, `/community` | CONTROLADO | Riesgo de sumar rail+cascade+slide en exceso: cada una usa su par documentado, no los tres. Degradar: el rail nunca lleva información crítica. Mantener: el precio que se construye delante (`/programs`). |
+| `/plan/*` (×4) | BAJO | quiet + dos recetas contenidas; el riesgo real es argumentativo (copias), no coreográfico → cubierto por M.13. |
+| `/resources`, `/faq`, `/onboarding` | BAJO | Movimiento mínimo por diseño. |
+| `/checkout`, `/order-confirmation`, 404, `/entrar` | BAJO | quiet-transition únicamente; cualquier adición violaría un HARD CONSTRAINT. |
+
+**Distribución:** 2 ALTO (las dos `immersive`), 5 CONTROLADO, 12 BAJO. La concentración de espectáculo potencial está en `/` y `/parkour-academy` y en ningún otro sitio — coherente con la regla de oro del plan §14 (no todas las páginas deben ser espectaculares).
+
+## M.6 REVERSIBILIDAD Y COSTE DE DECISIÓN
+
+> Regla: a mayor coste de reversión, más evidencia exigida antes de implementar.
+
+| Decisión (tipo) | Clasificación | Coste | Justificación |
+|---|---|---|---|
+| Receta secundaria / terciaria por ruta | REVERSIBLE | LOW | Cambiar una receta en una zona no altera la arquitectura de ruta ni los contratos. |
+| Sticky/Horizontal/Parallax por ruta | REVERSIBLE | LOW–MEDIUM | Son decisiones de sección; los `NO` explícitos son baratos de mantener y de revertir con evidencia. |
+| Text motion por ruta | REVERSIBLE | LOW | Token de zona; `none` en decisión/embudo es STRONG pero local. |
+| Intensidad por ruta | CONDICIONANTE | MEDIUM | Condiciona el presupuesto de movimiento de todas las secciones de la ruta (`motionBudget.js`); cambiarla tras Fase 7 exige re-auditoría de presupuesto. |
+| Momento irreductible por ruta | ESTRUCTURAL | HIGH | Define qué hace irrepetible a la página; reemplazarlo = rediseñar la página. Cambiarlo exige re-abrir el blueprint y su TEST de intercambiabilidad. |
+| Clasificación de mundo por ruta | ESTRUCTURAL | HIGH | Vincula la ruta al sistema de mundos (Bloque 3, matriz de diferenciación); mover una ruta de mundo afecta continuidad y diferenciación. |
+| Geometría de información | ESTRUCTURAL | HIGH | Es el esqueleto de la página; Fase 8 la implementa, no la elige. |
+| 3D `/checkout` PROHIBIDO / `404` / planes | ESTRUCTURAL | HIGH | Mientras siga vigente la regla de claridad en conversión; solo el auditor + nuevo D-xx pueden revertirla. |
+| 3D `/about` EXISTENTE | ESTRUCTURAL | — (hecho de código) | Es realidad viva (nivel 1 de jerarquía), no una decisión revertible documental. |
+| 3D `/parkour-academy` POSIBLE | CONDITIONAL | MEDIUM–HIGH | Depende de WORLD-3D-STRATEGY + presupuesto + fallback; decidirlo mal cuesta un chunk de 826 kB. |
+| Alias `/entrar` sin identidad propia | ESTRUCTURAL | MEDIUM | Protege el SEO/canónico (routeMeta) y la coherencia del umbral. |
+| DP-5 intacto | HARD CONSTRAINT | — | Fuera de Fase 6; solo Sebastián. |
+
+## M.7 REGISTRO DE CONTRADICCIONES Y REFINAMIENTOS (contradiction ledger)
+
+Comparación explícita WORLD-BIBLE vs SPATIAL-LANGUAGE vs PAGE-BLUEPRINTS vs SCROLL-STORY-MATRIX vs código vivo. **Sin armonización silenciosa** — cada entrada declara fuente, jerarquía, decisión y efecto:
+
+| # | Discrepancia | Fuentes | Jerarquía aplicada | Decisión | Efecto futuro |
+|---|---|---|---|---|---|
+| C-1 | `SCROLL-STORY-MATRIX` lista el 3D de `/about` como futuro; **Globe3D ya está vivo** (`src/components/Globe3D.jsx` montada en `About.jsx`) | Matriz F5 (niv. 8) vs código (niv. 1) | Gana el código | Mantener la realidad presente: `/about` = EXISTENTE/EXCEPCIONAL. Refinada ya en Bloque 4 (§2.10, corrección declarada) | Fase 7 conserva el globo como escena única; no re-planifica su creación |
+| C-2 | `/entrar`: matriz F5 lo lee `quiet` (acceso mínimo) mientras su canónica `/onboarding` es `balanced` | Matriz F5 (niv. 8) vs blueprint §17 (niv. 5) | Gana el blueprint + realidad del alias (mismo componente) | REFINADA: el alias **hereda la experiencia canónica** (`balanced`); la lectura `quiet` aplica solo al acceso directo mínimo. Ya declarada en Bloque 4 (§17.3) | Fase 8: una sola implementación, dos puertas; cero experiencia duplicada |
+| C-3 | `/`: la matriz F5 confirma cinematic-stage + image-drift; el blueprint añade `editorial-reveal` como complementario (PROPUESTO, no histórico) | Matriz F5 (niv. 8) + blueprint (niv. 5) | El blueprint refina con etiqueta correcta | Mantener + etiquetar: `editorial-reveal` = CONDITIONAL en `/` (solo si no compite con el escenario, M.5) | Fase 8 puede omitirlo sin violar nada; no se convierte en CONFIRMADO por repetición |
+| C-4 | `/programs`: la clase de decisión sugeriría `quiet`, pero la matriz F5 y el blueprint confirman `balanced` (comparación exige procesamiento sostenido) con "sin sticky ni horizontal" | SPATIAL-LANGUAGE §clases (niv. 7) vs matriz F5 + blueprint (niv. 5 con soporte del 8) | Función de ruta gana (protocolo M.0.2) | Mantener `balanced` con las dos prohibiciones explícitas | Fase 8: presupuesto balanced sin sticky/horizontal; cualquier sticky sería desviación registrable |
+| C-5 | `horizontal-passage`: existe en el engine pero ninguna ruta de Fase 6 lo reclama | Código (niv. 1) vs blueprints (niv. 5) | Hecho, no conflicto de autoridad | Decisión negativa (M.3): no se introduce por disponibilidad | Si Fase 7 quiere usarlo, necesita evidencia + registro; no es gap |
+| C-6 | Warnings lint pre-existentes (16) y deuda OBS-1/OBS-2 (shell embudo `index,follow`, soft-404 200) | Código (niv. 1) | Fuera de alcance de Fase 6 | Mantener: no se "armonizan" tocando producción | Espec'd en ROADMAP; Fase 7 no los usa como excusa para tocar SEO |
+| C-7 | Los dos prompts del auditor difieren en el formato del entregable (sección vs documento paralelo) | Instrucciones vs plan líneas 138–141 (niv. 3) | Gana el plan | Matriz como sección final de este documento; registrado aquí (y en el informe) | Cero documentos paralelos; DF-012 respetado |
+| C-8 | World 03 (MOVIMIENTO) clasificado "JUSTIFICADO" para 3D en Bloque 3 vs regla de claridad del plan | Bloque 3 (niv. 6) vs plan §14 (niv. 3) | Gana el nivel 3 solo como condición, no como veto | REFINADA: 3D en `/parkour-academy` = POSIBLE CON JUSTIFICACIÓN + CONDICIONAL (WORLD-3D-STRATEGY + presupuesto + fallback) | La decisión final de escena NO se inventa aquí: queda ABIERTA PARA FASE POSTERIOR en WORLD-3D-STRATEGY |
+
+## M.8 PRUEBA DE IMPLEMENTABILIDAD FUTURA (sin escribir código)
+
+> ¿Puede un ingeniero de Fase 8 convertir esta matriz en contratos sin reinterpretar cada ruta? Simulación documental del camino **Blueprint → decisión → contrato futuro** en 5 categorías:
+
+**Narrativa — `/`:** blueprint §2 (momento irreductible: el reparto de puertas; 1 momento immersive; CTA seco) → decisión M.2 (fila `/`: cinematic-stage hero+body, image-drift supporting/background, editorial-reveal CONDITIONAL, 3D PROHIBIDO) → contrato Fase 8: `resolvePageMotionContract()` con intensidad `immersive`, receta dominante cinematic-stage, editorial-reveal opt-in, **ninguna** zona cta animada. *Sin ambigüedad: el ingeniero no elige el momento, solo lo construye.*
+
+**Lectura — `/resources`:** blueprint §8 (geometría utilitaria-biblioteca; momento irreductible: el recurso gratis real y usable) → decisión M.2 (quiet, editorial-reveal, 3D PROHIBIDO, sin receta secundaria obligatoria) → contrato: `quiet`, un solo patrón de entrada, CTA sin movimiento. *Sin ambigüedad: la variación permitida es de ejecución, no de concepto.*
+
+**Decisión — `/plan/fuerza`:** blueprint §12 (momento irreductible: "dejas de dudar si lo haces bien") → decisión M.2 (quiet, editorial-reveal + quiet-transition, text motion `none`, sin sticky/horizontal/parallax, 3D PROHIBIDO) → contrato: las 4 fichas comparten sistema comercial (mismo esqueleto, `offerings.js`) y se diferencian **solo en argumento y contenido**, no en coreografía. *Sin ambigüedad: el argumento es el diferenciador; el sistema es común (protege M.13).*
+
+**Embudo — `/checkout`:** blueprint §11 (claridad primero; HARD CONSTRAINTS M.3) → decisión M.2 (quiet-transition única, todas las técnicas `NO`, 3D PROHIBIDO ABSOLUTO) → contrato: quiet-transition en hero, **cero movimiento en cta**, presupuesto mínimo. *Sin ambigüedad: cualquier técnica extra = violación HARD → escalar (M.10).*
+
+**Error — `404`:** blueprint §18 (recolocar, no vender) → decisión M.2 (quiet-transition, 4 tarjetas de recolocación, 3D PROHIBIDO) → contrato: `quiet`, sin técnicas. *Sin ambigüedad.*
+
+**Resultado:** las 5 simulaciones cierran sin reinterpretación. La ambigüedad restante es de ejecución (health freedom, M.9), no de concepto.
+
+## M.9 AMBIGÜEDAD SANA vs PELIGROSA (clasificación por categoría)
+
+| Categoría | Ambigüedad restante | Clasificación | Acción en Bloque 5 |
+|---|---|---|---|
+| Narrativa (`/`, `/about`) | Cómo se materializa visualmente el escenario / el globo | SANA (ejecución) | Ninguna — no se elimina libertad creativa |
+| Academia | La escena 3D y su fallback | SANA CON CONDICIÓN | Encapsulada: CONDICIONAL → WORLD-3D-STRATEGY decide |
+| Comparación | Micro-geometría de las tablas/rails | SANA | Ninguna |
+| Decisión (`/plan/*`) | Voz editorial de cada argumento (ya spec'd en blueprints §12) | SANA | Ninguna |
+| Embudo (`/checkout`) | — | **NINGUNA** (HARD) | Cerrada: toda adición = violación |
+| Lectura | Cómo se renderiza el acordeón/biblioteca | SANA | Ninguna |
+| **Transversal** | DP-5 (pricing) | **ABIERTA — DECISIÓN DE SEBASTIÁN** | No se finge decisión; HARD fuera de Fase 6 |
+| **Transversal** | Wording final de copy público | SANA (Fase 8/9 con Sebastián) | Regla: LA WEB ES ESPAÑOLA (M.3) |
+| **Transversal** | OBS-1/OBS-2 (SEO embudo) | FUERA DE FASE 6 | Documentada en M.7-C6; no se disimula |
+
+**Ninguna ambigüedad peligrosa sin dueño.** Las abiertas tienen dueño, fase y condición — eso es gobierno, no relleno.
+
+## M.10 MATRIZ GLOBAL TRANSVERSAL (hallazgos sistémicos)
+
+| Dimensión | Hallazgo | ¿Clustering problemático? |
+|---|---|---|
+| Intensidad | 2 immersive, 7 balanced (incl. alias heredado), 9 quiet (de 18 efectivas) | NO — pirámide, no uniformidad |
+| Momentos immersive | Solo `/` y `/parkour-academy` | NO — concentración deliberada y protegida |
+| 3D | 1 EXISTENTE (`/about`), 1 CONDICIONAL (`/parkour-academy`), 16 PROHIBIDO/NO APLICA | NO — la escasez ES la decisión (ADN H) |
+| Receta concentrada | `editorial-reveal` aparece en 10 filas, `quiet-transition` en 9 | CONTROLADO — `editorial-reveal` es el "andar" del sitio (ritmo de lectura), no un clon: se combina con 4 recetas primarias distintas y su rol varía (primaria en lectura, condicional en `/`, secundaria en comparación) |
+| Momentos irreductibles | 18/18 únicos (verificados contra la tabla de Bloque 4) | NO — cero repetidos |
+| Rutas conversion-sensitives | `/plan/*` (4) + `/checkout` + `/order-confirmation` = 6, todas quiet y sin coreografía | NO — protegidas en bloque |
+| Quiet/recovery | 404, `/order-confirmation`, `/resources`, `/faq` | NO |
+| Riesgo móvil | Concentrado en las 2 immersive (fallbacks de gramática, no de receta) | CONTROLADO |
+| `prefers-reduced-motion` | Transversal: el engine ya lo degrade (Bloque 1); la matriz no añade dependencia nueva | NO |
+| Cobertura de mundos | 00–08 todos presentes; 01 y 08 siempre secundarios (rol de apoyo) | NO — coherente con la matriz de diferenciación del Bloque 3 |
+| Ambigüedad más alta restante | DP-5 + wording público | Con dueño (M.9) |
+
+## M.11 TESTS DE MEMORIA Y HUMANIDAD
+
+**TEST DE MEMORIA (§15 del prompt):** ¿qué recordaría un visitante a la semana, sin logo ni naranja?
+
+| Mundo/Categoría | Memoria estructural (no decorativa) | ¿Sin respuesta? |
+|---|---|---|
+| `/` | "Una web que no me empujó: me dejó elegir la puerta" (el reparto de puertas) | NO |
+| `/about` | "El mundo visto desde arriba con las voces de los que entrenaron" (globo de voces) | NO |
+| `/parkour-academy` | "La escalera: del primer salto al control" (progresión por niveles) | NO |
+| `/programs` | "El precio se construyó delante de mí" (comparación por piezas) | NO |
+| `/plan/*` | "Me hablaron según mi punto de partida, no según su catálogo" (4 argumentos, no 4 precios) | NO |
+| `/checkout` | "Todo desglosado y sin sorpresas" (transparencia) | NO |
+| `/order-confirmation` | "Me dijeron qué pasa ahora, como una persona" (continuidad humana) | NO |
+| `/community` | "El acceso fue gratis y sin pedir plan" (pertenencia sin captura) | NO |
+| `/resources` | "Me llevé el recurso sin dar mis datos" (generosidad real) | NO |
+| `/faq` | "Las respuestas no intentaban venderme" (claridad honesta) | NO |
+| `/onboarding` | "Sentí que entraba en un sitio real, no en un embudo" (umbral) | NO |
+| `/shop` | "El carrito acabó en una conversación, no en un pasarela" (compra paralela) | NO |
+| `/app` | "Me dijeron la verdad: está en desarrollo" (no-promesa) | NO |
+| 404 | "El error me recolocó en vez de venderme" | NO |
+| Alias `/entrar` | (hereda su canónica) | — |
+| `/design-system` | (excluida) | — |
+
+**TEST DE HUMANIDAD (§16):** verificado contra el gobierno resultante — cuerpos reales ✓ (ADN I: "experiencias publicadas", sin métricas inventadas) · incertidumbre real ✓ (la academia se cuenta como progresión, no como resultado garantizado) · acompañamiento ✓ (momento irreductible de `/plan/*` es verbal, no visual) · recuperación ✓ (404 y `/order-confirmation` como reposo) · progresión ✓ (niveles, no saltos) · decisión humana ✓ (CTA nunca retrasado) · dignidad ✓ (no "avergonzar al que vuelve", plan RAÍZ) · conversión no manipuladora ✓ (checkout sin espectáculo, sin urgencia fabricada). **El lujo queda definido como precisión + contención + oficio, no como frialdad ni teatro de exclusividad.** BAYONA sigue siendo un entrenador que te acompaña, no un SaaS premium.
+
+## M.12 CONTRATO DE HANDOFF CON FASE 7 (MAY / MUST NOT / ESCALATE)
+
+**FASE 7 PUEDE (MAY):** implementar todo lo DECIDIDO en M.2 según el blueprint de su ruta · explorar dentro de lo CONDICIONAL/GUIADO documentado · mejorar ejecución técnica (a11y, rendimiento, móvil) sin cambiar autoridad conceptual.
+
+**FASE 7 NO PUEDE (MUST NOT):** inventar mundos, recetas, tokens, firmas o APIs nuevas (solo 8 ids, 3 intensidades, 5 zonas, 4 rangos) · cambiar el propósito o el momento irreductible de una ruta (ESTRUCTURAL, M.6) · introducir 3D fuera de la clasificación de M.2/M.3; ninguna escena sin pasar por WORLD-3D-STRATEGY · sacrificar claridad de conversión por espectáculo (protección embudo M.4/M.5) · convertir territorio español en folclore visual (DF-010) · convertir PROPUESTO en CONFIRMADO por repetición o entusiasmo (DF-009) · sustituir copy público español por placeholders en inglés.
+
+**FASE 7 DEBE ESCALAR (a `docs/DECISIONS.md` vía auditoría → Sebastián):** cualquier conflicto entre fuentes no resuelto por la jerarquía M.0 · cualquier decisión de coste HIGH (M.6) que necesite cambiar · contradicciones de evidencia o hechos nuevos de negocio · cambios que afecten a múltiples mundos/rutas · cualquier desviación de un HARD CONSTRAINT (incl. DP-5 — que solo Sebastián toca).
+
+**Protocolo:** Fase 7 no reinterpreta: consulta M.2 → si DECIDIDO, construye; si CONDICIONAL/GUIADO, decide con las condiciones escritas; si la respuesta no está, escala. La matriz es la **capa de gobierno** entre la filosofía (Bloques 1–3) y los contratos de Fase 8.
+
+## M.13 PRUEBA FINAL DE DIFERENCIACIÓN (18 entradas)
+
+> Si elimino el nombre de la ruta y el mundo, ¿la fila sigue siendo reconociblemente distinta?
+
+| Pareja riesgo | Distinción funcional que sobrevive a la eliminación del nombre | Veredicto |
+|---|---|---|
+| `/programs` vs `/resources` | comparar con evidencia y precio construido delante (balanced, data-cascade) vs llevarse un recurso gratis sin datos (quiet, biblioteca) | DISTINTAS |
+| `/about` vs `/resources` | auto-revelación cronológica con globo (balanced, marca) vs utilidad inmediata (quiet, biblioteca) | DISTINTAS |
+| `/onboarding` vs `/` | recibir y orientar sin chrome (umbral) vs elegir puerta con escenario (narrativa immersive) | DISTINTAS |
+| `/checkout` vs `/order-confirmation` | confianza antes del envío (desglose + disclaimer, CTA único) vs continuidad después (qué ocurre ahora; sin venta) | DISTINTAS |
+| `/plan/raiz` vs `/plan/fuerza` | volver sin vergüenza ("tu primer paso") vs empezar bien con dudas ("dejas de dudar") | DISTINTAS |
+| `/plan/fuerza` vs `/plan/rendimiento` | base sólida para dudadores vs evaluación técnica para medir | DISTINTAS |
+| `/plan/rendimiento` vs `/plan/elite` | medir progresión vs relación exclusiva (WhatsApp + 10 cupos, DP-5) | DISTINTAS |
+| `/shop` vs `/programs` | objetos físicos con conversación posterior vs acompañamientos comparables | DISTINTAS |
+| `/community` vs `/resources` | pertenencia con acceso libre vs descarga utilitaria | DISTINTAS |
+| `/` vs `/parkour-academy` | elegir puerta (reparto de puertas) vs progresión física (escalera) | DISTINTAS |
+
+**5 parejas de mayor riesgo** (marcadas en M.5 y aquí): `/programs`↔`/resources`, `/about`↔`/resources`, `/onboarding`↔`/`, `/checkout`↔`/order-confirmation`, y las 4 `/plan/*` entre sí. **Verificado: 18/18 filas funcionalmente distintas; ninguna diferenciación cosmética.** El TEST de intercambiabilidad de Bloque 4 se mantiene: la matriz añade recetas y técnicas sin homogeneizar.
+
+## M.14 AUTOAUDITORÍA MECÁNICA DEL BLOQUE 5 (verificaciones reales, no declaraciones)
+
+| Test | Verificación | Resultado |
+|---|---|---|
+| A · Cobertura | 19 filas en M.2 = 16 canónicas + 1 alias + 1 fallback + 1 nota interna | ✅ PASS |
+| B · Vocabulario | grep de recetas en M.2/M.3: solo los 8 ids reales; `horizontal-passage` aparece solo como decisión negativa; cero recetas/tokens inventados | ✅ PASS |
+| C · Anti-API | La matriz usa vocabulario del engine como gobierno conceptual; no define firmas, parámetros ni contratos de código; `resolvePageMotionContract()` citado solo como destino futuro | ✅ PASS |
+| D · Anti-relleno | `NO APLICA` usado donde no hay necesidad documentada; `NO` solo donde hay decisión negativa explícita del blueprint; sin valores decorativos | ✅ PASS |
+| E · Anti-espectáculo | M.5: 2 ALTO documentados y degradados con condiciones; 12 BAJO; CTA sin retraso transversal | ✅ PASS |
+| F · Anti-intercambiabilidad | M.13: 18/18 filas distintas por función; 10 parejas probadas | ✅ PASS |
+| G · Contradicciones | M.7: 8 entradas C-1…C-8, cada una con fuente + jerarquía + decisión + efecto; ninguna armonización silenciosa | ✅ PASS |
+| H · Reversibilidad | M.6: cada tipo de decisión clasificado con coste justificado | ✅ PASS |
+| I · Producción | `git diff` = solo este `.md` + docs centrales; 0 archivos de `src/` | ✅ PASS |
+| J · Idioma | Todo el contenido nuevo en español; identificadores técnicos conservados | ✅ PASS |
+| K · D-01…D-07 | Verificado contra `PLAN-FASE-6-WORLD-BUILDING.md` §bloques: el plan NO asigna tests D-01…D-07 al cierre del Bloque 5 (pertenecen a Fase 7/8); **no se fabrica cumplimiento** → no se ejecutan (justificado) | ✅ PASS (no aplicables) |
+
+## M.15 ESTADO Y BLOQUEO FINAL DEL BLOQUE 5
+
+- **Bloque 5 COMPLETADO** (matriz de decisión + gobierno de implementación) — todas las secciones M.0–M.15 de este documento.
+- **Sin producción tocada** — diff documental exclusivamente.
+- **STOP ABSOLUTO:** no iniciar WORLD-3D-STRATEGY, ni tests D-01…D-07, ni Fase 7, ni Fase 8, ni ninguna implementación visual, hasta la auditoría externa de este commit.
+- El resultado queda esperando auditoría con la tabla M.2 como **semilla exacta del contrato de Fase 8** (`resolvePageMotionContract()`), y M.12 como contrato de handoff.
+- DP-5 intacto. La web sigue siendo española. DF-009/DF-010/DF-012 vigentes.
+
+**FIN DEL BLOQUE 5 — MENOS DECISIONES, PERO CADA UNA NECESARIA, TRAZABLE, DIFERENCIADA, IMPLEMENTABLE Y RESISTENTE A REINTERPRETACIÓN.**
+
+
+
+
+
+
+
+
+
+
 
 
 
