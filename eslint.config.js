@@ -142,7 +142,15 @@ export default [
 
   /** Configuración y scripts de build: corren en Node, no en el navegador. */
   {
-    files: ['vite.config.js', 'playwright.config.js', 'eslint.config.js', 'vite/**/*.js'],
+    // scripts/** (Fase 7A): medición de bundle con Node core (fs/zlib), sin console del navegador.
+    files: [
+      'vite.config.js',
+      'playwright.config.js',
+      'eslint.config.js',
+      'vite/**/*.js',
+      'playwright.f7a.config.js',
+      'scripts/**/*.mjs',
+    ],
     languageOptions: {
       globals: { ...globals.node },
     },
@@ -150,7 +158,12 @@ export default [
 
   /** Tests: globals de Vitest y libertad para usar console. */
   {
-    files: ['**/*.{test,spec}.{js,jsx}', 'src/test/**/*.{js,jsx}'],
+    // e2e/** (Fase 7A): specs de Playwright corren en Node con la API del test-runner.
+    files: [
+      '**/*.{test,spec}.{js,jsx}',
+      'src/test/**/*.{js,jsx}',
+      'e2e/**/*.spec.js',
+    ],
     languageOptions: {
       globals: { ...globals.node, ...globals.vitest },
     },
