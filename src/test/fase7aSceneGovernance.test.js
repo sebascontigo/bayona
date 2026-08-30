@@ -128,6 +128,57 @@ describe('gobernanza de escenas 3D (Fase 7A)', () => {
     ).toEqual([])
   })
 
+  it('8B/H-01a: el barrel del engine NO reexporta módulos de escena (scene/* ni SceneMount)', () => {
+    // Escenario E3 de la auditoría suprema: reexportar `SceneMount` (o cualquier
+    // módulo de engine/scene/) desde el barrel deja el grafo de escenas
+    // alcanzable desde main.jsx/App.jsx, que importan del barrel — exactamente
+    // la 2ª cadena de la fuga 7A-01, que el guard original no veía porque
+    // SceneMount.jsx no importa @react-three directamente (el 3D está en su
+    // lazy hacia Scene3D).
+    const barrel = readFileSync('src/engine/index.js', 'utf8')
+    const offenders = barrel
+      .split('\n')
+      .map((line, i) => ({ line, i }))
+      .filter(({ line }) => /^\s*export\b/.test(line) && /['"]\.{1,2}\/scene\//.test(line))
+    expect(
+      offenders.map(({ line, i }) => `línea ${i + 1}: ${line.trim()}`),
+      'El barrel de engine reexporta módulos de escena. Eso hace el grafo 3D ' +
+        'alcanzable desde el shell (main.jsx/App.jsx importan del barrel) y puede ' +
+        'reintroducir la fuga 7A-01. Los módulos de escena se consumen por ruta ' +
+        'directa (import ... from "../engine/scene/SceneMount.jsx").',
+    ).toEqual([])
+  })
+
+  it('8B/H-01b: ninguna página importa infraestructura de escena (engine/scene/* ni SceneMount) sin allowlist', () => {
+    // Escenario E4: una página que importa SceneMount directamente arrastra el
+    // chunk de escena (y su lazy hacia vendor-three) a la ruta, aunque no pase
+    // `scene=`. La allowlist está VACÍA: llenarla exige un registro de admisión
+    // APPROVED en 3D-ADMISSION-RECORD.md, citado aquí.
+    const SCENE_IMPORT_ALLOWLIST = Object.freeze([
+      // { file: 'About.jsx', admission: '3D-ADMISSION-RECORD.md#candidato-02', state: 'APPROVED' },
+    ])
+    const offenders = []
+    const bannedPath = /['"]\.{1,2}(\/\.\.)*\/engine\/scene\/|['"]\.{1,2}\/scene\//
+    for (const file of pageFiles()) {
+      const src = readFileSync(join(PAGES_DIR, file), 'utf8')
+      // import ... from ".../engine/scene/..." o ".../scene/SceneMount..."
+      const importRe = /import\s[^;]*?from\s+['"]([^'"]+)['"]/g
+      let m
+      while ((m = importRe.exec(src)) !== null) {
+        if (bannedPath.test(m[1]) || /SceneMount|Scene3D/.test(m[1])) {
+          if (!SCENE_IMPORT_ALLOWLIST.some((e) => e.file === file)) offenders.push(`${file} <- ${m[1]}`)
+        }
+      }
+    }
+    expect(
+      offenders,
+      'Estas páginas importan infraestructura de escena 3D directamente: ' +
+        `${offenders.join(', ')}. Montar una escena exige pasar por PageHero ` +
+        '(prop scene=, vigila otro test) con registro de admisión APPROVED, ' +
+        'no importar el módulo de escena a mano. Ver FASE7B-EXECUTION-REPORT.md H-01.',
+    ).toEqual([])
+  })
+
   it('7B: los ÚNICOS archivos de producción con import de @react-three son los módulos de escena (lazy)', () => {
     // Inventario cerrado post-7B: exactamente estos 5 archivos (todos dentro
     // de engine/scene/, todos alcanzables SOLO vía lazy()). Si aparece uno
