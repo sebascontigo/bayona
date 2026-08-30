@@ -2,8 +2,15 @@
 //
 // Cubre todo el viewport (`position: fixed`, `inset: 0`, z-index muy alto) con
 // la identidad BAYONA (marca dorada sobre fondo negro de la paleta, R20.1) y
-// refleja el progreso de carga de los assets 3D leidos de `useProgress()` de
-// `@react-three/drei` (R20.2): porcentaje textual + barra dorada.
+// refleja el progreso de carga de los assets 3D leidos del store del engine
+// `loadingProgress.js` (R20.2): porcentaje textual + barra dorada.
+//
+// Fase 7B (hallazgo 7A-01): el progreso se leia de `useProgress()` de
+// `@react-three/drei`, cuyo import estatico arrastraba `vendor-three`
+// (216,48 kB gzip) al chunk de entrada de TODAS las rutas. El contrato es el
+// mismo (`{ progress, active, loaded, total }`), pero ahora el Loader es 100%
+// agnostico de WebGL: las escenas que carguen assets reportan su avance al
+// store via `updateLoadingProgress()` y este overlay solo lo refleja.
 //
 // Estado "listo":
 //   - Con assets declarados (`total > 0`): listo cuando `progress >= 100` y ya
@@ -23,10 +30,30 @@
 
 import { useEffect, useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
-import { useProgress } from '@react-three/drei'
+import {
+  getLoadingProgress,
+  subscribeLoadingProgress,
+} from './loadingProgress.js'
 import { theme } from '../config/theme.js'
 import { motionTokens } from '../config/motionTokens.js'
 import { useCapabilities } from '../hooks/useCapabilities.js'
+
+/**
+ * Lee el progreso de carga del engine y re-renderiza cuando cambia.
+ *
+ * Replica el contrato de lectura que antes cumplia `useProgress()` de drei:
+ * `{ progress, active, loaded, total }`. Fuera de cargas declaradas (`total === 0`)
+ * devuelve los ceros iniciales del store y el Loader resuelve por su fallback.
+ *
+ * @returns {{progress: number, active: boolean, loaded: number, total: number}}
+ */
+function useLoadingProgress() {
+  const [snapshot, setSnapshot] = useState(getLoadingProgress)
+
+  useEffect(() => subscribeLoadingProgress(setSnapshot), [])
+
+  return snapshot
+}
 
 // z-index muy alto: el loader se dibuja por encima de todo (incluidos cursor y
 // grano) mientras cubre la experiencia durante la carga inicial (R20.1).
@@ -118,7 +145,7 @@ const percentStyle = {
 /**
  * Normaliza el progreso de `useProgress()` a un entero 0..100 seguro para UI.
  *
- * @param {number} progress Progreso crudo (0..100) de `@react-three/drei`.
+ * @param {number} progress Progreso crudo (0..100) del store `loadingProgress.js`.
  * @returns {number} Porcentaje entero acotado al rango [0, 100].
  */
 function toPercent(progress) {
@@ -129,7 +156,7 @@ function toPercent(progress) {
 /**
  * Pantalla de carga inicial con la marca BAYONA y progreso de assets 3D.
  *
- * Lee `{ progress, active, loaded, total }` de `useProgress()` para reflejar el
+ * Lee `{ progress, active, loaded, total }` de `useLoadingProgress()` para reflejar el
  * progreso de los assets 3D (R20.1, R20.2) y resuelve el estado "listo" segun:
  *   - `total > 0`: listo cuando `progress >= 100` y `!active` (R20.2).
  *   - `total === 0`: listo tras `READY_FALLBACK_MS` si no comenzo ninguna carga
@@ -148,7 +175,7 @@ function toPercent(progress) {
  *   la experiencia esta lista (o durante el estado listo en `reducedMotion`).
  */
 export function Loader() {
-  const { progress, active, loaded, total } = useProgress()
+  const { progress, active, loaded, total } = useLoadingProgress()
   const { reducedMotion } = useCapabilities()
   const [ready, setReady] = useState(false)
 

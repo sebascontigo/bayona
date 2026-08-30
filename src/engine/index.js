@@ -77,8 +77,15 @@ export {
 } from './recipes/pageMotionContract.js'
 
 // --- Escena 3D (Tareas 7-12) ---
-export { Scene3D } from './scene/Scene3D.jsx'
-export { SceneMount } from './scene/SceneMount.jsx'
+// Fase 7B (hallazgo 7A-01): estas reexportaciones se retiraron del barrel a
+// proposito. `Scene3D.jsx` importa `@react-three/fiber` de forma estatica, y
+// cualquier `export ... from` aqui hacia que el barrel (consumido por el shell
+// via main.jsx/App.jsx) arrastrara el grafo de fiber — que incluye su propia
+// copia de react-dom — al chunk de entrada de TODAS las rutas (vendor-three,
+// 216,48 kB gzip). El consumidor real (`Layout.jsx`) ya importa `SceneMount`
+// por ruta directa, y `Scene3D` no tiene consumidores externos. Para montar
+// escenas: `import { SceneMount } from '../engine/scene/SceneMount.jsx'`.
+// Lo vigila src/test/fase7aSceneGovernance.test.js.
 
 // --- Motion_System (Tarea 14) ---
 export { Reveal } from './motion/Reveal.jsx'

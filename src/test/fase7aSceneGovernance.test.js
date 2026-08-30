@@ -99,46 +99,70 @@ describe('gobernanza de escenas 3D (Fase 7A)', () => {
     expect(offenders, `Librerías prohibidas importadas: ${offenders.join(', ')}`).toEqual([])
   })
 
-  it('7A-01: el Loader del shell sigue siendo el ÚNICO import estático de @react-three en la ruta de entrada', async () => {
-    // Vigila la frontera de la fuga conocida (FASE7A-FORENSIC.md 7A-01):
-    // ExperienceProvider → Loader.jsx importa useProgress de drei de forma
-    // estática, lo que arrastra vendor-three al entry. Mientras el arquitecto
-    // no decida el fix, este test fija el estado actual (exactamente 1 archivo
-    // de engine/effects con import estático de drei) para que NADIE añada
-    // más imports estáticos de 3D sin que la suite se ponga roja.
+  it('7B: el shell del engine (providers/effects/motion/hooks) tiene CERO imports estáticos de @react-three', () => {
+    // Post-fix 7A-01 (Fase 7B): el Loader ya no importa drei y el barrel ya no
+    // reexporta las escenas. El shell debe estar 100% limpio: cualquier import
+    // estático de @react-three en providers/effects/motion/hooks volvería a
+    // arrastrar vendor-three al chunk de entrada de TODAS las rutas.
+    // Los módulos de scene/ son los ÚNICOS legítimos (cargan vía lazy()).
     const offenders = []
     const walk = (dir) => {
       for (const entry of readdirSync(dir, { withFileTypes: true })) {
         const p = join(dir, entry.name)
         if (entry.isDirectory()) walk(p)
-        else if (/\.(js|jsx)$/.test(entry.name)) {
+        else if (/\.(js|jsx)$/.test(entry.name) && !p.includes('.test.')) {
           const src = readFileSync(p, 'utf8')
-          if (/from\s+['"]@react-three\/(fiber|drei|postprocessing)['"]/.test(src) && !p.includes('.test.')) offenders.push(p)
+          if (/from\s+['"]@react-three\/(fiber|drei|postprocessing)['"]/.test(src)) offenders.push(p)
         }
       }
     }
-    walk('src/engine')
-    // Los módulos de escena (Scene3D, SignatureScene, ParticleField,
-    // InstancedCluster, SignatureGeometry, PostProcessing) cargan por lazy()
-    // y son legítimos. El problema es SOLO el que el shell alcanza.
-    // Fijamos el inventario exacto actual: si aparece uno nuevo, detéctalo.
-    const expected = [
-      join('src', 'engine', 'scene', 'Scene3D.jsx'),
-      join('src', 'engine', 'scene', 'PostProcessing.jsx'),
-      join('src', 'engine', 'scene', 'InstancedCluster.jsx'),
-      join('src', 'engine', 'scene', 'ParticleField.jsx'),
-      join('src', 'engine', 'scene', 'SignatureGeometry.jsx'),
-      join('src', 'engine', 'effects', 'Loader.jsx'),
-    ]
-    const norm = (p) => p.replace(/\\/g, '/').replace('src/', 'src/')
-    const offendersNorm = offenders.map(norm).sort()
-    const expectedNorm = expected.map(norm).sort()
+    for (const shellDir of ['src/engine/providers', 'src/engine/effects', 'src/engine/motion', 'src/engine/hooks']) {
+      walk(shellDir)
+    }
     expect(
-      offendersNorm,
-      'Inventario de archivos engine con import estático de @react-three cambió. ' +
-        'Si añadiste uno nuevo en la ruta del shell (providers/effects/motion), ' +
-        'estás arrastrando vendor-three a TODAS las rutas: reporta y decide primero ' +
-        '(FASE7A-FORENSIC.md 7A-01). Los de scene/ solo son legítimos porque cargan lazy.',
-    ).toEqual(expectedNorm)
+      offenders,
+      'Import estático de @react-three en el SHELL (providers/effects/motion/hooks): ' +
+        `${offenders.join(', ')}. Eso arrastra vendor-three (233 kB gzip) al chunk de entrada ` +
+        'de TODAS las rutas — exactamente la fuga 7A-01 que Fase 7B erradicó. ' +
+        'Las escenas 3D viven en engine/scene/ y se cargan vía lazy().',
+    ).toEqual([])
+  })
+
+  it('7B: los ÚNICOS archivos de producción con import de @react-three son los módulos de escena (lazy)', () => {
+    // Inventario cerrado post-7B: exactamente estos 5 archivos (todos dentro
+    // de engine/scene/, todos alcanzables SOLO vía lazy()). Si aparece uno
+    // nuevo en cualquier otra carpeta, este test se pone rojo.
+    const found = []
+    const walk = (dir) => {
+      for (const entry of readdirSync(dir, { withFileTypes: true })) {
+        const p = join(dir, entry.name)
+        if (entry.isDirectory()) walk(p)
+        else if (/\.(js|jsx)$/.test(entry.name) && !p.includes('.test.')) {
+          const src = readFileSync(p, 'utf8')
+          if (/from\s+['"]@react-three\/(fiber|drei|postprocessing)['"]/.test(src)) found.push(p)
+        }
+      }
+    }
+    walk('src')
+    const norm = (p) => p.replace(/\\/g, '/')
+    const foundNorm = found.map(norm).sort()
+    const expected = [
+      // Globe3D.jsx: globo WebGL DORMANTE (sin importadores de producción, verificado
+      // en FASE7A-FORENSIC.md C.2) — patrón de referencia de fallback accesible.
+      'src/components/Globe3D.jsx',
+      // Los 5 módulos de escena del engine: alcanzables SOLO vía lazy().
+      'src/engine/scene/InstancedCluster.jsx',
+      'src/engine/scene/ParticleField.jsx',
+      'src/engine/scene/PostProcessing.jsx',
+      'src/engine/scene/Scene3D.jsx',
+      'src/engine/scene/SignatureGeometry.jsx',
+    ].sort()
+    expect(
+      foundNorm,
+      'Inventario de archivos con import de @react-three cambió. Los únicos ' +
+        'legítimos son los 5 módulos de engine/scene/ (cargan lazy). Si añadiste ' +
+        'uno, debe vivir ahí y ser alcanzable SOLO vía lazy() — o registrar la ' +
+        'excepción con el arquitecto (FASE7B-EXECUTION-REPORT.md).',
+    ).toEqual(expected)
   })
 })

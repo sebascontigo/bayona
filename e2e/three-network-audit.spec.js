@@ -14,11 +14,10 @@
 // Auditar solo por nombre es frágil: si cambia la política de manualChunks,
 // Three.js puede acabar en un chunk con otro nombre y volverse invisible.
 //
-// Fase 7A (hallazgo del propio spec): el entry importa vendor-three
-// estáticamente vía Loader→drei, así que TODAS las rutas lo solicitan hoy.
-// La aserción de contrato está marcada como hallazgo abierto 7A-01 y NO se
-// activa como expect() dura hasta que el arquitecto decida el fix; el registro
-// de datos queda siempre completo para evidencia.
+// Fase 7B: la fuga 7A-01 (entry importando vendor-three estáticamente vía
+// Loader→drei) fue ERRADICADA. La aserción dura está reactivada como contrato
+// permanente: ninguna ruta puede solicitar chunks 3D sin registro de admisión
+// aprobado en 3D-ADMISSION-RECORD.md.
 
 import { test, expect } from '@playwright/test'
 import { writeFileSync, mkdirSync } from 'node:fs'
@@ -136,14 +135,15 @@ for (const route of ROUTES) {
       jsUrls: js.map((r) => r.url),
     })
 
-    // CONTRATO (condicional en 7A): si el hallazgo 7A-01 se corrige (entry sin
-    // vendor-three estático), la línea de abajo debe descomentarse para que
-    // este spec vuelva a ser un contrato duro. Hoy, con la fuga viva, la
-    // aserción dura está desactivada a propósito y documentada.
-    // expect(
-    //   threeByName,
-    //   `La ruta ${route} solicitó chunks 3D: ${JSON.stringify(threeByName, null, 2)}`,
-    // ).toHaveLength(0)
+    // CONTRATO ACTIVO (Fase 7B): con la fuga 7A-01 erradicada (Loader sin drei,
+    // barrel sin escenas, manualChunks por función), NINGUNA ruta puede solicitar
+    // chunks 3D. Si este test se pone rojo en el futuro, es porque alguien montó
+    // o arrastró una escena/dependencia 3D sin pasar por el gate de admisión:
+    // buscar su 3D-ADMISSION-RECORD.md o la cadena de imports estática nueva.
+    expect(
+      threeByName,
+      `La ruta ${route} solicitó chunks 3D: ${JSON.stringify(threeByName, null, 2)}`,
+    ).toHaveLength(0)
 
     // La página no debe reventar en ninguna ruta.
     expect(
