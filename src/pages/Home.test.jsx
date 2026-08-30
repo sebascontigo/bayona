@@ -25,10 +25,24 @@ vi.mock('framer-motion', () => {
     return React.createElement(tag, { ...domProps, ref }, children)
   })
 
+  // Fase 8 (prototipo E — StickyStage en la sección MÉTODO): el mock debe
+  // cubrir el contrato de hooks del engine (useSectionProgress consume
+  // useScroll/useTransform). MotionValue mínimo, mismo patrón que el setup.
+  const motionValue = () => ({
+    get: () => 0,
+    set: vi.fn(),
+    on: vi.fn(() => () => {}),
+  })
+
   return {
     animate: vi.fn(() => ({ stop: vi.fn() })),
     useInView: vi.fn(() => false),
     useReducedMotion: vi.fn(() => false),
+    useScroll: vi.fn(() => ({ scrollY: motionValue(), scrollYProgress: motionValue() })),
+    useTransform: vi.fn(() => motionValue()),
+    transform: vi.fn(),
+    useMotionValue: motionValue,
+    useMotionValueEvent: vi.fn(),
     motion: new Proxy({}, { get: (_, tag) => component(tag) }),
   }
 })
@@ -170,17 +184,25 @@ describe('Home — narrativa premium y contenido crítico', () => {
     const { container } = renderHome()
     const mechanismBlock = homeContentModel.blocks.find(({ id }) => id === 'home-mechanism')
     const mechanismSection = container.querySelector('[data-content-block="home-mechanism"]')
-    const steps = within(mechanismSection).getAllByRole('listitem')
+    // Fase 8 (prototipo E): los pasos dejaron de ser <ol>/<li> (lista) y son
+    // <article class="mechanism-step"> dentro del escenario StickyStage. En el
+    // fallback estático (jsdom/móvil) cada frame apila su copia de los pasos:
+    // el contrato exige que cada TÍTULO exista (allBy), que los artículos con
+    // contenido existan y que el límite profesional siga. Mismos 3 pasos.
+    const stepTitles = mechanismBlock.items.map(({ title }) =>
+      within(mechanismSection).getAllByRole('heading', { level: 3, name: title }),
+    )
 
     expect(within(mechanismSection).getByRole('heading', {
       level: 2,
       name: mechanismBlock.heading,
     })).toBeInTheDocument()
     expect(within(mechanismSection).getByText(mechanismBlock.body)).toBeInTheDocument()
-    expect(steps).toHaveLength(mechanismBlock.items.length)
-    expect(steps.map((step) => within(step).getByRole('heading', { level: 3 }).textContent)).toEqual(
-      mechanismBlock.items.map(({ title }) => title),
-    )
+    expect(stepTitles).toHaveLength(mechanismBlock.items.length)
+    stepTitles.forEach((matches) => {
+      // Cada paso existe al menos una vez en el DOM del fallback.
+      expect(matches.length).toBeGreaterThan(0)
+    })
     expect(within(mechanismSection).getByRole('complementary', {
       name: 'Límite profesional',
     })).toHaveTextContent(mechanismBlock.boundary)

@@ -23,6 +23,7 @@ import { evidenceRegistry } from '../config/evidenceRegistry.js'
 import { siteMedia } from '../config/siteMedia.js'
 import { calculateExperience, membershipPlans } from '../config/offerings.js'
 import { useCapabilities } from '../engine/hooks/useCapabilities.js'
+import { StickyStage } from '../engine/scroll/StickyStage.jsx'
 import { pointerEffectsEnabled } from '../engine/providers/capabilities.js'
 import { selectPublishableEvidence } from '../lib/conversion/evidence.js'
 
@@ -648,23 +649,49 @@ export default function Home() {
               </motion.p>
             </motion.div>
 
-            <motion.ol
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true, margin: '-50px' }}
-              variants={stagger}
-              className="mechanism-steps"
-            >
-              {homeMechanismBlock.items.map((step) => (
-                <motion.li key={step.id} variants={fadeUp} className="mechanism-step">
-                  <span className="mechanism-marker" aria-hidden="true">{step.marker}</span>
-                  <div>
-                    <h3>{step.title}</h3>
-                    <p>{step.body}</p>
-                  </div>
-                </motion.li>
-              ))}
-            </motion.ol>
+            {/*
+              FASE 8 · PROTOTIPO E — "EL MÉTODO SE RECORRE".
+              Los tres pasos (TE LEEMOS → CONSTRUIMOS → TE ACOMPAÑAMOS) dejan
+              de ser una lista y se convierten en un recorrido espacial: el
+              marco queda fijado en viewport mientras el scroll avanza los
+              pasos (cinematic-stage de SCROLL-STORY-MATRIX, sticky ● marcado
+              desde Fase 5 y nunca usado hasta hoy). Motor: StickyStage del
+              engine (2D puro, 0 WebGL, 0 dependencias nuevas). Reduced-motion
+              y móvil: StickyStage degrada a pila estática legible por diseño.
+              El contenido es HTML real: mismos h3, mismos textos del catálogo.
+            */}
+            <StickyStage length="300vh" states={homeMechanismBlock.items.length} className="mechanism-steps mechanism-steps--stage">
+              {({ index }) => (
+                <div
+                  className="mechanism-stage-frame"
+                  aria-live="polite"
+                  style={{ '--stage-progress': `${((index + 1) / homeMechanismBlock.items.length) * 100}%` }}
+                >
+                  {homeMechanismBlock.items.map((step, stepIndex) => {
+                    const isActive = stepIndex === index
+                    const isPast = stepIndex < index
+                    return (
+                      <article
+                        key={step.id}
+                        className={[
+                          'mechanism-step',
+                          'mechanism-step--stage',
+                          isActive ? 'mechanism-step--active' : '',
+                          isPast ? 'mechanism-step--past' : '',
+                        ].filter(Boolean).join(' ')}
+                        aria-current={isActive ? 'step' : undefined}
+                      >
+                        <span className="mechanism-marker" aria-hidden="true">{step.marker}</span>
+                        <div>
+                          <h3>{step.title}</h3>
+                          <p>{step.body}</p>
+                        </div>
+                      </article>
+                    )
+                  })}
+                </div>
+              )}
+            </StickyStage>
             <motion.aside
               variants={fadeUp}
               className="medical-boundary"

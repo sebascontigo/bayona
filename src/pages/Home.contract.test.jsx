@@ -44,10 +44,30 @@ vi.mock('framer-motion', () => {
     return React.createElement(tag, { ...domProps, ref }, children)
   })
 
+  // MotionValue mínimo para los hooks del engine (StickyStage → useSectionProgress
+  // usa useScroll). Fase 8: el mock anterior no lo exportaba y el prototipo E
+  // (sección MÉTODO con StickyStage) reventaba al renderizar.
+  const motionValue = () => ({
+    get: () => 0,
+    set: vi.fn(),
+    on: vi.fn(() => () => {}),
+  })
+
   return {
     animate: vi.fn(() => ({ stop: vi.fn() })),
     useInView: vi.fn(() => false),
     useReducedMotion: vi.fn(() => false),
+    // Contrato real de framer-motion que consume el engine: useScroll con
+    // offset/target devuelve MotionValues de scrollY/scrollYProgress.
+    useScroll: vi.fn(() => ({
+      scrollY: motionValue(),
+      scrollYProgress: motionValue(),
+    })),
+    // useSectionProgress deriva el progreso del tramo con useTransform.
+    useTransform: vi.fn(() => motionValue()),
+    transform: vi.fn(),
+    useMotionValue: motionValue,
+    useMotionValueEvent: vi.fn(),
     motion: new Proxy({}, { get: (_, tag) => component(tag) }),
   }
 })

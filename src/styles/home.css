@@ -3992,3 +3992,99 @@
     word-break: normal;
   }
 }
+
+/* ==========================================================================
+   FASE 8 · PROTOTIPO E — "EL MÉTODO SE RECORRE" (sección MÉTODO de la Home).
+   Capa ADITIVA sobre el layout heredado: solo actúa cuando el bloque usa la
+   clase mechanism-steps--stage (StickyStage del engine). Sin ella, el CSS
+   original de mechanism-steps/mechanism-step no se toca.
+   Composición: dentro del viewport fijo (100vh, centrado por .sticky-stage-viewport)
+   solo el paso ACTIVO ocupa el plano; el anterior queda como huella tenue y
+   el siguiente todavía no existe visualmente. El hilo de luz del marco (la
+   línea naranja) marca la posición en la secuencia.
+   ========================================================================== */
+
+/* El escenario anida DENTRO del fondo escénico de la sección: el frame fijo
+   hereda el fondo y el scrim actuales, 0 assets nuevos. */
+.mechanism-steps--stage {
+  display: block;
+  border-top: 1px solid rgba(255, 255, 255, 0.16);
+}
+
+/* Frame interno: cada "pantalla" del recorrido. grid-template-rows: 100%
+   apila los 3 artículos en el mismo plano; solo uno es visible. */
+.mechanism-stage-frame {
+  display: grid;
+  grid-template-rows: 100%;
+  width: 100%;
+  min-height: min(62vh, 560px);
+  align-content: center;
+}
+
+.mechanism-step--stage {
+  grid-row: 1;
+  grid-column: 1;
+  align-self: center;
+  /* Transición entre estados: el paso entra con luz, sale con reposo. */
+  opacity: 0;
+  transform: translateY(26px);
+  transition:
+    opacity 0.55s var(--ease-transform, cubic-bezier(0.22, 1, 0.36, 1)),
+    transform 0.55s var(--ease-transform, cubic-bezier(0.22, 1, 0.36, 1));
+  pointer-events: none;
+}
+
+.mechanism-step--stage.mechanism-step--past {
+  /* Huella del paso anterior: queda atrás, tenue, sin competir. */
+  opacity: 0.16;
+  transform: translateY(-14px) scale(0.985);
+  filter: saturate(0.6);
+}
+
+.mechanism-step--stage.mechanism-step--active {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+/* Marco de la secuencia: una línea-pista bajo los pasos que ilumina el
+   tramo recorrido — el "hilo de luz" que hace legible la secuencia. */
+.mechanism-steps--stage::after {
+  content: '';
+  display: block;
+  height: 1px;
+  margin-top: clamp(28px, 4vh, 44px);
+  background: linear-gradient(
+    90deg,
+    var(--orange, #e76f51) 0%,
+    var(--orange, #e76f51) var(--stage-progress, 33.333%),
+    rgba(255, 255, 255, 0.14) var(--stage-progress, 33.333%),
+    rgba(255, 255, 255, 0.14) 100%
+  );
+}
+
+/* Reduced-motion / móvil: StickyStage ya degrada a pila estática
+   (.sticky-stage--static); esta capa apila los pasos legibles y elimina
+   las transiciones — la secuencia se lee sin movimiento. */
+.sticky-stage--static .mechanism-stage-frame {
+  display: block;
+  min-height: 0;
+}
+
+.sticky-stage--static .mechanism-step--stage {
+  opacity: 1;
+  transform: none;
+  transition: none;
+  filter: none;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.16);
+}
+
+.sticky-stage--static .mechanism-steps--stage::after {
+  display: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mechanism-step--stage {
+    transition: none;
+  }
+}
