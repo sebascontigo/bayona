@@ -31,7 +31,18 @@ let state = Object.freeze({
 const listeners = new Set()
 
 function emit() {
-  for (const listener of listeners) listener(state)
+  // H-02 (Fase 8B): cada listener se notifica de forma aislada. Un listener
+  // que lance no puede interrumpir la notificación del resto ni propagar la
+  // excepción hasta update()/reset(). El error se registra en consola (no se
+  // silencia) pero el store sigue operativo: es infraestructura del shell.
+  for (const listener of listeners) {
+    try {
+      listener(state)
+    } catch (error) {
+      // El fallo de UN observador no debe tumbar la carga del resto.
+      console.error('[loadingProgress] un observador de progreso lanzó un error:', error)
+    }
+  }
 }
 
 /**
@@ -63,6 +74,13 @@ export function updateLoadingProgress(patch = {}) {
 
   if (Number.isFinite(patch.loaded)) next.loaded = Math.max(0, Math.round(patch.loaded))
   if (Number.isFinite(patch.total)) next.total = Math.max(0, Math.round(patch.total))
+  // H-02 (Fase 8B): el contador no puede exceder el total declarado. Antes,
+  // una notificación {total: 2, loaded: 99} dejaba el estado en 99/2 —
+  // inconsistencia benigna hoy, rota para un futuro consumidor que calcule
+  // "assets restantes". El progreso se sigue acotando a [0, 100] aparte.
+  if (Number.isFinite(next.total) && Number.isFinite(next.loaded)) {
+    next.loaded = Math.min(next.loaded, next.total)
+  }
   if (Number.isFinite(patch.progress)) {
     next.progress = Math.min(100, Math.max(0, patch.progress))
   } else if (next.total > 0) {

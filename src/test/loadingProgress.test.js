@@ -84,4 +84,53 @@ describe('loadingProgress — store del shell (Fase 7B)', () => {
     expect(Number.isFinite(s.total)).toBe(true)
     expect(Number.isFinite(s.loaded)).toBe(true)
   })
+
+  // --- Fase 8B · H-02: los dos defectos documentados en la auditoría suprema ---
+
+  it('H-02a: un listener que lanza NO interrumpe la notificación del resto ni propaga el error', () => {
+    const consoleErrors = []
+    const originalError = console.error
+    console.error = (...args) => consoleErrors.push(args)
+    try {
+      let secondReceived = null
+      const un1 = subscribeLoadingProgress(() => {
+        throw new Error('boom del observador')
+      })
+      const un2 = subscribeLoadingProgress((s) => {
+        secondReceived = s
+      })
+
+      expect(() => updateLoadingProgress({ total: 2, loaded: 1, active: true })).not.toThrow()
+
+      // El segundo listener SÍ recibió el estado pese al fallo del primero.
+      expect(secondReceived).toEqual(getLoadingProgress())
+      // El error del observador quedó registrado, no silenciado.
+      expect(consoleErrors.length).toBe(1)
+      expect(String(consoleErrors[0][0])).toContain('loadingProgress')
+
+      un1()
+      un2()
+    } finally {
+      console.error = originalError
+    }
+  })
+
+  it('H-02b: loaded nunca excede total (contrato de "assets restantes" coherente)', () => {
+    updateLoadingProgress({ total: 2, loaded: 99, active: true })
+    expect(getLoadingProgress().loaded).toBe(2)
+    expect(getLoadingProgress().progress).toBe(100)
+
+    // Caso límite: loaded llega ANTES que total (notificaciones fuera de orden).
+    // Con total=0 (sin cargas declaradas), un loaded suelto se acota a 0:
+    // no puede haber más cargas completadas que assets declarados.
+    resetLoadingProgress()
+    updateLoadingProgress({ loaded: 5, active: true })
+    expect(getLoadingProgress().loaded).toBe(0)
+    // Al llegar el total, loaded queda acotado por él.
+    updateLoadingProgress({ total: 3 })
+    const s = getLoadingProgress()
+    expect(s.loaded).toBe(0) // el 5 anterior ya fue descartado por el clamp
+    expect(s.total).toBe(3)
+    expect(s.progress).toBe(0)
+  })
 })
