@@ -23,18 +23,19 @@
 | Campo | Valor | Etiqueta |
 |---|---|---|
 | Última fase completada | **FASE 6 — WORLD BUILDING** (5 bloques + cierre transversal, `3a9f511..f61c0a8`) | VERIFIED |
-| Fase actual | **FASE 7A — PERFORMANCE FORENSIC + 3D ADMISSION** (ejecutada 2026-08-30 con los dos prompts maestros del auditor: PM1 alcance + PM2 método/evidencia; bloques A–J). **Hallazgo de primer orden 7A-01:** `vendor-three` (216,48 kB gzip MEDIDO) se descarga en TODAS las rutas por import estático del shell (`main.jsx → ExperienceProvider → Loader.jsx:26 → useProgress de drei`); es la mayor palanca de rendimiento del proyecto; fix NO ejecutado (scope del arquitecto). **Decisión de admisión:** candidato-01 `/parkour-academy` = **REJECTED** (G2/G4/G8 rojas + veto humano negativo + alternativa 2D igual/mejor a coste ~0; score re-evaluado 23/40 vs 27/40 histórico con Δ justificados). Entregables: `FASE7A-FORENSIC.md`, `3D-ADMISSION-RECORD.md`, `3D-PERFORMANCE-BASELINE.md`, guard `src/test/fase7aSceneGovernance.test.js` (7 tests, verificado por fallo inducido), `e2e/three-network-audit.spec.js` (18 rutas × 3 pases), `scripts/measure-bundle.mjs`, vitals de laboratorio. **CTR-01 (PERFORMANCE-BASELINE §4) DIFERIDA:** bajo Estado B la corrección prevista escribiría una tercera versión falsa; se corregirá junto al fix de 7A-01. **STOP: esperando (1) veredicto del auditor sobre 7A y (2) respuesta a la pregunta 7A-01 (Fase 7B mínima de fix vs deuda F12)** | VERIFIED |
+| Fase actual | **FASE 7B — CLEAN SHELL / ERRADICACIÓN 7A-01 EJECUTADA** (2026-08-30, autorización: PROMPT MAESTRO DEL ARQUITECTO, prioridad absoluta; decisión Opción A = fix mínimo quirúrgico). Causa raíz triple descubierta al ejecutar: Loader→drei (conocida) + barrel reexportando Scene3D/SceneMount estáticos + manualChunks objeto dejando módulos runtime compartidos dentro de vendor-three. Fix: `loadingProgress.js` (store del engine, nuevo), Loader sin drei (API/a11y/visual intactos), barrel sin escenas, `manualChunks` función, guard endurecido (shell = CERO imports estáticos @react-three + inventario cerrado de 6 legítimos). **DESPUÉS MEDIDO: entry y HTML sin vendor-three; solo chunks lazy de escena lo importan; network audit 18 rutas × 3 pases = 69 passed, 0 solicitudes 3D (antes: 18/18).** Chaos drill del guard verificado. CTR-01 CERRADA (PERFORMANCE-BASELINE §4 corregido con bloque fechado). Gates: 417/417 · 0/16 · build 14,81 s · visual 64. 4 archivos de runtime del engine/config tocados (los estrictamente necesarios); 0 páginas/estilos/rutas/deps; DP-5 y parkour REJECTED intactos. **STOP esperando veredicto del auditor → Fase 8 con línea base limpia de 0 kB 3D** | VERIFIED |
 | Naturaleza de Fase 6 | 100% documental y estratégica: 0 cambios de código de producción; único código nuevo permitido = tests documentales (sin runtime/bundle/deps/skip/only) | VERIFIED (veredicto ChatGPT + PROMPT MAESTRO V2.0 §5) |
 | Fases 1–5 | Completadas y aprobadas por auditoría forense (veredicto ✅ C, AUDIT-LOG entrada 002) | VERIFIED |
 
-## Gates (re-ejecutados de verdad 2026-08-30 durante FASE 7A, sobre HEAD = `f61c0a8` + entregables 7A; el único cambio de src/ es el guard de tests)
+## Gates (re-ejecutados de verdad 2026-08-30 durante FASE 7B, sobre el fix aplicado)
 
 | Gate | Resultado | Etiqueta |
 |---|---|---|
-| `npm test` (vitest) | 409/409 tests · 73 ficheros · 0 skips · 0 fallos (39,55 s) — 402 previos + 7 del guard 7A | VERIFIED |
-| `npm run lint` (eslint) | 0 errores / 16 warnings (baseline preexistente; los 15 errores iniciales de los archivos 7A nuevos se corrigieron en la propia fase) | VERIFIED |
-| `npm run build` (vite) | OK, built in 19,29 s | VERIFIED |
-| `npm run test:visual` (Playwright) | 64 passed (6,4 min) — 41 previos + 23 de los specs 7A (18 network×1 pase agrupado + 5 vitals) | VERIFIED |
+| `npm test` (vitest) | 417/417 tests · 74 ficheros · 0 skips · 0 fallos (409 previos + 7 store loadingProgress; test 7A-01 → 2 tests 7B) | VERIFIED |
+| `npm run lint` (eslint) | 0 errores / 16 warnings preexistentes | VERIFIED |
+| `npm run build` (vite) | OK, built in 14,81 s; entry y HTML sin vendor-three; solo chunks lazy 3D lo importan | VERIFIED |
+| `npm run test:visual` (Playwright) | 64 passed (5,3 min) | VERIFIED |
+| Network f7a (aserción dura) | 69 passed (18 rutas × 3 pases, 0 solicitudes 3D) | VERIFIED |
 
 ## Producción
 
@@ -49,8 +50,8 @@
 
 | ID | Asunto | Quién decide |
 |---|---|---|
-| 7A-01 | **Fuga vendor-three (216,48 kB gzip) en TODAS las rutas** — ¿Fase 7B mínima de fix (sustituir useProgress de drei en Loader.jsx) o registrar como deuda para Fase 12? (pregunta cerrada formulada en FASE7A-FORENSIC.md y 3D-ADMISSION-RECORD.md) | Arquitecto (ChatGPT) + Sebastián |
-| — | **Veredicto del auditor sobre FASE 7A** (diagnóstico A–J: REJECTED parkour + hallazgo 7A-01) antes de cualquier paso siguiente | ChatGPT + Sebastián |
+| ~~7A-01~~ | **RESUELTA en Fase 7B** (2026-08-30): fuga erradicada — 0 bytes 3D en 18/18 rutas (MEDIDO). CTR-01 cerrada. | CERRADA |
+| — | **Veredicto del auditor sobre FASE 7B** (FASE7B-EXECUTION-REPORT.md) antes de iniciar Fase 8 | ChatGPT + Sebastián |
 | DP-5 | ELITE "acceso de por vida" — decisión comercial/legal (fuera de fase, PROMPT MAESTRO V2.0 §27) | Sebastián |
 | — | Registro de GEMINI_API_KEY / GROQ_API_KEY (fuera del repo; las registra él vía setx) | Sebastián |
 

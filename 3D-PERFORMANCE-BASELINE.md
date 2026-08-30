@@ -6,6 +6,24 @@
 
 ## CURRENT — lo que existe hoy (verificado por red, no por grep)
 
+> **ACTUALIZADO Fase 7B (2026-08-30): la fuga 7A-01 fue ERRADICADA.** Los
+> números anteriores quedan abajo como registro histórico del estado defectuoso.
+> Estado actual: `vendor-three` NO se descarga en NINGUNA ruta (18/18 auditadas ×
+> 3 pases, 0 solicitudes); solo los chunks lazy `Scene3D`/`SignatureScene` lo
+> importan y ninguna ruta monta escena. Ver FASE7B-EXECUTION-REPORT.md.
+
+| Concepto | Valor | Etiqueta |
+|---|---|---|
+| Descarga real de vendor-three por ruta | **NINGUNA** (antes: todas) | MEDIDO (red, 3 pases) |
+| `vendor-three-*.js` | 887,35 kB min · 233,71 kB gzip · 193,28 kB brotli (solo si se monta escena lazy) | MEDIDO |
+| `SignatureScene-*.js` (lazy) | 13,56 kB min · 5,74 kB gzip | MEDIDO |
+| Coste 3D transferido por visita en rutas actuales | **0 kB** | MEDIDO |
+| Importadores de vendor-three | solo Scene3D/SignatureScene (lazy) — entry y HTML limpios | CONFIRMADO |
+
+---
+### REGISTRO HISTÓRICO pre-7B (la fuga, para trazabilidad)
+
+
 | Concepto | Valor | Etiqueta |
 |---|---|---|
 | `vendor-three-*.js` (three + R3F + drei) | 807,56 kB min · **216,48 kB gzip** · 179,10 kB brotli | MEDIDO |

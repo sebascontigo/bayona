@@ -48,9 +48,26 @@ Los 8 chunks de iconos lucide (0,3–1,0 kB c/u) están separados correctamente.
 
 | Chunk | Min | Gzip | Cuándo se descarga |
 |---|---|---|---|
-| `vendor-three-*.js` (three + R3F + drei + postprocessing) | 826,9 kB | 222,3 kB | Solo al visitar `/about` (Globe3D) |
-| `SignatureScene-*.js` | 100,2 kB | 26,0 kB | Solo si una ruta monta SceneMount (hoy ninguna) |
-| `Scene3D-*.js` (orquestador) | 0,8 kB | 0,5 kB | Ídem |
+| `vendor-three-*.js` (three + R3F + drei) | 887,35 kB | 233,71 kB | NUNCA en las rutas actuales: solo los chunks lazy de escena (`Scene3D`/`SignatureScene`) lo importan, y ninguna ruta monta escena (verificado por red, Fase 7B: 0 solicitudes en 18 rutas × 3 pases) |
+| `SignatureScene-*.js` | 13,56 kB | 5,74 kB | Solo si una ruta monta SceneMount (hoy ninguna) |
+| `Scene3D-*.js` (orquestador) | 0,78 kB | 0,48 kB | Ídem |
+
+> **CORRECCIÓN — Fase 7A (2026-08-30, hallazgo 7A-01) y Fase 7B (2026-08-30, erradicación).**
+> La versión original de esta tabla decía que `vendor-three` se descargaba "solo al
+> visitar `/about` (Globe3D)". **Era incorrecto en ambas direcciones:** `/about`
+> monta `GlobeTestimonials` (mapa 2D, sin WebGL), pero la auditoría de red de
+> Fase 7A demostró que el chunk se solicitaba en TODAS las rutas (18/18, incluida
+> la 404) por una cadena de imports estáticos del shell (`ExperienceProvider →
+> Loader → useProgress de drei`) más reexportaciones del barrel de escenas y una
+> clasificación de `manualChunks` que dejaba módulos compartidos dentro del chunk
+> 3D. Fase 7B erradicó la fuga (Loader con store propio `loadingProgress.js`,
+> barrel sin reexportar escenas, `manualChunks` por función): el HTML ya no
+> precarga `vendor-three` y solo los chunks lazy de escena lo importan.
+> Contratos que impiden la recaída: `e2e/three-network-audit.spec.js`
+> (aserción dura activa, 0 chunks 3D en cualquier ruta sin admisión aprobada) y
+> `src/test/fase7aSceneGovernance.test.js` (shell sin imports estáticos de
+> `@react-three`). Evidencia completa: `FASE7A-FORENSIC.md` y
+> `FASE7B-EXECUTION-REPORT.md`.
 
 El bundle 3D (928 kB min) **no toca la home ni ninguna otra ruta**: el code
 splitting funciona. Es el mayor candidato de optimización de la Fase 12 si el
