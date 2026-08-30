@@ -4,6 +4,7 @@ import { SectionLabel } from '../components/Layout.jsx'
 import { sceneBackgroundProps } from '../components/SceneBackground.jsx'
 import { siteMedia } from '../config/siteMedia.js'
 import { whatsAppLink } from '../config/site.config.js'
+import { StickyStage } from '../engine/scroll/StickyStage.jsx'
 import '../styles/parkour-academy.css'
 
 const agePaths = [
@@ -99,14 +100,47 @@ export default function ParkourAcademy() {
           <h2 id="academy-levels-title">TRES NIVELES.<br /><span>NINGÚN ATAJO.</span></h2>
           <p>El paso entre niveles depende de la ejecución observada, no del calendario.</p>
         </header>
-        <div className="academy-level-grid">
-          {levels.map(([number, title, subtitle, skills]) => (
-            <article className="academy-level" key={number}>
-              <span>{number}</span><p>{subtitle}</p><h3>{title}</h3>
-              <ul>{skills.map((skill) => <li key={skill}>{skill}</li>)}</ul>
-            </article>
-          ))}
-        </div>
+        {/*
+          FASE 8 · BLOQUE F — "LA ESCALERA" (cinematic-stage 2D del blueprint de
+          parkour, M.5 ALTO con degradaciones escritas desde Fase 6).
+          Identidad PROPIA, no un clon de la Home: allí el marco es horizontal
+          (una secuencia lógica que avanza); aquí el recorrido es VERTICAL y
+          ASCENDENTE — cada nivel SUBE al siguiente, porque la progresión de
+          parkour es física: primer salto → control. El paso activo queda a la
+          altura de los ojos y el siguiente asoma desde abajo; el hilo de luz
+          del marcador de nivel es la misma escalera iluminándose.
+          Motor: StickyStage del engine (2D puro, 0 WebGL). Reduced-motion y
+          móvil: pila estática legible por diseño del componente.
+        */}
+        <StickyStage length="300vh" states={levels.length} className="academy-level-grid academy-level-grid--stage">
+          {({ index }) => (
+            <div
+              className="academy-level-stage"
+              aria-live="polite"
+              style={{ '--stage-fill': `${((index + 1) / levels.length) * 100}%` }}
+            >
+              {levels.map(([number, title, subtitle, skills], levelIndex) => {
+                const isActive = levelIndex === index
+                const isPast = levelIndex < index
+                return (
+                  <article
+                    key={number}
+                    className={[
+                      'academy-level',
+                      'academy-level--stage',
+                      isActive ? 'academy-level--active' : '',
+                      isPast ? 'academy-level--past' : '',
+                    ].filter(Boolean).join(' ')}
+                    aria-current={isActive ? 'step' : undefined}
+                  >
+                    <span>{number}</span><p>{subtitle}</p><h3>{title}</h3>
+                    <ul>{skills.map((skill) => <li key={skill}>{skill}</li>)}</ul>
+                  </article>
+                )
+              })}
+            </div>
+          )}
+        </StickyStage>
       </section>
 
       <section className="academy-section academy-method" aria-labelledby="academy-method-title">

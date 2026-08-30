@@ -227,3 +227,108 @@
   .parkour-academy *, .parkour-academy *::before, .parkour-academy *::after { scroll-behavior: auto !important; }
   .academy-action { transition: none; }
 }
+
+/* ==========================================================================
+   FASE 8 · BLOQUE F — "LA ESCALERA" (sección TRES NIVELES de la Academia).
+   Capa ADITIVA: solo actúa con academy-level-grid--stage (StickyStage). Sin
+   esa clase, el layout original de academy-level-grid queda intacto.
+   Identidad PROPIA vs. la Home: recorrido VERTICAL ASCENDENTE. El nivel
+   activo sube hasta la altura de lectura; el siguiente asoma desde abajo
+   (la progresión se siente física: primer salto → control). El marcador de
+   nivel es la escalera de luz que sube con el scroll.
+   ========================================================================== */
+
+.academy-level-grid--stage {
+  display: block;
+  min-width: 0;
+}
+
+/* Frame del escenario: un plano; solo un nivel visible a la vez. */
+.academy-level-stage {
+  position: relative; /* ancla el raíl de nivel absoluto */
+  display: grid;
+  grid-template-rows: 100%;
+  width: 100%;
+  padding-left: clamp(22px, 3.5vw, 42px); /* aire para el raíl */
+  min-height: min(60vh, 520px);
+  align-content: center;
+}
+
+.academy-level--stage {
+  grid-row: 1;
+  grid-column: 1;
+  align-self: center;
+  /* Entrada desde ABAJO: la dirección del parkour es subir. */
+  opacity: 0;
+  transform: translateY(64px);
+  transition:
+    opacity 0.6s var(--ease-transform, cubic-bezier(0.22, 1, 0.36, 1)),
+    transform 0.6s var(--ease-transform, cubic-bezier(0.22, 1, 0.36, 1));
+  pointer-events: none;
+}
+
+/* El nivel superado queda ARRIBA, como peldaño pasado: la escalera sube. */
+.academy-level--stage.academy-level--past {
+  opacity: 0.14;
+  transform: translateY(-30px) scale(0.97);
+  filter: saturate(0.5);
+}
+
+.academy-level--stage.academy-level--active {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+/* Marcador de nivel: la escalera de luz vertical a la izquierda del frame.
+   Su relleno sube con el estado activo — el peldaño iluminado. */
+.academy-level-stage::before {
+  content: '';
+  position: absolute;
+  left: clamp(4px, 1.2vw, 14px);
+  top: 50%;
+  transform: translateY(-50%);
+  width: 2px;
+  height: min(46vh, 380px);
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.10) 0%,
+    rgba(255, 255, 255, 0.10) 100%
+  );
+  /* Requiere --stage-fill para el tramo iluminado; la Home usa un hilo
+     horizontal, parkour un raíl vertical: nunca intercambiables. */
+  --stage-fill: 33.333%;
+  background:
+    linear-gradient(
+      180deg,
+      var(--orange, #e76f51) 0%,
+      var(--orange, #e76f51) var(--stage-fill),
+      rgba(255, 255, 255, 0.10) var(--stage-fill),
+      rgba(255, 255, 255, 0.10) 100%
+    );
+}
+
+/* Reduced-motion / móvil: StickyStage degrada a pila estática; los niveles
+   se apilan legibles y el raíl desaparece (la secuencia se lee sin mover). */
+.sticky-stage--static .academy-level-stage {
+  display: block;
+  min-height: 0;
+  position: static;
+}
+
+.sticky-stage--static .academy-level-stage::before {
+  display: none;
+}
+
+.sticky-stage--static .academy-level--stage {
+  opacity: 1;
+  transform: none;
+  transition: none;
+  filter: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .academy-level--stage {
+    transition: none;
+  }
+}
