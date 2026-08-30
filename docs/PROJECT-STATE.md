@@ -22,19 +22,19 @@
 
 | Campo | Valor | Etiqueta |
 |---|---|---|
-| Última fase completada | **FASE 5 — Motion Engine 2.0 + Scroll Storytelling** (commits `3cdaa19..70606dd`, 7 commits) | VERIFIED |
-| Fase actual | **FASE 6 — WORLD BUILDING** (DF-006 APROBADA; plan AUDITADO — D-008; V2.0 rector). **BLOQUE 1 APROBADO** por el auditor (veredicto sobre `3a9f511`; condiciones DF-009…DF-012 registradas). **BLOQUE 2 APROBADO** por el auditor (autorización del BLOQUE 3 entregada por Sebastián 2026-08-28). **BLOQUE 3 EJECUTADO** (2026-08-28): `BAYONA-WORLD-BIBLE.md` PARTE II — MUNDOS 00–08: 9 mundos (0 fusiones; 2 refinamientos de definición documentados — CUERPO y EXPERIENCIA), matriz de diferenciación con análisis crítico, prueba de intercambiabilidad (7 pares sensibles + 36 combinaciones pairwise, todas SEPARADOS), matrices de medios y resiliencia, mapa de relaciones y orden, autoauditoría; 3D clasificado (6 PROHIBIDO / 1 OPCIONAL / 1 JUSTIFICADO / 1 EXCEPCIONAL, sin objetos ni escenas); asignación de rutas núcleo/periferia cubriendo el inventario §0.2. **BLOQUE 4 EJECUTADO Y APROBADO por el auditor** (veredicto ChatGPT sobre `aaf1543`, 2026-08-28). **BLOQUE 5 EJECUTADO Y APROBADO por el auditor** (veredicto sobre `9d00f12`). **CIERRE TRANSVERSAL EJECUTADO** (2026-08-28): WORLD-3D-STRATEGY.md (244 líneas, A–U) + tests D-01…D-07 (`src/test/fase6Contracts.test.js`, 21 tests). **Hallazgo central del inventario 3D real:** el elemento vivo de `/about` es `GlobeTestimonials` (mapa 2D interactivo con 15 personas, NO WebGL); `Globe3D.jsx` dormante; `SceneMount`+`signature` durmientes (0 rutas con escena). Corrección declarada D-07a (medio de `/about` = mapa 2D, clasificación EXISTENTE conservada). Decisión central: **NO se añade ningún momento 3D nuevo en Fase 7**; `/parkour-academy` es candidato condicional que hoy NO supera su gate propio (27/40, móvil 2). **FASE 6 DOCUMENTAL COMPLETA.** **STOP ABSOLUTO antes de Fase 7 — 3D Contextual** hasta auditoría | VERIFIED |
+| Última fase completada | **FASE 6 — WORLD BUILDING** (5 bloques + cierre transversal, `3a9f511..f61c0a8`) | VERIFIED |
+| Fase actual | **FASE 7A — PERFORMANCE FORENSIC + 3D ADMISSION** (ejecutada 2026-08-30 con los dos prompts maestros del auditor: PM1 alcance + PM2 método/evidencia; bloques A–J). **Hallazgo de primer orden 7A-01:** `vendor-three` (216,48 kB gzip MEDIDO) se descarga en TODAS las rutas por import estático del shell (`main.jsx → ExperienceProvider → Loader.jsx:26 → useProgress de drei`); es la mayor palanca de rendimiento del proyecto; fix NO ejecutado (scope del arquitecto). **Decisión de admisión:** candidato-01 `/parkour-academy` = **REJECTED** (G2/G4/G8 rojas + veto humano negativo + alternativa 2D igual/mejor a coste ~0; score re-evaluado 23/40 vs 27/40 histórico con Δ justificados). Entregables: `FASE7A-FORENSIC.md`, `3D-ADMISSION-RECORD.md`, `3D-PERFORMANCE-BASELINE.md`, guard `src/test/fase7aSceneGovernance.test.js` (7 tests, verificado por fallo inducido), `e2e/three-network-audit.spec.js` (18 rutas × 3 pases), `scripts/measure-bundle.mjs`, vitals de laboratorio. **CTR-01 (PERFORMANCE-BASELINE §4) DIFERIDA:** bajo Estado B la corrección prevista escribiría una tercera versión falsa; se corregirá junto al fix de 7A-01. **STOP: esperando (1) veredicto del auditor sobre 7A y (2) respuesta a la pregunta 7A-01 (Fase 7B mínima de fix vs deuda F12)** | VERIFIED |
 | Naturaleza de Fase 6 | 100% documental y estratégica: 0 cambios de código de producción; único código nuevo permitido = tests documentales (sin runtime/bundle/deps/skip/only) | VERIFIED (veredicto ChatGPT + PROMPT MAESTRO V2.0 §5) |
 | Fases 1–5 | Completadas y aprobadas por auditoría forense (veredicto ✅ C, AUDIT-LOG entrada 002) | VERIFIED |
 
-## Gates (re-ejecutados de verdad 2026-08-28 durante el CIERRE TRANSVERSAL de Fase 6, sobre HEAD = `9d00f12`; el único cambio de código es el test documental D-01…D-07)
+## Gates (re-ejecutados de verdad 2026-08-30 durante FASE 7A, sobre HEAD = `f61c0a8` + entregables 7A; el único cambio de src/ es el guard de tests)
 
 | Gate | Resultado | Etiqueta |
 |---|---|---|
-| `npm test` (vitest) | 402/402 tests · 72 ficheros · 0 skips · 0 fallos (41.95 s) | VERIFIED |
-| `npm run lint` (eslint) | 0 errores / 16 warnings (pre-existentes; el diff no toca `src/`) | VERIFIED |
-| `npm run build` (vite) | OK, built in 19.67 s (vendor-three 826.94 kB, gzip 222.32 kB; warning de chunk preexistente) | VERIFIED |
-| `npm run test:visual` (Playwright) | 41 passed (5.0 min) | VERIFIED |
+| `npm test` (vitest) | 409/409 tests · 73 ficheros · 0 skips · 0 fallos (39,55 s) — 402 previos + 7 del guard 7A | VERIFIED |
+| `npm run lint` (eslint) | 0 errores / 16 warnings (baseline preexistente; los 15 errores iniciales de los archivos 7A nuevos se corrigieron en la propia fase) | VERIFIED |
+| `npm run build` (vite) | OK, built in 19,29 s | VERIFIED |
+| `npm run test:visual` (Playwright) | 64 passed (6,4 min) — 41 previos + 23 de los specs 7A (18 network×1 pase agrupado + 5 vitals) | VERIFIED |
 
 ## Producción
 
@@ -49,8 +49,9 @@
 
 | ID | Asunto | Quién decide |
 |---|---|---|
-| DP-5 | ELITE "acceso de por vida" — decisión comercial/legal (fuera de Fase 6, PROMPT MAESTRO V2.0 §27) | Sebastián |
-| — | **Auditoría de ChatGPT del CIERRE TRANSVERSAL de Fase 6** (WORLD-3D-STRATEGY.md + D-01…D-07) antes de iniciar FASE 7 — 3D CONTEXTUAL | Sebastián + ChatGPT |
+| 7A-01 | **Fuga vendor-three (216,48 kB gzip) en TODAS las rutas** — ¿Fase 7B mínima de fix (sustituir useProgress de drei en Loader.jsx) o registrar como deuda para Fase 12? (pregunta cerrada formulada en FASE7A-FORENSIC.md y 3D-ADMISSION-RECORD.md) | Arquitecto (ChatGPT) + Sebastián |
+| — | **Veredicto del auditor sobre FASE 7A** (diagnóstico A–J: REJECTED parkour + hallazgo 7A-01) antes de cualquier paso siguiente | ChatGPT + Sebastián |
+| DP-5 | ELITE "acceso de por vida" — decisión comercial/legal (fuera de fase, PROMPT MAESTRO V2.0 §27) | Sebastián |
 | — | Registro de GEMINI_API_KEY / GROQ_API_KEY (fuera del repo; las registra él vía setx) | Sebastián |
 
 > DF-006 quedó **APROBADA** el 2026-08-27 (FASE 6 = WORLD BUILDING); traza completa en DECISIONS.md.
