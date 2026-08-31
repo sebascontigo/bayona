@@ -160,6 +160,13 @@
 }
 
 @media (max-width: 600px) {
+  /* Fase 9.1-F (QA móvil): el pie es zona de pulgar — cada enlace gana el
+     mínimo táctil recomendado (44px). Solo en móvil; el desktop conserva su
+     densidad editorial. Los 9 links medidos a 30px pasan a 44. */
+  .footer-column a {
+    min-height: 44px;
+  }
+
   .footer-top p {
     font-size: 17px;
   }
