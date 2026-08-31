@@ -12,6 +12,16 @@ vi.mock('framer-motion', () => ({
   }),
   AnimatePresence: ({ children }) => children,
   useReducedMotion: () => false,
+  // Fase 8 (bloque G — StickyStage en la sección RECORRIDO): el mock debe
+  // cubrir el contrato de hooks del engine (useSectionProgress consume
+  // useScroll/useTransform). MotionValue mínimo.
+  useScroll: () => ({
+    scrollY: { get: () => 0, set: () => {}, on: () => () => {} },
+    scrollYProgress: { get: () => 0, set: () => {}, on: () => () => {} },
+  }),
+  useTransform: () => ({ get: () => 0, set: () => {}, on: () => () => {} }),
+  useMotionValue: () => ({ get: () => 0, set: () => {}, on: () => () => {} }),
+  useMotionValueEvent: () => {},
 }))
 
 vi.mock('../components/Layout', () => ({

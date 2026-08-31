@@ -2,6 +2,7 @@ import { motion } from 'framer-motion'
 import { ArrowUpRight, Award, BrainCircuit, GraduationCap, ShieldCheck } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import GlobeTestimonials from '../components/GlobeTestimonials.jsx'
+import { StickyStage } from '../engine/scroll/StickyStage.jsx'
 import Bridge from '../components/Bridge'
 import { sceneBackgroundProps } from '../components/SceneBackground.jsx'
 import { PageHero, SectionLabel } from '../components/Layout'
@@ -119,35 +120,52 @@ export default function About() {
             </p>
           </div>
         </div>
-        <motion.ol
-          className="about-timeline section-shell"
-          initial={reducedMotion ? false : 'hidden'}
-          whileInView="visible"
-          viewport={{ once: true, margin: '-60px' }}
-          variants={{ visible: { transition: { staggerChildren: 0.08 } } }}
+        {/*
+          FASE 8 · BLOQUE G — "LA LÍNEA DE VIDA" (sección RECORRIDO de About).
+          Identidad PROPIA, tercera y distinta: la Home recorre una secuencia
+          lógica en horizontal; parkour sube una escalera; About ES EL TIEMPO —
+          una biografía. El marco queda fijado y cada etapa reemplaza a la
+          anterior en el mismo plano, con el año como sello gigante que
+          permanece unos instantes y cede su sitio al siguiente. La historia
+          de una vida se lee con el scroll, no como lista de credenciales
+          (el copy ya lo prometía: "no es una sucesión de credenciales").
+          Motor: StickyStage del engine (2D puro). Reduced-motion/móvil: pila
+          estática legible por diseño del componente.
+        */}
+        <StickyStage
+          length="400vh"
+          states={stages.length}
+          className="about-timeline about-timeline--stage section-shell"
         >
-          {stages.map((stage) => (
-            <motion.li
-              key={stage.number}
-              className="about-timeline-entry"
-              variants={{
-                hidden: { opacity: 0, y: 24 },
-                visible: { opacity: 1, y: 0, transition: { duration: reducedMotion ? 0 : 0.55 } },
-              }}
-            >
-              <div className="about-timeline-meta">
-                <span>{stage.number}</span>
-                <time>{stage.year}</time>
-              </div>
-              <div className="about-timeline-copy">
-                <h3>{stage.title}</h3>
-                <p>{stage.copy}</p>
-              </div>
-              <span className="about-timeline-rule" aria-hidden="true" />
-              <span className="about-timeline-index" aria-hidden="true">{stage.number}</span>
-            </motion.li>
-          ))}
-        </motion.ol>
+          {({ index }) => (
+            <div className="about-timeline-stage" aria-live="polite">
+              {stages.map((stage, stageIndex) => {
+                const isActive = stageIndex === index
+                return (
+                  <article
+                    key={stage.number}
+                    className={[
+                      'about-timeline-entry',
+                      'about-timeline-entry--stage',
+                      isActive ? 'about-timeline-entry--active' : '',
+                    ].filter(Boolean).join(' ')}
+                    data-year={stage.year}
+                    aria-current={isActive ? 'step' : undefined}
+                  >
+                    <div className="about-timeline-meta">
+                      <span>{stage.number}</span>
+                      <time>{stage.year}</time>
+                    </div>
+                    <div className="about-timeline-copy">
+                      <h3>{stage.title}</h3>
+                      <p>{stage.copy}</p>
+                    </div>
+                  </article>
+                )
+              })}
+            </div>
+          )}
+        </StickyStage>
       </section>
 
       <section className="about-values-section" aria-labelledby="about-values-title">

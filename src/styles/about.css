@@ -1354,3 +1354,82 @@
     scroll-behavior: auto;
   }
 }
+
+/* ==========================================================================
+   FASE 8 · BLOQUE G — "LA LÍNEA DE VIDA" (sección RECORRIDO de About).
+   Capa ADITIVA: solo actúa con about-timeline--stage (StickyStage). Sin esa
+   clase, el layout original de about-timeline queda intacto.
+   Identidad PROPIA (tercera): la Home recorre horizontal, parkour sube —
+   About ES EL TIEMPO. Cada etapa reemplaza a la anterior en el mismo plano
+   (una biografía, no una lista) y el año queda como sello de agua gigante
+   que cede su sitio al siguiente. La alternancia par/impar del layout
+   original se conserva por etapa: la vida no es simétrica.
+   ========================================================================== */
+
+.about-timeline--stage {
+  display: block;
+  border-top: 1px solid rgba(255, 255, 255, 0.14);
+}
+
+.about-timeline-stage {
+  position: relative;
+  display: grid;
+  grid-template-rows: 100%;
+  width: 100%;
+  min-height: min(62vh, 540px);
+  align-content: center;
+}
+
+.about-timeline-entry--stage {
+  grid-row: 1;
+  grid-column: 1;
+  align-self: center;
+  border-top: none;
+  /* Reemplazo en el mismo plano: la etapa nueva cruza el plano de la vieja. */
+  opacity: 0;
+  transform: translateY(30px) scale(0.995);
+  transition:
+    opacity 0.65s var(--ease-transform, cubic-bezier(0.22, 1, 0.36, 1)),
+    transform 0.65s var(--ease-transform, cubic-bezier(0.22, 1, 0.36, 1));
+  pointer-events: none;
+  /* Sello del año: reutiliza la escala de about-timeline-index pero como
+     año (tiempo), abajo a la derecha — cada etapa firma su época. */
+}
+
+.about-timeline-entry--stage::after {
+  content: attr(data-year);
+  position: absolute;
+  right: 0;
+  bottom: -0.28em;
+  color: rgba(255, 255, 255, 0.025);
+  font-size: clamp(110px, 20vw, 280px);
+  font-weight: 900;
+  line-height: 0.8;
+  pointer-events: none;
+}
+
+.about-timeline-entry--stage.about-timeline-entry--active {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  pointer-events: auto;
+}
+
+/* Reduced-motion / móvil: pila estática legible; los sellos de año se
+   conservan como marca de agua (legible, sin movimiento). */
+.sticky-stage--static .about-timeline-stage {
+  display: block;
+  min-height: 0;
+}
+
+.sticky-stage--static .about-timeline-entry--stage {
+  opacity: 1;
+  transform: none;
+  transition: none;
+  border-top: 1px solid rgba(255, 255, 255, 0.14);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .about-timeline-entry--stage {
+    transition: none;
+  }
+}
