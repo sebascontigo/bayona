@@ -113,6 +113,64 @@ export function Navbar() {
     const focusFrame = window.requestAnimationFrame(() => {
       mobileNavRef.current?.querySelector('a')?.focus()
     })
+
+    // Fase 9.0-B (hallazgo del arquitecto): focus TRAP real dentro del menú.
+    // El Tab desde el último enlace ya no escapa al contenido oculto detrás
+    // del overlay: el ciclo se cierra entre el botón de menú y los enlaces.
+    // Infraestructura existente (keydown), 0 dependencias nuevas.
+    const FOCUSABLE_SELECTOR =
+      'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])'
+    const trapTabKey = (event) => {
+      if (event.key !== 'Tab') return
+
+      // Ciclo REAL de foco del menú abierto: enlaces del panel + botón que
+      // lo abre/cierra (que vive en el header, fuera del panel). La
+      // depuración en ejecución (f9-trap-debug) mostró que el navegador
+      // sigue el orden DOM: tras el último enlace del panel el Tab natural
+      // aterriza en elementos del BODY (ancla VER PLANES), no en el botón.
+      // Por eso el trap NO asume un "último" del array: captura el Tab
+      // siempre que el foco actual NO esté ya en el ciclo, y entonces lo
+      // redirige al extremo correcto. Si el foco está dentro del ciclo,
+      // el Tab natural entre elementos del ciclo se respeta.
+      const panelItems = [
+        ...(mobileNavRef.current?.querySelectorAll(FOCUSABLE_SELECTOR) ?? []),
+      ].filter(Boolean)
+      if (panelItems.length === 0) return
+
+      const menuButton = menuButtonRef.current
+      const active = document.activeElement
+      const lastPanelItem = panelItems[panelItems.length - 1]
+
+      if (event.shiftKey) {
+        // Shift+Tab desde el botón del menú: saltar al final del panel (el
+        // anterior natural del botón es contenido del body, no el panel).
+        if (menuButton && active === menuButton) {
+          event.preventDefault()
+          lastPanelItem.focus()
+          return
+        }
+        // Shift+Tab con el foco perdido fuera del anillo: volver al botón.
+        if (!panelItems.includes(active) && active !== menuButton) {
+          event.preventDefault()
+          ;(menuButton ?? lastPanelItem).focus()
+        }
+      } else {
+        // Tab desde el último elemento del panel: el siguiente natural en el
+        // DOM es contenido del BODY (VER PLANES), no el botón del menú
+        // (que está antes del panel). Cerramos el anillo a mano.
+        if (active === lastPanelItem) {
+          event.preventDefault()
+          ;(menuButton ?? panelItems[0]).focus()
+          return
+        }
+        // Tab con el foco perdido fuera del anillo: volver al primer enlace.
+        if (!panelItems.includes(active) && active !== menuButton) {
+          event.preventDefault()
+          panelItems[0].focus()
+        }
+      }
+    }
+
     const closeOnEscape = (event) => {
       if (event.key !== 'Escape') return
       setOpen(false)
@@ -120,9 +178,11 @@ export function Navbar() {
     }
 
     document.addEventListener('keydown', closeOnEscape)
+    document.addEventListener('keydown', trapTabKey)
     return () => {
       window.cancelAnimationFrame(focusFrame)
       document.removeEventListener('keydown', closeOnEscape)
+      document.removeEventListener('keydown', trapTabKey)
       document.body.style.overflow = previousOverflow
     }
   }, [open])
