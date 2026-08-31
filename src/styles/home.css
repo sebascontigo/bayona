@@ -4088,3 +4088,73 @@
     transition: none;
   }
 }
+
+/* ==========================================================================
+   FASE 8 · BLOQUE H — "EL HERO RESPIRA" (elevación del hero de la Home).
+   Capa ADITIVA: los 6 puntos existentes ganan vida propia — cada uno deriva
+   en su propia órbita muy lenta (30-70s, imperceptiblemente distinta), como
+   partículas de polvo en un haz de luz, y el conjunto se separa en 3 planos
+   de profundidad (escala distinta por partícula) para que el parallax del
+   puntero existente tenga RELIEVE real que mover.
+   Identidad propia (cuarto lenguaje): la Home recorre, parkour sube, About
+   es el tiempo — el hero RESPIRA. Calma atlética, no fuegos artificiales.
+   Reduced-motion: la respiración se detiene por completo (los puntos quedan
+   donde están; el contenido nunca dependió de ellos). La regla R20.5/R19.3
+   del motor: el movimiento es mejora, nunca información.
+   ========================================================================== */
+
+@media (prefers-reduced-motion: no-preference) {
+  .hero-particles span {
+    /* Cada punto con su duración y desfase: órbitas desincronizadas = polvo
+       real, no una animación de demo. Radio de deriva pequeño (8-14px):
+       "respiración", no vuelo. */
+    animation: hero-particle-drift var(--particle-duration, 54s)
+      var(--ease-transform, cubic-bezier(0.37, 0, 0.63, 1))
+      var(--particle-delay, 0s)
+      infinite alternate;
+  }
+
+  .hero-particles span:nth-child(1) { --particle-duration: 58s; --particle-delay: -4s; }
+  .hero-particles span:nth-child(2) { --particle-duration: 44s; --particle-delay: -21s; }
+  .hero-particles span:nth-child(3) { --particle-duration: 66s; --particle-delay: -13s; }
+  .hero-particles span:nth-child(4) { --particle-duration: 50s; --particle-delay: -33s; }
+  .hero-particles span:nth-child(5) { --particle-duration: 72s; --particle-delay: -8s; }
+  .hero-particles span:nth-child(6) { --particle-duration: 48s; --particle-delay: -26s; }
+
+  @keyframes hero-particle-drift {
+    0% {
+      translate: 0 0;
+    }
+    50% {
+      /* La deriva diagonal + un micro-ascenso: el polvo de un gimnasio con
+         luz de tarde sube lento. */
+      translate: calc(var(--particle-size, 3px) * -3.4) calc(var(--particle-size, 3px) * -4.2);
+    }
+    100% {
+      translate: calc(var(--particle-size, 3px) * 2.6) calc(var(--particle-size, 3px) * -1.8);
+    }
+  }
+
+  /* La aurora del fondo gana la misma respiración, en contrafase: mientras
+     el polvo sube, la luz cede — dos capas vivas, no una. */
+  .hero-aurora {
+    animation: hero-aurora-breathe 26s
+      cubic-bezier(0.45, 0, 0.55, 1)
+      infinite alternate;
+  }
+
+  @keyframes hero-aurora-breathe {
+    from {
+      opacity: 0.86;
+      scale: 1;
+    }
+    to {
+      opacity: 1;
+      scale: 1.045;
+    }
+  }
+}
+
+/* Móvil (sin hover): la respiración sigue — es el único movimiento del hero
+   que puede permitirse en gama baja (6 elementos, transform-only, sin
+   listeners). El parallax de puntero ya se autodesactiva sin hover: hover. */
