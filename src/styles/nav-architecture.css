@@ -108,3 +108,67 @@
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
+
+
+/* ==========================================================================
+   FASE 9.1-D — FOOTER "LA FIRMA" (cierre editorial quieto, H-91.5).
+   Se añade AQUÍ porque esta capa es la que matiza el pie por diseño (ver
+   comentario de import en main.jsx) y su .footer-column a (mono 9px, arriba)
+   es la referencia visual que estos estados refinan. Cambios: el tagline de
+   marca asciende a firma editorial (ya no microcopy 12px muted); el bloque
+   ENTRAR pasa de parrilla administrativa a CTA de cierre con presencia de
+   decisión; los grupos quedan en reposo legible. Footer quieto: 0 animación
+   nueva, 0 JS, el impacto es escala/espacio/tipografía.
+   ========================================================================== */
+
+.footer-top {
+  gap: 22px;
+}
+
+.footer-top p {
+  max-width: 460px;
+  color: var(--bayona-white);
+  font-family: 'Montserrat', sans-serif;
+  font-size: clamp(16px, 1.6vw, 21px);
+  font-weight: 500;
+  line-height: 1.35;
+  letter-spacing: -0.01em;
+}
+
+/* CTA de cierre: los 2 caminos existentes (recepción / humano) con presencia
+   de decisión. Selector con la doble clase real del JSX (.footer-column
+   .footer-entry) = (0,2,1): gana por ESPECIFICIDAD sobre .footer-column a,
+   sin importar el orden interno de esta capa. */
+.footer-column.footer-entry a {
+  font: 800 13px/1 'Montserrat', sans-serif;
+  letter-spacing: 0.04em;
+  text-transform: none;
+  color: var(--bayona-white);
+  border-bottom: 2px solid var(--bayona-orange);
+  padding-bottom: 6px;
+  transition: color 0.25s var(--luxury-ease, cubic-bezier(0.22, 1, 0.36, 1));
+}
+
+.footer-column.footer-entry a:hover {
+  color: var(--bayona-orange);
+  padding-left: 0;
+}
+
+/* Grupos: orientan en reposo (10px mono, un escalón sobre los 9px base). */
+.footer-column a {
+  font-size: 10px;
+}
+
+@media (max-width: 600px) {
+  .footer-top p {
+    font-size: 17px;
+  }
+
+  .footer-column.footer-entry a {
+    font-size: 12px;
+  }
+
+  .footer-entry a + a {
+    margin-top: 8px;
+  }
+}
