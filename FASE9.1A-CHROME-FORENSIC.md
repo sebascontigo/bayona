@@ -93,3 +93,32 @@ v2-typography (282 líneas) ya reseteó la escala por rol semántico en F3; luxu
 4. **9.1-F:** visual QA 6 breakpoints + gates completos + evidencia.
 
 *Diagnóstico puro — ningún archivo de código fue modificado en este bloque (solo este documento). Scripts de inspección usados: ejecución local, no commiteados.*
+
+---
+
+# CRÍTICO INVISIBLE — VERIFICACIÓN DEL DIAGNÓSTICO 9.1-A (capa 2, 2026-08-31)
+
+> Encargo específico del arquitecto: "no aceptes automáticamente que el footer sea el P1... verifica si realmente es la intervención de mayor impacto perceptual." Ejecutado contra `69d1863` (= origin/main) con recorrido perceptual REAL del flow completo (/, /about, /programs, /parkour-academy, /plan/fuerza, /checkout) por DOM/texto.
+
+## La pregunta central: quitando el logo, ¿BAYONA tiene identidad propia? [MEDIDO]
+**SÍ.** El recorrido real lo confirma: H1 de 86-122px con voz editorial propia ("CONSTRUYE LA VERSIÓN MÁS FUERTE DE TI", "LA CIUDAD SE APRENDE EN MOVIMIENTO", "ENTRENA CON ALGUIEN. NO SOLO."), momentos H2 con criterio ("NO HAY UN CUERPO IDEAL. HAY UN SIGUIENTE", "TU EDAD, TU NIVEL Y TU OBJETIVO IMPORTAN"). Ninguna frase hueca, ninguna plantilla fitness. La identidad de copy está al nivel; lo que falta es composición del cierre, no voz.
+
+## ¿Es el footer realmente el P1? — CONTRASTE contra alternativas
+| Candidato a P1 | Evidencia medida | Veredicto del contraste |
+|---|---|---|
+| **Footer** [MEDIDO] | Existe en las 8 rutas (14 links, 5 columnas — verificado tras corregir mi propio instrumento: un script medía el disclaimer de Home en vez del footer global; la web estaba bien, el instrumento no). Pero: `footerHeight: 89px` **en el viewport desktop** — el pie completo queda POR DEBAJO del pliegue inicial del cierre; su tagline a 10px; sin escala de marca | **SE CONFIRMA como P1 de PERCEPCIÓN** — es la última impresión de las 8 rutas y hoy es administrativo-quieto sin ser firma |
+| Hero / material humano [MEDIDO] | /about: **0 imágenes** (6 fondos escénicos); /community: 2 imgs con **0 alt real**; /: 5 imgs (4 con alt). La humanidad vive en copy + testimonios-mapa, NO en fotografía propia | **P1 de MATERIAL, no de código** — el arquitecto ya lo tiene clasificado como categoría B/C (asset humano real). Sin material de Sebastián, más código no lo resuelve. No compite con el footer: es un eje distinto |
+| Ritmo global [CONFIRMADO] | Las 4 metáforas E/F/G/H viven verificadas (auditoría 9.0/9.1-A); el flow entero tiene H1s de escala consistente 86px | **No es el cuello de botella** — resuelto en F8 |
+| Navbar [MEDIDO] | Funcional completo + focus trap 9.0; blur constante 7px = el único costo real | P2 correcto (H-91.1) — afecta coste móvil, no percepción dominante |
+
+## Momento más memorable actual (flow completo)
+La escalera de parkour subiendo (F) y el sello de año gigante (G) — ambos verificados en ejecución en fases previas. **El momento más débil: el final del viaje** — tras NextChapter (que sí cierra narrativamente), llega un pie de 10px. El cierre emocional existe (NextChapter), el cierre FÍSICO de marca no (footer plano). Esa costura es exactamente H-91.5.
+
+## Hallazgo nuevo del crítico (no estaba en 9.1-A)
+- **H-91.6 (LOW, a11y):** /community: 2 `<img>` sin alt descriptivo [MEDIDO]. Deuda de accesibilidad menor, no bloquea 9.1.
+- **Falsa alarma documentada honestamente:** "footer no renderiza en Home" — ERA MI INSTRUMENTO (querySelector caía en el disclaimer). Corregido y re-verificado: 14 links × 8 rutas. Lección del Protocolo: incluir en el registro para no sembrar falsos hallazgos.
+
+## Veredicto del Crítico Invisible
+**A — EJECUTAR INTERVENCIÓN (footer editorial = P1 confirmado), con los P2 (navbar blur + z-escala) en el mismo paso, sin tocar lo memorable.**
+- Qué NO tocar: H1s y su escala (86px consistente), las 4 metáforas, NextChapter, el copy (está al nivel), PageTransition, cursor.
+- Material humano que desbloquearía el siguiente nivel (para Sebastián): fotografía real de entrenamiento/sesiones para /about y /community — es el único eje donde más código ya no suma.
