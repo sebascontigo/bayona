@@ -661,13 +661,15 @@ export default function Home() {
               El contenido es HTML real: mismos h3, mismos textos del catálogo.
             */}
             <StickyStage length="300vh" states={homeMechanismBlock.items.length} className="mechanism-steps mechanism-steps--stage">
-              {({ index }) => (
+              {({ index, isStatic }) => (
                 <div
                   className="mechanism-stage-frame"
                   aria-live="polite"
                   style={{ '--stage-progress': `${((index + 1) / homeMechanismBlock.items.length) * 100}%` }}
                 >
-                  {homeMechanismBlock.items.map((step, stepIndex) => {
+                  {homeMechanismBlock.items
+                    .filter((step, stepIndex) => (isStatic ? stepIndex === index : true))
+                    .map((step, stepIndex) => {
                     const isActive = stepIndex === index
                     const isPast = stepIndex < index
                     return (

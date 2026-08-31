@@ -137,9 +137,11 @@ export default function About() {
           states={stages.length}
           className="about-timeline about-timeline--stage section-shell"
         >
-          {({ index }) => (
+          {({ index, isStatic }) => (
             <div className="about-timeline-stage" aria-live="polite">
-              {stages.map((stage, stageIndex) => {
+              {stages
+                .filter((stage, stageIndex) => (isStatic ? stageIndex === index : true))
+                .map((stage, stageIndex) => {
                 const isActive = stageIndex === index
                 return (
                   <article

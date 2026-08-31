@@ -113,13 +113,15 @@ export default function ParkourAcademy() {
           móvil: pila estática legible por diseño del componente.
         */}
         <StickyStage length="300vh" states={levels.length} className="academy-level-grid academy-level-grid--stage">
-          {({ index }) => (
+          {({ index, isStatic }) => (
             <div
               className="academy-level-stage"
               aria-live="polite"
               style={{ '--stage-fill': `${((index + 1) / levels.length) * 100}%` }}
             >
-              {levels.map(([number, title, subtitle, skills], levelIndex) => {
+              {levels
+                .filter((_, levelIndex) => (isStatic ? levelIndex === index : true))
+                .map(([number, title, subtitle, skills], levelIndex) => {
                 const isActive = levelIndex === index
                 const isPast = levelIndex < index
                 return (

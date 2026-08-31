@@ -93,20 +93,24 @@ export function StickyStage({
     })
   })
 
-  const renderChildren = (stateIndex, stateProgress) =>
+  // El contrato del children incluye `isStatic`: en el fallback apilado cada
+  // frame debe renderizar SOLO su estado; en el escenario fijo el consumidor
+  // pinta todos los estados (superposición con el activo destacado).
+  // Fase 9.0-A (hallazgo del arquitecto): sin este flag, cada frame pintaba
+  // TODOS los estados -> N×N artículos visibles en móvil/reduced-motion.
+  const renderChildren = (stateIndex, stateProgress, isStatic = false) =>
     typeof children === 'function'
-      ? children({ index: stateIndex, progress: stateProgress })
+      ? children({ index: stateIndex, progress: stateProgress, isStatic })
       : children
 
-  // Movimiento reducido o movil: secuencia estatica apilada. Cada estado se
-  // entrega con un progreso representativo para que el contenido sea
-  // completo y legible sin scroll narrativo.
+  // Movimiento reducido o movil: secuencia estatica apilada. Cada frame
+  // entrega su estado; el consumidor decide pintar solo ese paso (isStatic).
   if (reducedMotion || mode !== 'desktop') {
     return (
       <section className={`sticky-stage sticky-stage--static ${className}`.trim()} ref={ref}>
         {Array.from({ length: count }, (_, stateIndex) => (
           <div className="sticky-stage-frame" key={stateIndex}>
-            {renderChildren(stateIndex, count > 1 ? stateIndex / (count - 1) : 1)}
+            {renderChildren(stateIndex, count > 1 ? stateIndex / (count - 1) : 1, true)}
           </div>
         ))}
       </section>
@@ -116,7 +120,7 @@ export function StickyStage({
   return (
     <section className={`sticky-stage ${className}`.trim()} style={{ height: safeLength }} ref={ref}>
       <div className="sticky-stage-viewport" style={{ top: topOffset }}>
-        {renderChildren(index, progress)}
+        {renderChildren(index, progress, false)}
       </div>
     </section>
   )
