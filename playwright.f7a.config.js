@@ -12,7 +12,7 @@ const baseURL = 'http://127.0.0.1:4174'
 export default defineConfig({
   testDir: './e2e',
   // Solo los specs de Fase 7A corren bajo esta config.
-  testMatch: '**/*{three-network-audit,webvitals-lab}.spec.js',
+  testMatch: '**/*{three-network-audit,webvitals-lab,f8-consolidation}.spec.js',
   outputDir: 'test-results/playwright-f7a',
   fullyParallel: false,
   forbidOnly: true,
