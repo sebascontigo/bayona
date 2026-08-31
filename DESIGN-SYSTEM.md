@@ -257,7 +257,19 @@ baseline pública se conservan como referencia histórica**.
 | CONTENIDO | 1–90 | sticky de página, whatsapp flotante (30), consent (60), translate (45) | SÍ | cada página / componentes |
 | NAV | 100 | `.navbar` (fixed) | SÍ | Layout.jsx |
 | PROGRESO | 9998 | `.scroll-progress` (barra 2px) | no (aria-hidden) | Experience.jsx |
-| **COLISIÓN INERTE** | 9999 | grain de película (v3-finish) **y** cortina PageTransition | **no — ambos `pointer-events:none`** | v3-finish.css / PageTransition.jsx |
+| **COLISIÓN INERTE** | 9999 | grain del engine (GrainOverlay, opacity computada **0.02** en ejecución) **y** cortina PageTransition | **no — ambos `pointer-events:none`** | GrainOverlay.jsx / PageTransition.jsx |
+| **DECORATIVE TOPMOST** ⚠️ | 2147483647 | grain fílmico v3 (`body::after`, opacity **0.05**, anim `grain-shift 1.1s steps(6) infinite` — desactivada en reduced-motion) | **no — `pointer-events:none`** | v3-finish.css |
+
+> **Excepción DECORATIVE TOPMOST (Fase 9.1, reconciliación del arquitecto):** el
+> grain v3 vive por encima de toda la escala con el máximo entero de z-index.
+> Es válida SOLO bajo estas condiciones vinculantes: `pointer-events: none`,
+> decorativo únicamente, sin interacción. **No disponible para componentes
+> nuevos ni reutilizable libremente; requiere justificación explícita.**
+> Reconciliación medida (2026-09-01, ejecución real): coexisten 2 grains
+> activos — engine (0.02, estático) + v3 (0.05, animado). El coste acumulado
+> de la animación global infinita NO está medido: queda registrado como
+> pendiente del presupuesto de rendimiento perceptual (§ regla de efectos
+> globales permanentes).
 | CURSOR | 10001 | `.bayona-cursor` | no | CustomCursor.jsx |
 | RECURSOS/APP | 10000 | banners contextuales de resources/app | SÍ | páginas |
 | LOADER | 100000 | pantalla de carga inicial (transitoria) | no | Loader.jsx |
