@@ -241,3 +241,29 @@ baseline pública se conservan como referencia histórica**.
 4. Las decisiones pendientes de la Fase 2 (**DP-1…DP-5**) siguen abiertas y
    se resolverán en la arquitectura UX/UI posterior; ninguna ha bloqueado
    esta fase ni se ha resuelto arbitrariamente.
+
+
+---
+
+## 16. ESCALA DE PROFUNDIDAD GLOBAL (z-index) — Fase 9.1-C
+
+> Fuente: auditoría forense 9.1-A con ejecución real (FASE9.1A-CHROME-FORENSIC.md).
+> Los números son el estado MEDIDO del repo, no una aspiración. Regla de gobernanza:
+> esta tabla es vinculante para CUALQUIER overlay nuevo — un z fuera de su nivel
+> rompe el contrato visual y se considera bug de arquitectura.
+
+| Nivel | z real | Qué vive ahí | Interactivo | Dueño |
+|---|---|---|---|---|
+| CONTENIDO | 1–90 | sticky de página, whatsapp flotante (30), consent (60), translate (45) | SÍ | cada página / componentes |
+| NAV | 100 | `.navbar` (fixed) | SÍ | Layout.jsx |
+| PROGRESO | 9998 | `.scroll-progress` (barra 2px) | no (aria-hidden) | Experience.jsx |
+| **COLISIÓN INERTE** | 9999 | grain de película (v3-finish) **y** cortina PageTransition | **no — ambos `pointer-events:none`** | v3-finish.css / PageTransition.jsx |
+| CURSOR | 10001 | `.bayona-cursor` | no | CustomCursor.jsx |
+| RECURSOS/APP | 10000 | banners contextuales de resources/app | SÍ | páginas |
+| LOADER | 100000 | pantalla de carga inicial (transitoria) | no | Loader.jsx |
+| CART/MODAL | 11000–12000 | CartDrawer y modales | SÍ (atrapan) | cart.css |
+
+**Reglas derivadas (HARD):**
+1. La colisión 9999 grain↔cortina es válida SOLO porque ambos son decorativos e inertes. **Cualquier overlay interactivo nuevo PROHIBIDO en 9999** — debe usar el nivel MODAL (11000+).
+2. El cursor (10001) pasa por encima de la cortina deliberadamente: la firma sigue al usuario durante la navegación. No es bug; es diseño.
+3. Un overlay nuevo elige nivel por su función, nunca por número libre. Si no cabe un nivel: se discute en DS antes de escribir el número.
