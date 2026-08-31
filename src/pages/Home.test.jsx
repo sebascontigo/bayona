@@ -200,8 +200,10 @@ describe('Home — narrativa premium y contenido crítico', () => {
     expect(within(mechanismSection).getByText(mechanismBlock.body)).toBeInTheDocument()
     expect(stepTitles).toHaveLength(mechanismBlock.items.length)
     stepTitles.forEach((matches) => {
-      // Cada paso existe al menos una vez en el DOM del fallback.
-      expect(matches.length).toBeGreaterThan(0)
+      // Fase 9.0-A: cada paso existe EXACTAMENTE una vez. El fallback estático
+      // renderiza un solo paso por frame (contrato isStatic de StickyStage);
+      // duplicados (el bug N×N del arquitecto) vuelven a romper este test.
+      expect(matches.length).toBe(1)
     })
     expect(within(mechanismSection).getByRole('complementary', {
       name: 'Límite profesional',
