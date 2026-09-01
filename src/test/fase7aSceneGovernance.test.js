@@ -179,6 +179,39 @@ describe('gobernanza de escenas 3D (Fase 7A)', () => {
     ).toEqual([])
   })
 
+  it('9.2-B: ninguna animación infinita de grain/textura global está activa (presupuesto de efectos permanentes)', () => {
+    // Guard del experimento 9.2-B: la animación grain-shift infinita carryaba
+    // TODO el coste de composición medido (58ms vs 18.5ms scroll desktop, 220 vs 8
+    // dropped). Este test impide reintroducir CUALQUIER animación infinita sobre
+    // los overlays de textura globales (body::after o GrainOverlay) sin pasar
+    // por un nuevo experimento con medición. La textura estática es gratis.
+    const cssFiles = []
+    const walk = (dir) => {
+      for (const entry of readdirSync(dir, { withFileTypes: true })) {
+        const p = join(dir, entry.name)
+        if (entry.isDirectory()) walk(p)
+        else if (entry.name.endsWith('.css')) cssFiles.push(p)
+      }
+    }
+    walk('src/styles')
+    cssFiles.push('src/overrides.css', 'src/styles.css')
+    const offenders = []
+    for (const file of cssFiles) {
+      const src = readFileSync(file, 'utf8')
+      // animación infinita declarada sobre body::after o selectores de grain
+      const grainAnim = /body::after[^{]*\{[^}]*(?:animation[^;]*infinite|animation-name[^;]*grain)/s
+      if (grainAnim.test(src)) offenders.push(file)
+      // cualquier keyframe llamado grain-* vivo + usado en infinite
+      if (/grain[^{]*\{[^}]*animation[^;]*infinite/s.test(src)) offenders.push(file)
+    }
+    expect(
+      offenders,
+      'Animación infinita de grain global detectada en ' + offenders.join(', ') +
+        '. El presupuesto 9.2-B la retiró por medición (ver FASE9.2B); ' +
+        'reintroducirla exige un nuevo experimento con evidencia.',
+    ).toEqual([])
+  })
+
   it('7B: los ÚNICOS archivos de producción con import de @react-three son los módulos de escena (lazy)', () => {
     // Inventario cerrado post-7B: exactamente estos 5 archivos (todos dentro
     // de engine/scene/, todos alcanzables SOLO vía lazy()). Si aparece uno
