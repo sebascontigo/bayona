@@ -17,14 +17,17 @@
 /* --- Grano fílmico -------------------------------------------------------
  * Textura sobre el negro puro. Overlay global DECORATIVE TOPMOST (DS §16):
  * sin captura de puntero, decorativo, no reutilizable.
- * Fase 9.2-B (experimento grain, 3 muestras + aislamiento): la animación
- * grain-shift steps(6) infinita carryaba TODO el coste de composición
- * (scroll desktop 58ms/220-dropped con animación vs 18.5ms/8 sin ella; el
- * grain estático mide igual que no-grain). La textura es esencialmente
- * gratis; el movimiento no. El grano queda ESTÁTICO para todos: es el mismo
- * acabado que reduced-motion ya aprobaba (verificado 9.1) — ahora la
- * experiencia es idéntica para todos los usuarios y el frame budget deja de
- * pagar una animación global permanente por identidad que la textura ya da. */
+ * Fase 9.2-B (experimento grain, 3 muestras + aislamiento; evidencia en
+ * artifacts/fase9/9.2-b/): en el laboratorio headless, la animación
+ * grain-shift steps(6) infinita carryaba TODO el delta medido de coste de
+ * composición (scroll desktop 58ms/220-dropped con animación vs 18.5ms/8
+ * sin ella) y la textura estática quedó dentro del ruido observado respecto
+ * a no-grain (GPU física: NO MEDIDA). El grano queda ESTÁTICO para todos:
+ * es el mismo acabado que reduced-motion ya aprobaba (verificado 9.1) —
+ * ahora la experiencia es idéntica para todos los usuarios y el frame
+ * budget deja de pagar una animación global permanente por identidad que
+ * la textura ya da. Reintroducirla exige un nuevo experimento (guard
+ * fase7aSceneGovernance 9.2-B). */
 body::after {
   content: "";
   position: fixed;

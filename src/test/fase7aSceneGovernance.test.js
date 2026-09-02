@@ -181,10 +181,13 @@ describe('gobernanza de escenas 3D (Fase 7A)', () => {
 
   it('9.2-B: ninguna animación infinita de grain/textura global está activa (presupuesto de efectos permanentes)', () => {
     // Guard del experimento 9.2-B: la animación grain-shift infinita carryaba
-    // TODO el coste de composición medido (58ms vs 18.5ms scroll desktop, 220 vs 8
-    // dropped). Este test impide reintroducir CUALQUIER animación infinita sobre
-    // los overlays de textura globales (body::after o GrainOverlay) sin pasar
-    // por un nuevo experimento con medición. La textura estática es gratis.
+    // TODO el delta de coste de composición MEDIDO EN EL LABORATORIO (58ms vs
+    // 18.5ms scroll desktop, 220 vs 8 dropped; 3 muestras, ver
+    // artifacts/fase9/9.2-b/metadata.json). Este test impide reintroducir
+    // CUALQUIER animación infinita sobre los overlays de textura globales
+    // (body::after o GrainOverlay) sin pasar por un nuevo experimento con
+    // medición. La textura estática no mostró delta material en ese entorno
+    // (GPU física: NO MEDIDA).
     const cssFiles = []
     const walk = (dir) => {
       for (const entry of readdirSync(dir, { withFileTypes: true })) {
@@ -207,9 +210,62 @@ describe('gobernanza de escenas 3D (Fase 7A)', () => {
     expect(
       offenders,
       'Animación infinita de grain global detectada en ' + offenders.join(', ') +
-        '. El presupuesto 9.2-B la retiró por medición (ver FASE9.2B); ' +
+        '. El presupuesto 9.2-B la retiró por medición (ver artifacts/fase9/9.2-b/metadata.json); ' +
         'reintroducirla exige un nuevo experimento con evidencia.',
     ).toEqual([])
+  })
+
+  it('9.2-C: artifacts/fase7a congelado como evidencia histórica de 7A (ningún spec puede sobrescribirla)', () => {
+    // Gobernanza de evidencia 9.2-C: entre 7A y 9.2-B los afterAll de los specs
+    // de medición sobrescribieron artifacts/fase7a 12+ veces (la corrida 9.2-B
+    // reemplazó 3.852 líneas de la evidencia 7A). La evidencia original (fuga
+    // 7A-01 viva, 18/18 rutas) fue restaurada desde 438ba3b. Este guard
+    // mantiene el freeze: si un spec vuelve a apuntar su afterAll a
+    // artifacts/fase7a, o introduce un writer directo a un namespace de fase
+    // congelado, el test se pone rojo. Las corridas "latest" deben escribir en
+    // artifacts/latest/ (gitignored) y promoverse con EVIDENCE_NAMESPACE.
+    const frozenDirs = ['artifacts/fase7a', 'artifacts/fase9']
+    const offenders = []
+    for (const spec of readdirSync('e2e')) {
+      if (!spec.endsWith('.spec.js')) continue
+      const src = readFileSync(join('e2e', spec), 'utf8')
+      // Escritura literal (path entre comillas) a un namespace congelado.
+      if (/(writeFileSync|mkdirSync)\s*\(\s*['"`](artifacts\/fase7a|artifacts\/fase9)\b/.test(src)) {
+        offenders.push(`${spec}: escribe directamente a un namespace congelado`)
+      }
+      // Cualquier ruta de evidencia hardcodeada que NO sea artifacts/latest.
+      const literalDirs = [...src.matchAll(/['"`](artifacts\/[\w./-]+)['"`]/g)].map((m) => m[1])
+      for (const dir of literalDirs) {
+        const root = dir.replace(/\/[^/]+$/, '')
+        if (frozenDirs.includes(root)) {
+          offenders.push(`${spec}: path de evidencia hardcodeado a ${root}`)
+        }
+      }
+    }
+    expect(
+      offenders,
+      'Congelación de evidencia violada: ' + offenders.join('; ') +
+        '. Los specs de medición deben escribir en artifacts/latest (o via ' +
+        'EVIDENCE_NAMESPACE); los namespaces congelados se restauran con git.',
+    ).toEqual([])
+  })
+
+  it('9.2-C: el manifest del experimento grain existe y sus SHAs existen en la historia del repo', () => {
+    // El manifest (artifacts/fase9/9.2-b/metadata.json) es la respuesta a
+    // "¿qué código exacto produjo esta medición?": experimento (ce74bb8),
+    // evidencia (624b06f) y reporte (cafc915) reconciliados. Sin él, en 6
+    // meses los JSON del namespace serían datos sin dueño.
+    const manifest = JSON.parse(readFileSync('artifacts/fase9/9.2-b/metadata.json', 'utf8'))
+    expect(manifest.experiment_id).toBe('grain-budget-9.2-B')
+    expect(manifest.decision).toBe('REMOVE ANIMATION ONLY')
+    expect(manifest.shas.source_commit).toBe('6652392')
+    expect(manifest.shas.experiment_commit).toBe('ce74bb8')
+    expect(manifest.shas.evidence_commit).toBe('624b06f')
+    expect(manifest.shas.report_commit).toBe('cafc915')
+    // Limitaciones obligatorias: el manifest nunca puede presentarse como
+    // evidencia universal si no declara qué NO midió.
+    expect(Array.isArray(manifest.limitations)).toBe(true)
+    expect(manifest.limitations.length).toBeGreaterThan(0)
   })
 
   it('7B: los ÚNICOS archivos de producción con import de @react-three son los módulos de escena (lazy)', () => {

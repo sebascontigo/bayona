@@ -1,0 +1,879 @@
+[
+  {
+    "route": "/",
+    "totalRequests": 19,
+    "jsCount": 3,
+    "cssCount": 2,
+    "jsBytes": 0,
+    "cssBytes": 0,
+    "threeByName": [],
+    "bigUnknown": [],
+    "external": [
+      {
+        "url": "https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Inter:wght@300;400;500;600;700;800&family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,700;1,800;1,900&display=swap",
+        "status": 200,
+        "bytes": null
+      },
+      {
+        "url": "https://fonts.gstatic.com/s/inter/v20/UcC73FwrK3iLTeHuS_nVMrMxCp50SjIa1ZL7.woff2",
+        "status": 200,
+        "bytes": 48256
+      },
+      {
+        "url": "https://fonts.gstatic.com/s/dmmono/v16/aFTU7PB1QTsUX8KYthqQBA.woff2",
+        "status": 200,
+        "bytes": 14820
+      },
+      {
+        "url": "https://fonts.gstatic.com/s/dmmono/v16/aFTR7PB1QTsUX8KYvumzEYOtbQ.woff2",
+        "status": 200,
+        "bytes": 14988
+      },
+      {
+        "url": "https://fonts.gstatic.com/s/montserrat/v31/JTUSjIg1_i6t8kCHKm459Wlhyw.woff2",
+        "status": 200,
+        "bytes": 37956
+      }
+    ],
+    "consoleErrors": [],
+    "pageErrors": [],
+    "jsUrls": [
+      "http://127.0.0.1:4174/assets/vendor-react-DwVTeybM.js",
+      "http://127.0.0.1:4174/assets/vendor-motion-BwdF6Mn6.js",
+      "http://127.0.0.1:4174/assets/index-Ddj7D9Cu.js"
+    ]
+  },
+  {
+    "route": "/about",
+    "totalRequests": 21,
+    "jsCount": 5,
+    "cssCount": 3,
+    "jsBytes": 298,
+    "cssBytes": 0,
+    "threeByName": [],
+    "bigUnknown": [],
+    "external": [
+      {
+        "url": "https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Inter:wght@300;400;500;600;700;800&family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,700;1,800;1,900&display=swap",
+        "status": 200,
+        "bytes": null
+      },
+      {
+        "url": "https://fonts.gstatic.com/s/dmmono/v16/aFTU7PB1QTsUX8KYthqQBA.woff2",
+        "status": 200,
+        "bytes": 14820
+      },
+      {
+        "url": "https://fonts.gstatic.com/s/dmmono/v16/aFTR7PB1QTsUX8KYvumzEYOtbQ.woff2",
+        "status": 200,
+        "bytes": 14988
+      },
+      {
+        "url": "https://fonts.gstatic.com/s/inter/v20/UcC73FwrK3iLTeHuS_nVMrMxCp50SjIa1ZL7.woff2",
+        "status": 200,
+        "bytes": 48256
+      },
+      {
+        "url": "https://fonts.gstatic.com/s/montserrat/v31/JTUSjIg1_i6t8kCHKm459Wlhyw.woff2",
+        "status": 200,
+        "bytes": 37956
+      },
+      {
+        "url": "https://unpkg.com/three-globe/example/img/earth-dark.jpg",
+        "status": 302,
+        "bytes": 61
+      },
+      {
+        "url": "https://unpkg.com/three-globe@2.45.2/example/img/earth-dark.jpg",
+        "status": 200,
+        "bytes": 94795
+      }
+    ],
+    "consoleErrors": [],
+    "pageErrors": [],
+    "jsUrls": [
+      "http://127.0.0.1:4174/assets/vendor-react-DwVTeybM.js",
+      "http://127.0.0.1:4174/assets/vendor-motion-BwdF6Mn6.js",
+      "http://127.0.0.1:4174/assets/index-Ddj7D9Cu.js",
+      "http://127.0.0.1:4174/assets/chevron-right-CMmfnaLG.js",
+      "http://127.0.0.1:4174/assets/About-BNfYeHum.js"
+    ]
+  },
+  {
+    "route": "/programs",
+    "totalRequests": 27,
+    "jsCount": 6,
+    "cssCount": 3,
+    "jsBytes": 1311,
+    "cssBytes": 0,
+    "threeByName": [],
+    "bigUnknown": [],
+    "external": [
+      {
+        "url": "https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Inter:wght@300;400;500;600;700;800&family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,700;1,800;1,900&display=swap",
+        "status": 200,
+        "bytes": null
+      },
+      {
+        "url": "https://fonts.gstatic.com/s/dmmono/v16/aFTU7PB1QTsUX8KYthqQBA.woff2",
+        "status": 200,
+        "bytes": 14820
+      },
+      {
+        "url": "https://fonts.gstatic.com/s/dmmono/v16/aFTR7PB1QTsUX8KYvumzEYOtbQ.woff2",
+        "status": 200,
+        "bytes": 14988
+      },
+      {
+        "url": "https://fonts.gstatic.com/s/montserrat/v31/JTUSjIg1_i6t8kCHKm459Wlhyw.woff2",
+        "status": 200,
+        "bytes": 37956
+      },
+      {
+        "url": "https://fonts.gstatic.com/s/inter/v20/UcC73FwrK3iLTeHuS_nVMrMxCp50SjIa1ZL7.woff2",
+        "status": 200,
+        "bytes": 48256
+      },
+      {
+        "url": "https://pub-aaa82e9851064d22b954c3ebbafc9ae6.r2.dev/legacy/masters/mediterranean-falafel-bowl-with-fresh-vegetables-vey-ycYrwgbFrFa2DHCMO.jpg",
+        "status": 200,
+        "bytes": 378870
+      }
+    ],
+    "consoleErrors": [],
+    "pageErrors": [],
+    "jsUrls": [
+      "http://127.0.0.1:4174/assets/vendor-motion-BwdF6Mn6.js",
+      "http://127.0.0.1:4174/assets/vendor-react-DwVTeybM.js",
+      "http://127.0.0.1:4174/assets/index-Ddj7D9Cu.js",
+      "http://127.0.0.1:4174/assets/sparkles-Bzr-fGHl.js",
+      "http://127.0.0.1:4174/assets/trophy-DkZQ_zxV.js",
+      "http://127.0.0.1:4174/assets/Programs-OTXtdGvU.js"
+    ]
+  },
+  {
+    "route": "/parkour-academy",
+    "totalRequests": 17,
+    "jsCount": 4,
+    "cssCount": 3,
+    "jsBytes": 0,
+    "cssBytes": 0,
+    "threeByName": [],
+    "bigUnknown": [],
+    "external": [
+      {
+        "url": "https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Inter:wght@300;400;500;600;700;800&family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,700;1,800;1,900&display=swap",
+        "status": 200,
+        "bytes": null
+      },
+      {
+        "url": "https://fonts.gstatic.com/s/inter/v20/UcC73FwrK3iLTeHuS_nVMrMxCp50SjIa1ZL7.woff2",
+        "status": 200,
+        "bytes": 48256
+      },
+      {
+        "url": "https://fonts.gstatic.com/s/dmmono/v16/aFTR7PB1QTsUX8KYvumzEYOtbQ.woff2",
+        "status": 200,
+        "bytes": 14988
+      },
+      {
+        "url": "https://fonts.gstatic.com/s/montserrat/v31/JTUSjIg1_i6t8kCHKm459Wlhyw.woff2",
+        "status": 200,
+        "bytes": 37956
+      },
+      {
+        "url": "https://fonts.gstatic.com/s/dmmono/v16/aFTU7PB1QTsUX8KYthqQBA.woff2",
+        "status": 200,
+        "bytes": 14820
+      }
+    ],
+    "consoleErrors": [],
+    "pageErrors": [],
+    "jsUrls": [
+      "http://127.0.0.1:4174/assets/vendor-motion-BwdF6Mn6.js",
+      "http://127.0.0.1:4174/assets/vendor-react-DwVTeybM.js",
+      "http://127.0.0.1:4174/assets/index-Ddj7D9Cu.js",
+      "http://127.0.0.1:4174/assets/ParkourAcademy-6EHZXpAb.js"
+    ]
+  },
+  {
+    "route": "/plan/raiz",
+    "totalRequests": 18,
+    "jsCount": 8,
+    "cssCount": 3,
+    "jsBytes": 2362,
+    "cssBytes": 0,
+    "threeByName": [],
+    "bigUnknown": [],
+    "external": [
+      {
+        "url": "https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Inter:wght@300;400;500;600;700;800&family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,700;1,800;1,900&display=swap",
+        "status": 200,
+        "bytes": null
+      },
+      {
+        "url": "https://fonts.gstatic.com/s/inter/v20/UcC73FwrK3iLTeHuS_nVMrMxCp50SjIa1ZL7.woff2",
+        "status": 200,
+        "bytes": 48256
+      },
+      {
+        "url": "https://fonts.gstatic.com/s/montserrat/v31/JTUSjIg1_i6t8kCHKm459Wlhyw.woff2",
+        "status": 200,
+        "bytes": 37956
+      },
+      {
+        "url": "https://fonts.gstatic.com/s/dmmono/v16/aFTU7PB1QTsUX8KYthqQBA.woff2",
+        "status": 200,
+        "bytes": 14820
+      },
+      {
+        "url": "https://fonts.gstatic.com/s/dmmono/v16/aFTR7PB1QTsUX8KYvumzEYOtbQ.woff2",
+        "status": 200,
+        "bytes": 14988
+      }
+    ],
+    "consoleErrors": [],
+    "pageErrors": [],
+    "jsUrls": [
+      "http://127.0.0.1:4174/assets/vendor-motion-BwdF6Mn6.js",
+      "http://127.0.0.1:4174/assets/vendor-react-DwVTeybM.js",
+      "http://127.0.0.1:4174/assets/index-Ddj7D9Cu.js",
+      "http://127.0.0.1:4174/assets/arrow-left-OTnv5a_1.js",
+      "http://127.0.0.1:4174/assets/sparkles-Bzr-fGHl.js",
+      "http://127.0.0.1:4174/assets/trending-up-oB5mubP-.js",
+      "http://127.0.0.1:4174/assets/smartphone-Bvx9P4HC.js",
+      "http://127.0.0.1:4174/assets/PlanPresentation-s2i22pdu.js"
+    ]
+  },
+  {
+    "route": "/plan/fuerza",
+    "totalRequests": 18,
+    "jsCount": 8,
+    "cssCount": 3,
+    "jsBytes": 2362,
+    "cssBytes": 0,
+    "threeByName": [],
+    "bigUnknown": [],
+    "external": [
+      {
+        "url": "https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Inter:wght@300;400;500;600;700;800&family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,700;1,800;1,900&display=swap",
+        "status": 200,
+        "bytes": null
+      },
+      {
+        "url": "https://fonts.gstatic.com/s/dmmono/v16/aFTR7PB1QTsUX8KYvumzEYOtbQ.woff2",
+        "status": 200,
+        "bytes": 14988
+      },
+      {
+        "url": "https://fonts.gstatic.com/s/dmmono/v16/aFTU7PB1QTsUX8KYthqQBA.woff2",
+        "status": 200,
+        "bytes": 14820
+      },
+      {
+        "url": "https://fonts.gstatic.com/s/montserrat/v31/JTUSjIg1_i6t8kCHKm459Wlhyw.woff2",
+        "status": 200,
+        "bytes": 37956
+      },
+      {
+        "url": "https://fonts.gstatic.com/s/inter/v20/UcC73FwrK3iLTeHuS_nVMrMxCp50SjIa1ZL7.woff2",
+        "status": 200,
+        "bytes": 48256
+      }
+    ],
+    "consoleErrors": [],
+    "pageErrors": [],
+    "jsUrls": [
+      "http://127.0.0.1:4174/assets/vendor-motion-BwdF6Mn6.js",
+      "http://127.0.0.1:4174/assets/vendor-react-DwVTeybM.js",
+      "http://127.0.0.1:4174/assets/index-Ddj7D9Cu.js",
+      "http://127.0.0.1:4174/assets/arrow-left-OTnv5a_1.js",
+      "http://127.0.0.1:4174/assets/sparkles-Bzr-fGHl.js",
+      "http://127.0.0.1:4174/assets/smartphone-Bvx9P4HC.js",
+      "http://127.0.0.1:4174/assets/trending-up-oB5mubP-.js",
+      "http://127.0.0.1:4174/assets/PlanPresentation-s2i22pdu.js"
+    ]
+  },
+  {
+    "route": "/plan/rendimiento",
+    "totalRequests": 18,
+    "jsCount": 8,
+    "cssCount": 3,
+    "jsBytes": 2362,
+    "cssBytes": 0,
+    "threeByName": [],
+    "bigUnknown": [],
+    "external": [
+      {
+        "url": "https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Inter:wght@300;400;500;600;700;800&family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,700;1,800;1,900&display=swap",
+        "status": 200,
+        "bytes": null
+      },
+      {
+        "url": "https://fonts.gstatic.com/s/inter/v20/UcC73FwrK3iLTeHuS_nVMrMxCp50SjIa1ZL7.woff2",
+        "status": 200,
+        "bytes": 48256
+      },
+      {
+        "url": "https://fonts.gstatic.com/s/montserrat/v31/JTUSjIg1_i6t8kCHKm459Wlhyw.woff2",
+        "status": 200,
+        "bytes": 37956
+      },
+      {
+        "url": "https://fonts.gstatic.com/s/dmmono/v16/aFTU7PB1QTsUX8KYthqQBA.woff2",
+        "status": 200,
+        "bytes": 14820
+      },
+      {
+        "url": "https://fonts.gstatic.com/s/dmmono/v16/aFTR7PB1QTsUX8KYvumzEYOtbQ.woff2",
+        "status": 200,
+        "bytes": 14988
+      }
+    ],
+    "consoleErrors": [],
+    "pageErrors": [],
+    "jsUrls": [
+      "http://127.0.0.1:4174/assets/vendor-motion-BwdF6Mn6.js",
+      "http://127.0.0.1:4174/assets/vendor-react-DwVTeybM.js",
+      "http://127.0.0.1:4174/assets/index-Ddj7D9Cu.js",
+      "http://127.0.0.1:4174/assets/arrow-left-OTnv5a_1.js",
+      "http://127.0.0.1:4174/assets/sparkles-Bzr-fGHl.js",
+      "http://127.0.0.1:4174/assets/trending-up-oB5mubP-.js",
+      "http://127.0.0.1:4174/assets/PlanPresentation-s2i22pdu.js",
+      "http://127.0.0.1:4174/assets/smartphone-Bvx9P4HC.js"
+    ]
+  },
+  {
+    "route": "/plan/elite",
+    "totalRequests": 18,
+    "jsCount": 8,
+    "cssCount": 3,
+    "jsBytes": 2362,
+    "cssBytes": 0,
+    "threeByName": [],
+    "bigUnknown": [],
+    "external": [
+      {
+        "url": "https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Inter:wght@300;400;500;600;700;800&family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,700;1,800;1,900&display=swap",
+        "status": 200,
+        "bytes": null
+      },
+      {
+        "url": "https://fonts.gstatic.com/s/inter/v20/UcC73FwrK3iLTeHuS_nVMrMxCp50SjIa1ZL7.woff2",
+        "status": 200,
+        "bytes": 48256
+      },
+      {
+        "url": "https://fonts.gstatic.com/s/dmmono/v16/aFTR7PB1QTsUX8KYvumzEYOtbQ.woff2",
+        "status": 200,
+        "bytes": 14988
+      },
+      {
+        "url": "https://fonts.gstatic.com/s/dmmono/v16/aFTU7PB1QTsUX8KYthqQBA.woff2",
+        "status": 200,
+        "bytes": 14820
+      },
+      {
+        "url": "https://fonts.gstatic.com/s/montserrat/v31/JTUSjIg1_i6t8kCHKm459Wlhyw.woff2",
+        "status": 200,
+        "bytes": 37956
+      }
+    ],
+    "consoleErrors": [],
+    "pageErrors": [],
+    "jsUrls": [
+      "http://127.0.0.1:4174/assets/vendor-motion-BwdF6Mn6.js",
+      "http://127.0.0.1:4174/assets/vendor-react-DwVTeybM.js",
+      "http://127.0.0.1:4174/assets/index-Ddj7D9Cu.js",
+      "http://127.0.0.1:4174/assets/arrow-left-OTnv5a_1.js",
+      "http://127.0.0.1:4174/assets/sparkles-Bzr-fGHl.js",
+      "http://127.0.0.1:4174/assets/trending-up-oB5mubP-.js",
+      "http://127.0.0.1:4174/assets/smartphone-Bvx9P4HC.js",
+      "http://127.0.0.1:4174/assets/PlanPresentation-s2i22pdu.js"
+    ]
+  },
+  {
+    "route": "/resources",
+    "totalRequests": 41,
+    "jsCount": 8,
+    "cssCount": 3,
+    "jsBytes": 1758,
+    "cssBytes": 0,
+    "threeByName": [],
+    "bigUnknown": [],
+    "external": [
+      {
+        "url": "https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Inter:wght@300;400;500;600;700;800&family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,700;1,800;1,900&display=swap",
+        "status": 200,
+        "bytes": null
+      },
+      {
+        "url": "https://fonts.gstatic.com/s/dmmono/v16/aFTU7PB1QTsUX8KYthqQBA.woff2",
+        "status": 200,
+        "bytes": 14820
+      },
+      {
+        "url": "https://fonts.gstatic.com/s/dmmono/v16/aFTR7PB1QTsUX8KYvumzEYOtbQ.woff2",
+        "status": 200,
+        "bytes": 14988
+      },
+      {
+        "url": "https://fonts.gstatic.com/s/montserrat/v31/JTUSjIg1_i6t8kCHKm459Wlhyw.woff2",
+        "status": 200,
+        "bytes": 37956
+      },
+      {
+        "url": "https://fonts.gstatic.com/s/inter/v20/UcC73FwrK3iLTeHuS_nVMrMxCp50SjIa1ZL7.woff2",
+        "status": 200,
+        "bytes": 48256
+      },
+      {
+        "url": "https://pub-aaa82e9851064d22b954c3ebbafc9ae6.r2.dev/legacy/masters/colorful-breakfast-spread-on-a-rustic-plate-VGbHfppD0Pq-q4gtkxTDo.jpg",
+        "status": 200,
+        "bytes": 395183
+      },
+      {
+        "url": "https://pub-aaa82e9851064d22b954c3ebbafc9ae6.r2.dev/uploads/masters/delicious-yogurt-bowl-with-fresh-berries-zMGsjHioPiCV2tboR91Bt.jpg",
+        "status": 200,
+        "bytes": 241570
+      },
+      {
+        "url": "https://pub-aaa82e9851064d22b954c3ebbafc9ae6.r2.dev/legacy/masters/fresh-greens-tossed-in-a-vibrant-bowl-nh70oonG1idibN9ps5yQe.jpg",
+        "status": 200,
+        "bytes": 149700
+      }
+    ],
+    "consoleErrors": [],
+    "pageErrors": [],
+    "jsUrls": [
+      "http://127.0.0.1:4174/assets/vendor-motion-BwdF6Mn6.js",
+      "http://127.0.0.1:4174/assets/vendor-react-DwVTeybM.js",
+      "http://127.0.0.1:4174/assets/index-Ddj7D9Cu.js",
+      "http://127.0.0.1:4174/assets/trophy-DkZQ_zxV.js",
+      "http://127.0.0.1:4174/assets/book-open-C-qOyNUE.js",
+      "http://127.0.0.1:4174/assets/sparkles-Bzr-fGHl.js",
+      "http://127.0.0.1:4174/assets/privacy-2mETclAH.js",
+      "http://127.0.0.1:4174/assets/Resources-DCS1RQTR.js"
+    ]
+  },
+  {
+    "route": "/shop",
+    "totalRequests": 20,
+    "jsCount": 6,
+    "cssCount": 3,
+    "jsBytes": 298,
+    "cssBytes": 0,
+    "threeByName": [],
+    "bigUnknown": [],
+    "external": [
+      {
+        "url": "https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Inter:wght@300;400;500;600;700;800&family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,700;1,800;1,900&display=swap",
+        "status": 200,
+        "bytes": null
+      },
+      {
+        "url": "https://fonts.gstatic.com/s/dmmono/v16/aFTR7PB1QTsUX8KYvumzEYOtbQ.woff2",
+        "status": 200,
+        "bytes": 14988
+      },
+      {
+        "url": "https://fonts.gstatic.com/s/dmmono/v16/aFTU7PB1QTsUX8KYthqQBA.woff2",
+        "status": 200,
+        "bytes": 14820
+      },
+      {
+        "url": "https://fonts.gstatic.com/s/inter/v20/UcC73FwrK3iLTeHuS_nVMrMxCp50SjIa1ZL7.woff2",
+        "status": 200,
+        "bytes": 48256
+      },
+      {
+        "url": "https://fonts.gstatic.com/s/montserrat/v31/JTUSjIg1_i6t8kCHKm459Wlhyw.woff2",
+        "status": 200,
+        "bytes": 37956
+      }
+    ],
+    "consoleErrors": [],
+    "pageErrors": [],
+    "jsUrls": [
+      "http://127.0.0.1:4174/assets/vendor-motion-BwdF6Mn6.js",
+      "http://127.0.0.1:4174/assets/vendor-react-DwVTeybM.js",
+      "http://127.0.0.1:4174/assets/index-Ddj7D9Cu.js",
+      "http://127.0.0.1:4174/assets/chevron-right-CMmfnaLG.js",
+      "http://127.0.0.1:4174/assets/index-iQVsSe_T.js",
+      "http://127.0.0.1:4174/assets/Shop-D_4ulBWv.js"
+    ]
+  },
+  {
+    "route": "/app",
+    "totalRequests": 28,
+    "jsCount": 5,
+    "cssCount": 3,
+    "jsBytes": 366,
+    "cssBytes": 0,
+    "threeByName": [],
+    "bigUnknown": [],
+    "external": [
+      {
+        "url": "https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Inter:wght@300;400;500;600;700;800&family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,700;1,800;1,900&display=swap",
+        "status": 200,
+        "bytes": null
+      },
+      {
+        "url": "https://fonts.gstatic.com/s/inter/v20/UcC73FwrK3iLTeHuS_nVMrMxCp50SjIa1ZL7.woff2",
+        "status": 200,
+        "bytes": 48256
+      },
+      {
+        "url": "https://fonts.gstatic.com/s/dmmono/v16/aFTR7PB1QTsUX8KYvumzEYOtbQ.woff2",
+        "status": 200,
+        "bytes": 14988
+      },
+      {
+        "url": "https://fonts.gstatic.com/s/dmmono/v16/aFTU7PB1QTsUX8KYthqQBA.woff2",
+        "status": 200,
+        "bytes": 14820
+      },
+      {
+        "url": "https://fonts.gstatic.com/s/montserrat/v31/JTUSjIg1_i6t8kCHKm459Wlhyw.woff2",
+        "status": 200,
+        "bytes": 37956
+      }
+    ],
+    "consoleErrors": [],
+    "pageErrors": [],
+    "jsUrls": [
+      "http://127.0.0.1:4174/assets/vendor-motion-BwdF6Mn6.js",
+      "http://127.0.0.1:4174/assets/vendor-react-DwVTeybM.js",
+      "http://127.0.0.1:4174/assets/index-Ddj7D9Cu.js",
+      "http://127.0.0.1:4174/assets/smartphone-Bvx9P4HC.js",
+      "http://127.0.0.1:4174/assets/AppExperience-C76zT_p_.js"
+    ]
+  },
+  {
+    "route": "/community",
+    "totalRequests": 26,
+    "jsCount": 7,
+    "cssCount": 3,
+    "jsBytes": 1433,
+    "cssBytes": 0,
+    "threeByName": [],
+    "bigUnknown": [],
+    "external": [
+      {
+        "url": "https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Inter:wght@300;400;500;600;700;800&family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,700;1,800;1,900&display=swap",
+        "status": 200,
+        "bytes": null
+      },
+      {
+        "url": "https://fonts.gstatic.com/s/inter/v20/UcC73FwrK3iLTeHuS_nVMrMxCp50SjIa1ZL7.woff2",
+        "status": 200,
+        "bytes": 48256
+      },
+      {
+        "url": "https://fonts.gstatic.com/s/dmmono/v16/aFTR7PB1QTsUX8KYvumzEYOtbQ.woff2",
+        "status": 200,
+        "bytes": 14988
+      },
+      {
+        "url": "https://fonts.gstatic.com/s/dmmono/v16/aFTU7PB1QTsUX8KYthqQBA.woff2",
+        "status": 200,
+        "bytes": 14820
+      },
+      {
+        "url": "https://fonts.gstatic.com/s/montserrat/v31/JTUSjIg1_i6t8kCHKm459Wlhyw.woff2",
+        "status": 200,
+        "bytes": 37956
+      },
+      {
+        "url": "https://api.rss2json.com/v1/api.json?rss_url=https%3A%2F%2Fwww.youtube.com%2Ffeeds%2Fvideos.xml%3Fchannel_id%3DUCfMvWtmoiScRVjga59GX8Pw",
+        "status": 422,
+        "bytes": null
+      }
+    ],
+    "consoleErrors": [
+      "Failed to load resource: the server responded with a status of 422 ()"
+    ],
+    "pageErrors": [],
+    "jsUrls": [
+      "http://127.0.0.1:4174/assets/vendor-motion-BwdF6Mn6.js",
+      "http://127.0.0.1:4174/assets/vendor-react-DwVTeybM.js",
+      "http://127.0.0.1:4174/assets/index-Ddj7D9Cu.js",
+      "http://127.0.0.1:4174/assets/book-open-C-qOyNUE.js",
+      "http://127.0.0.1:4174/assets/index-iQVsSe_T.js",
+      "http://127.0.0.1:4174/assets/trending-up-oB5mubP-.js",
+      "http://127.0.0.1:4174/assets/Community-BWKVEK3A.js"
+    ]
+  },
+  {
+    "route": "/onboarding",
+    "totalRequests": 16,
+    "jsCount": 6,
+    "cssCount": 3,
+    "jsBytes": 333,
+    "cssBytes": 0,
+    "threeByName": [],
+    "bigUnknown": [],
+    "external": [
+      {
+        "url": "https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Inter:wght@300;400;500;600;700;800&family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,700;1,800;1,900&display=swap",
+        "status": 200,
+        "bytes": null
+      },
+      {
+        "url": "https://fonts.gstatic.com/s/inter/v20/UcC73FwrK3iLTeHuS_nVMrMxCp50SjIa1ZL7.woff2",
+        "status": 200,
+        "bytes": 48256
+      },
+      {
+        "url": "https://fonts.gstatic.com/s/montserrat/v31/JTUSjIg1_i6t8kCHKm459Wlhyw.woff2",
+        "status": 200,
+        "bytes": 37956
+      },
+      {
+        "url": "https://fonts.gstatic.com/s/dmmono/v16/aFTU7PB1QTsUX8KYthqQBA.woff2",
+        "status": 200,
+        "bytes": 14820
+      },
+      {
+        "url": "https://fonts.gstatic.com/s/dmmono/v16/aFTR7PB1QTsUX8KYvumzEYOtbQ.woff2",
+        "status": 200,
+        "bytes": 14988
+      }
+    ],
+    "consoleErrors": [],
+    "pageErrors": [],
+    "jsUrls": [
+      "http://127.0.0.1:4174/assets/vendor-motion-BwdF6Mn6.js",
+      "http://127.0.0.1:4174/assets/vendor-react-DwVTeybM.js",
+      "http://127.0.0.1:4174/assets/index-Ddj7D9Cu.js",
+      "http://127.0.0.1:4174/assets/arrow-left-OTnv5a_1.js",
+      "http://127.0.0.1:4174/assets/privacy-2mETclAH.js",
+      "http://127.0.0.1:4174/assets/Onboarding-B67uKJHT.js"
+    ]
+  },
+  {
+    "route": "/checkout",
+    "totalRequests": 13,
+    "jsCount": 4,
+    "cssCount": 3,
+    "jsBytes": 0,
+    "cssBytes": 0,
+    "threeByName": [],
+    "bigUnknown": [],
+    "external": [
+      {
+        "url": "https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Inter:wght@300;400;500;600;700;800&family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,700;1,800;1,900&display=swap",
+        "status": 200,
+        "bytes": null
+      },
+      {
+        "url": "https://fonts.gstatic.com/s/inter/v20/UcC73FwrK3iLTeHuS_nVMrMxCp50SjIa1ZL7.woff2",
+        "status": 200,
+        "bytes": 48256
+      },
+      {
+        "url": "https://fonts.gstatic.com/s/montserrat/v31/JTUSjIg1_i6t8kCHKm459Wlhyw.woff2",
+        "status": 200,
+        "bytes": 37956
+      },
+      {
+        "url": "https://fonts.gstatic.com/s/dmmono/v16/aFTR7PB1QTsUX8KYvumzEYOtbQ.woff2",
+        "status": 200,
+        "bytes": 14988
+      },
+      {
+        "url": "https://fonts.gstatic.com/s/dmmono/v16/aFTU7PB1QTsUX8KYthqQBA.woff2",
+        "status": 200,
+        "bytes": 14820
+      }
+    ],
+    "consoleErrors": [],
+    "pageErrors": [],
+    "jsUrls": [
+      "http://127.0.0.1:4174/assets/vendor-motion-BwdF6Mn6.js",
+      "http://127.0.0.1:4174/assets/vendor-react-DwVTeybM.js",
+      "http://127.0.0.1:4174/assets/index-Ddj7D9Cu.js",
+      "http://127.0.0.1:4174/assets/Checkout-CkdT0f5-.js"
+    ]
+  },
+  {
+    "route": "/faq",
+    "totalRequests": 14,
+    "jsCount": 4,
+    "cssCount": 3,
+    "jsBytes": 0,
+    "cssBytes": 0,
+    "threeByName": [],
+    "bigUnknown": [],
+    "external": [
+      {
+        "url": "https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Inter:wght@300;400;500;600;700;800&family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,700;1,800;1,900&display=swap",
+        "status": 200,
+        "bytes": null
+      },
+      {
+        "url": "https://fonts.gstatic.com/s/dmmono/v16/aFTR7PB1QTsUX8KYvumzEYOtbQ.woff2",
+        "status": 200,
+        "bytes": 14988
+      },
+      {
+        "url": "https://fonts.gstatic.com/s/dmmono/v16/aFTU7PB1QTsUX8KYthqQBA.woff2",
+        "status": 200,
+        "bytes": 14820
+      },
+      {
+        "url": "https://fonts.gstatic.com/s/montserrat/v31/JTUSjIg1_i6t8kCHKm459Wlhyw.woff2",
+        "status": 200,
+        "bytes": 37956
+      },
+      {
+        "url": "https://fonts.gstatic.com/s/inter/v20/UcC73FwrK3iLTeHuS_nVMrMxCp50SjIa1ZL7.woff2",
+        "status": 200,
+        "bytes": 48256
+      }
+    ],
+    "consoleErrors": [],
+    "pageErrors": [],
+    "jsUrls": [
+      "http://127.0.0.1:4174/assets/vendor-motion-BwdF6Mn6.js",
+      "http://127.0.0.1:4174/assets/vendor-react-DwVTeybM.js",
+      "http://127.0.0.1:4174/assets/index-Ddj7D9Cu.js",
+      "http://127.0.0.1:4174/assets/FAQ-Cgxf_bZx.js"
+    ]
+  },
+  {
+    "route": "/order-confirmation",
+    "totalRequests": 12,
+    "jsCount": 4,
+    "cssCount": 2,
+    "jsBytes": 0,
+    "cssBytes": 0,
+    "threeByName": [],
+    "bigUnknown": [],
+    "external": [
+      {
+        "url": "https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Inter:wght@300;400;500;600;700;800&family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,700;1,800;1,900&display=swap",
+        "status": 200,
+        "bytes": null
+      },
+      {
+        "url": "https://fonts.gstatic.com/s/inter/v20/UcC73FwrK3iLTeHuS_nVMrMxCp50SjIa1ZL7.woff2",
+        "status": 200,
+        "bytes": 48256
+      },
+      {
+        "url": "https://fonts.gstatic.com/s/montserrat/v31/JTUSjIg1_i6t8kCHKm459Wlhyw.woff2",
+        "status": 200,
+        "bytes": 37956
+      },
+      {
+        "url": "https://fonts.gstatic.com/s/dmmono/v16/aFTR7PB1QTsUX8KYvumzEYOtbQ.woff2",
+        "status": 200,
+        "bytes": 14988
+      },
+      {
+        "url": "https://fonts.gstatic.com/s/dmmono/v16/aFTU7PB1QTsUX8KYthqQBA.woff2",
+        "status": 200,
+        "bytes": 14820
+      }
+    ],
+    "consoleErrors": [],
+    "pageErrors": [],
+    "jsUrls": [
+      "http://127.0.0.1:4174/assets/vendor-motion-BwdF6Mn6.js",
+      "http://127.0.0.1:4174/assets/vendor-react-DwVTeybM.js",
+      "http://127.0.0.1:4174/assets/index-Ddj7D9Cu.js",
+      "http://127.0.0.1:4174/assets/OrderConfirmation-DnGva2oi.js"
+    ]
+  },
+  {
+    "route": "/design-system",
+    "totalRequests": 14,
+    "jsCount": 4,
+    "cssCount": 3,
+    "jsBytes": 0,
+    "cssBytes": 0,
+    "threeByName": [],
+    "bigUnknown": [],
+    "external": [
+      {
+        "url": "https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Inter:wght@300;400;500;600;700;800&family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,700;1,800;1,900&display=swap",
+        "status": 200,
+        "bytes": null
+      },
+      {
+        "url": "https://fonts.gstatic.com/s/dmmono/v16/aFTR7PB1QTsUX8KYvumzEYOtbQ.woff2",
+        "status": 200,
+        "bytes": 14988
+      },
+      {
+        "url": "https://fonts.gstatic.com/s/dmmono/v16/aFTU7PB1QTsUX8KYthqQBA.woff2",
+        "status": 200,
+        "bytes": 14820
+      },
+      {
+        "url": "https://fonts.gstatic.com/s/montserrat/v31/JTUSjIg1_i6t8kCHKm459Wlhyw.woff2",
+        "status": 200,
+        "bytes": 37956
+      },
+      {
+        "url": "https://fonts.gstatic.com/s/inter/v20/UcC73FwrK3iLTeHuS_nVMrMxCp50SjIa1ZL7.woff2",
+        "status": 200,
+        "bytes": 48256
+      }
+    ],
+    "consoleErrors": [],
+    "pageErrors": [],
+    "jsUrls": [
+      "http://127.0.0.1:4174/assets/vendor-react-DwVTeybM.js",
+      "http://127.0.0.1:4174/assets/vendor-motion-BwdF6Mn6.js",
+      "http://127.0.0.1:4174/assets/index-Ddj7D9Cu.js",
+      "http://127.0.0.1:4174/assets/DesignSystem-DIEazePt.js"
+    ]
+  },
+  {
+    "route": "/ruta-que-no-existe",
+    "totalRequests": 13,
+    "jsCount": 4,
+    "cssCount": 3,
+    "jsBytes": 0,
+    "cssBytes": 0,
+    "threeByName": [],
+    "bigUnknown": [],
+    "external": [
+      {
+        "url": "https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Inter:wght@300;400;500;600;700;800&family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,700;1,800;1,900&display=swap",
+        "status": 200,
+        "bytes": null
+      },
+      {
+        "url": "https://fonts.gstatic.com/s/inter/v20/UcC73FwrK3iLTeHuS_nVMrMxCp50SjIa1ZL7.woff2",
+        "status": 200,
+        "bytes": 48256
+      },
+      {
+        "url": "https://fonts.gstatic.com/s/dmmono/v16/aFTU7PB1QTsUX8KYthqQBA.woff2",
+        "status": 200,
+        "bytes": 14820
+      },
+      {
+        "url": "https://fonts.gstatic.com/s/dmmono/v16/aFTR7PB1QTsUX8KYvumzEYOtbQ.woff2",
+        "status": 200,
+        "bytes": 14988
+      },
+      {
+        "url": "https://fonts.gstatic.com/s/montserrat/v31/JTUSjIg1_i6t8kCHKm459Wlhyw.woff2",
+        "status": 200,
+        "bytes": 37956
+      }
+    ],
+    "consoleErrors": [],
+    "pageErrors": [],
+    "jsUrls": [
+      "http://127.0.0.1:4174/assets/vendor-motion-BwdF6Mn6.js",
+      "http://127.0.0.1:4174/assets/vendor-react-DwVTeybM.js",
+      "http://127.0.0.1:4174/assets/index-Ddj7D9Cu.js",
+      "http://127.0.0.1:4174/assets/NotFound-BOXvTmR8.js"
+    ]
+  }
+]

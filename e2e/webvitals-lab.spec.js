@@ -75,7 +75,15 @@ for (const route of ROUTES) {
   })
 }
 
+// ESCRITURA DE EVIDENCIA (gobernanza 9.2-C): artifacts/fase7a está CONGELADO
+// como evidencia histórica de Fase 7A (restaurada desde 438ba3b). Cada corrida
+// "latest" escribe en artifacts/latest/ (scratch, gitignored) y SOLO se promue
+// a namespace de fase con EVIDENCE_NAMESPACE=<dir> (p. ej. EVIDENCE_NAMESPACE=
+// artifacts/fase9/9.2-b). Sin la env-var, ninguna corrida toca evidencia
+// histórica — el freeze de fase7a es verificable en fase7aSceneGovernance.
+const EVIDENCE_DIR = process.env.EVIDENCE_NAMESPACE || 'artifacts/latest'
+
 test.afterAll(() => {
-  mkdirSync('artifacts/fase7a', { recursive: true })
-  writeFileSync('artifacts/fase7a/webvitals-lab.json', JSON.stringify(results, null, 2), 'utf8')
+  mkdirSync(EVIDENCE_DIR, { recursive: true })
+  writeFileSync(`${EVIDENCE_DIR}/webvitals-lab.json`, JSON.stringify(results, null, 2), 'utf8')
 })

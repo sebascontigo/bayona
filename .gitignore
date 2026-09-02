@@ -7,6 +7,12 @@ BACKUP_BAYONA3D/
 test-results/
 playwright-report/
 coverage/
+# Gobernanza de evidencia 9.2-C: corridas "latest" de los specs de medición
+# (three-network-audit, webvitals-lab) escriben aquí. Es scratch reproducible:
+# el histórico congelado vive en artifacts/fase7a (7A original) y en los
+# namespaces de fase artifacts/fase9/<experimento> (promovidos explícitamente
+# con EVIDENCE_NAMESPACE).
+artifacts/latest/
 # e2e/ NO se ignora: conversionRegression.test.jsx lee la suite via ?raw
 # (contrato de conversión). Los artefactos de Playwright ya cubren las
 # líneas de arriba.
