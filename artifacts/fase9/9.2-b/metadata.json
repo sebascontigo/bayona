@@ -8,7 +8,29 @@
     "experiment_commit": "ce74bb8",
     "evidence_commit": "624b06f",
     "report_commit": "cafc915",
-    "current_head_at_manifest": "cafc915"
+    "current_head_at_manifest": "8595ef1"
+  },
+  "provenance_chain": {
+    "branch": "main",
+    "note": "Cadena única sin mezcla de SHAs: experimento, evidencia y reporte son la MISMA línea de historia (verificación 2026-09-03, reconciliación 2 del arquitecto)",
+    "timestamps": {
+      "6652392_source": "2026-09-01 00:55:46 +0200",
+      "ce74bb8_experiment": "2026-09-01 07:00:42 +0200",
+      "624b06f_evidence": "2026-09-01 07:02:56 +0200",
+      "cafc915_report": "2026-09-01 07:03:01 +0200",
+      "1560b0f_governance": "2026-09-02 18:31:34 +0200",
+      "8595ef1_docs": "2026-09-02 18:32:07 +0200"
+    },
+    "environment": "evidencia 9.2-B = vite preview :4174 (chunks hasheados) bajo playwright.f7a.config.js — la primera corrida que cumple esa config (las fases previas persistieron corridas dev :4173 de la config global; ver FASE9.2C-EVIDENCE-GOVERNANCE.md §2)",
+    "build": "npm run build real (vite) en cada corrida del experimento; la medición runtime del experimento grain se inyectó por page.addStyleTag SIN tocar producción hasta la decisión",
+    "runtime": "Chromium headless de Playwright sobre el build servido por vite preview",
+    "fase7a_restoration_proof": {
+      "verified": "2026-09-03",
+      "method": "blob SHA + git diff",
+      "network-audit": "74e14879ff665ebeaec9aea87cd3a64ab927c8c7 (identico en 438ba3b, HEAD y working dir)",
+      "webvitals-lab": "23899900cd2b6567136669f9e165e74890a13b5b (identico en 438ba3b, HEAD y working dir)",
+      "git_diff_438ba3b_HEAD": "VACIO (0 diferencias)"
+    }
   },
   "decision": "REMOVE ANIMATION ONLY",
   "decision_variant": "D (menu §25 del prompt del arquitecto)",

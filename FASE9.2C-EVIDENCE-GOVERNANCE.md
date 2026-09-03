@@ -44,6 +44,25 @@ las fases. Los documentos que decían "contra vite preview del build real"
 eran ciertos para la aserción del contrato (0 fugas), pero el JSON persistido
 mezclaba entornos según qué config hubiera corrido última.
 
+**Etiquetas de entorno obligatorias desde 9.2-C (reconciliación 3 del
+arquitecto, §6 de su prompt):** toda cifra histórica de estos artifacts se
+clasifica ahora como —
+- `HISTÓRICO — DEV (4173)`: artifacts 7A/7B/8/9.0/9.1 (incluido el snapshot
+  438ba3b restaurado: sus URLs son :4173). La aserción del CONTRATO
+  (0 fugas 3D tras 7B) era correcta — contar chunks 3D por nombre funciona
+  igual en dev que en preview — pero sus cifras de red (166 reqs, 13 MB JS)
+  NO son benchmark de build; nadie debe reutilizarlas como preview.
+- `HISTÓRICO — PREVIEW (4174)`: artifact 9.2-B (`artifacts/fase9/9.2-b/`):
+  la primera corrida que cumple la config f7a (19-27 reqs, chunks hasheados).
+- `MEDIDO — CURRENT`: toda medición futura corre con config explícita y
+  `EVIDENCE_NAMESPACE` declarado en el manifest.
+
+Nota FASE7A-FORENSIC: su frase "contra vite preview del build real" (línea
+134) queda etiquetada por esta sección como HISTÓRICO — DEV para el JSON
+persistido (la config f7a era correcta; el JSON fue luego sobrescrito por
+corridas globales dev). No se reescribe: el registro de la intención de la
+fase y el contenido del archivo quedan ambos preservados y explicados.
+
 **Clasificación del overwrite (menú §3 del prompt): B — diseño ambiguo.**
 - No es A (latest legítimo): la semántica latest-only nunca fue declarada ni
   documentada; el nombre del directorio promete "evidencia de 7A".
@@ -61,6 +80,9 @@ mezclaba entornos según qué config hubiera corrido última.
 2. **Restauración:** `artifacts/fase7a/` vuelve a su contenido 7A ORIGINAL
    (restaurado desde `438ba3b`): fuga viva 18/18 rutas — exactamente lo que el
    nombre promete. Es restauración desde Git (fuente primaria), no reconstrucción.
+   **Prueba de byte-equivalencia (reconciliación exigida por el arquitecto,
+   2026-09-03, ver §3.1):** blob SHAs idénticos en las 3 posiciones (438ba3b /
+   HEAD / working dir) y `git diff 438ba3b HEAD -- artifacts/fase7a/` VACÍO.
 3. **Namespace 9.2-B:** `artifacts/fase9/9.2-b/` con network-audit + webvitals
    de `624b06f` (evidencia tal como se produjo) + `grain-experiment-runtime.json`
    (transcrito de AUDIT-LOG 017 con etiqueta de procedencia: los datos runtime
@@ -75,6 +97,42 @@ mezclaba entornos según qué config hubiera corrido última.
    - 9.2-C manifest: existencia + SHAs correctos + limitaciones no vacías.
 6. **Precisión semántica** en 3 sitios (ver §5).
 7. **Docs:** AUDIT-LOG 018, esta fase, entrada en PROJECT-STATE.
+
+### 3.1 Prueba de restauración byte-exacta (reconciliación del arquitecto)
+
+La segunda auditoría del arquitecto (2026-09-03) observó en el compare
+`cafc915→8595ef1` que los artifacts fase7a "siguen cambiando" (+4.421/−462)
+y exigió demostrar la equivalencia con `438ba3b` o documentar la diferencia.
+Ambas cosas, con la explicación del malentendido:
+
+- **Lo que ese compare muestra:** `cafc915` contenía el artifact SOBRESCRITO
+  por la corrida 9.1-dev (3.909 líneas perdidas). La restauración REEMPLAZÓ ese
+  contenido contaminado por el original 7A — el "cambio" que ve el compare
+  contra cafc915 ES la restauración en sí (+4.421 líneas devueltas al archivo).
+- **La prueba correcta (HEAD vs 438ba3b, ejecutada 2026-09-03):**
+
+```
+git rev-parse 438ba3b:artifacts/fase7a/network-audit.json
+  = 74e14879ff665ebeaec9aea87cd3a64ab927c8c7
+git rev-parse HEAD:artifacts/fase7a/network-audit.json
+  = 74e14879ff665ebeaec9aea87cd3a64ab927c8c7   (idéntico)
+git hash-object artifacts/fase7a/network-audit.json (working dir)
+  = 74e14879ff665ebeaec9aea87cd3a64ab927c8c7   (idéntico)
+
+git rev-parse 438ba3b:artifacts/fase7a/webvitals-lab.json
+  = 23899900cd2b6567136669f9e165e74890a13b5b
+git rev-parse HEAD:artifacts/fase7a/webvitals-lab.json
+  = 23899900cd2b6567136669f9e165e74890a13b5b   (idéntico)
+git hash-object artifacts/fase7a/webvitals-lab.json (working dir)
+  = 23899900cd2b6567136669f9e165e74890a13b5b   (idéntico)
+
+git diff 438ba3b HEAD -- artifacts/fase7a/   →  VACÍO (0 diferencias)
+Tamaños: network-audit 248.122 bytes (ambos) · webvitals 4.500 bytes (ambos)
+```
+
+**Conclusión: restauración BYTE-EXACTA confirmada por blob SHA (nivel de
+prueba más fuerte disponible en Git: el hash del contenido).** La palabra
+"restaurado" del §3 queda verificada.
 
 ## 4. Cobertura REAL del guard 9.2-B (matriz §8)
 
